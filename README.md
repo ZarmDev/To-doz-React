@@ -8,10 +8,15 @@ You can contribute anytime!
 **IF YOU ARE A COMPLETE BEGINNER**
 **You can do: **
 1.Download NPM
+
 2.Get VSCODE (or a editor)
+
 3.Open folder with this project (download)
+
 4.Open up the terminal
+
 5.Enter ``npm run start``
+
 6.Now use it in your web browser
 
 If you have no idea how to open react projects or NPM (I don't either), you can use github codespaces or you can just go to repl.it and make a new project from github (clone it)
