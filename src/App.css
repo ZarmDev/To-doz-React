@@ -1,31 +1,80 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-.App-header {
+body {
   background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
   color: white;
 }
-
-.App-link {
-  color: #61dafb;
+#topbar {
+  margin-left: 20px;
 }
-
-.heart {
-  color: #ff0000;
+#sectionList {
+  margin-left: 20px;
+  font-size: 2ch;
 }
-
-.small {
-  font-size: 0.75rem;
+#section {
+  margin: 0;
+}
+#sections ul {
+  list-style-type: none;
+}
+#sections ul li {
+  background-color: rgb(24, 25, 30);
+  padding: 0.5vw;
+  padding-left: 0;
+  transition: 0.5s;
+  cursor: pointer;
+}
+#sections ul li:hover::before {
+  padding-left: 10%;
+}
+#sections ul li::before {
+  background-color: rgb(15, 11, 16);
+  content: ">";
+  color: rgb(0, 0, 0);
+  padding: 0.5vw;
+  margin: 0;
+  transition: 0.5s;
+}
+#toolbar {
+  display: flex;
+  align-items: center;
+}
+#toolbar #add {
+  margin-left: 5vw;
+  font-size: 2.5ch;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.5s;
+  padding: 0.2vw;
+}
+#toolbar #add:hover {
+  background-color: rgb(27, 27, 41);
+}
+#splashscreen {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(0, 0, 0);
+  margin: 0;
+  padding: 0;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+}
+@keyframes animate {
+  0% {
+    width: 0;
+    visibility: visible;
+  }
+  50% {
+    width: 100%;
+  }
+  100% {
+    width: 0;
+  }
+}
+.splashAnimate {
+  animation-name: animate;
+  animation-duration: 2s;
+}
+.Test {
+  display: none;
 }

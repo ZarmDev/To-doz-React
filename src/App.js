@@ -1,29 +1,19 @@
 import './App.css';
+import SectionComp from './SectionComp.js';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src="Octocat.png" className="App-logo" alt="logo" />
-        <p>
-          GitHub Codespaces <span className="heart">♥️</span> React
-        </p>
-        <p className="small">
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </p>
-      </header>
-    </div>
+    <SectionComp />
   );
+}
+
+window.onload = function () {
+  const splashscreen = document.getElementById('splashscreen');
+
+    const sectionsItems = document.getElementById('sectionsItems');
+    sectionsItems.addEventListener('click', function () {
+      splashscreen.className = 'splashAnimate';
+    })
 }
 
 export default App;
