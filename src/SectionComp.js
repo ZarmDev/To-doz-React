@@ -19,7 +19,6 @@ class SectionComp extends React.Component {
     render () {
     return (
         <div className={this.state.shown == true ? "SectionComp" : "Test"}>
-        <div id="splashscreen"></div>
       <div id="topbar">
         <h1>To-doz</h1>
       </div>

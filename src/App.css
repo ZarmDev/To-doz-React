@@ -58,6 +58,7 @@ body {
   top: 0;
   left: 0;
   visibility: hidden;
+  z-index: 1;
 }
 @keyframes animate {
   0% {
@@ -76,5 +77,6 @@ body {
   animation-duration: 2s;
 }
 .Test {
-  display: none;
+  opacity: 0;
+  transition: 1s;
 }
