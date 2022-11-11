@@ -7,6 +7,7 @@ If you have ever used duolingo, this site has a similar streak system.
 You can contribute anytime!
 **IF YOU ARE A COMPLETE BEGINNER**
 **You can do: **
+
 1.Download NPM
 
 2.Get VSCODE (or a editor)
