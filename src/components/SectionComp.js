@@ -11,10 +11,8 @@ class SectionComp extends React.Component {
         this.handleChange = this.handleChange.bind(this)
     }
     handleChange() {
-        this.setState({
-            shown: !this.state.shown
-        })
-        console.log(this.state.shown);
+      console.log(this.props);
+      this.props.parentCallback(false)
     }
     render () {
     return (

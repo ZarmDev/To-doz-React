@@ -1,10 +1,17 @@
-import React from 'react';
+import React, {useState} from 'react'
+import ReactDOM from 'react-dom'
 import './App.css';
-import SectionComp from './SectionComp.js';
+import SectionComp from './components/SectionComp'
+import Main from './components/Main'
 
 function App() {
+  const [loading, setLoading] = useState("true")
+
   return (
-    <SectionComp />
+    <>
+    <h1>{loading}</h1>
+    {loading ? <SectionComp parentCallback={setLoading}/> : <Main />}
+    </>
   );
 }
 
