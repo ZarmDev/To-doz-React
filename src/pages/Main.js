@@ -21,7 +21,7 @@ class Main extends React.Component {
         console.log('T');
         var itemObj = JSON.parse(localStorage.getItem('localItems'));
         // set section in localstorage to the array of panes
-        itemObj[window.currentSection] = allItems;
+        itemObj[window.currentSection] = this.state.items;
         localStorage.setItem('localItems', JSON.stringify(itemObj))
     }
     render() {

@@ -33,8 +33,9 @@ var items = document.getElementsByClassName('pane');
 
 var allItems = ''
 var splitC = '·'
-
+console.log(localStorage.getItem('localItems'));
 window.onload = function () {
+  console.log()
   const splashscreen = document.getElementById('splashscreen');
 
   const sectionsItems = document.getElementById('sectionsItems');
