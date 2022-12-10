@@ -17,13 +17,6 @@ class Main extends React.Component {
             items: this.state.items.concat('Unnamed Pane|Description|pane·')
         })
     }
-    handleChange() {
-        console.log('T');
-        var itemObj = JSON.parse(localStorage.getItem('localItems'));
-        // set section in localstorage to the array of panes
-        itemObj[window.currentSection] = this.state.items;
-        localStorage.setItem('localItems', JSON.stringify(itemObj))
-    }
     render() {
         // TEMPORARY solution, I am using count with the variable item for my key
         let count = 0
