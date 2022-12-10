@@ -1,13 +1,57 @@
+:root {
+  --button-width: 10ch;
+  --button-height: 5ch;
+  --button-color: #1c212d;
+}
 body {
   background-color: #282c34;
   color: white;
 }
+#sm {
+  margin: 5px;
+  color: rgba(255, 255, 255, 0.272);
+  cursor: pointer;
+}
+img {
+  width: 5ch;
+  height: 5ch;
+  cursor: pointer;
+  background-color: white;
+  border-radius: 20px;
+}
 #topbar {
   margin-left: 20px;
+  display: flex;
+  align-items: center;
+}
+#settings {
+  width: var(--button-width);
+  height: var(--button-height);
+  margin-left: 2ch;
+  background-color: var(--button-color);
+  color: white;
+  cursor: pointer;
+}
+#add {
+  background-color: var(--button-color);
+  border: none;
+  border-radius: 10px;
+  padding: 2ch;
+  margin: 0.5ch;
+  cursor: pointer;
+  color: white;
+  font-size: 2ch;
 }
 #sectionList {
   margin-left: 20px;
   font-size: 2ch;
+}
+#panes {
+  display: flex;
+  flex-wrap: wrap;
+}
+#panes > .pane {
+  margin: 5px;
 }
 #section {
   margin: 0;
@@ -65,7 +109,10 @@ body {
     width: 0;
     visibility: visible;
   }
-  50% {
+  40% {
+    width: 100%;
+  }
+  60% {
     width: 100%;
   }
   100% {
@@ -74,9 +121,24 @@ body {
 }
 .splashAnimate {
   animation-name: animate;
-  animation-duration: 2s;
+  animation-duration: 1.5s;
+  animation-timing-function: ease-in;
 }
 .Test {
   opacity: 0;
   transition: 1s;
+}
+.pane {
+  background-color: black;
+  width: auto;
+  height: auto;
+  font-size: 2ch;
+  border-radius: 5px;
+  text-align: center;
+  color: white;
+  font-size: 2ch;
+}
+.pane > pre {
+  font-family: inherit;
+  color: white;
 }
