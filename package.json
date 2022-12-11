@@ -1,8 +1,8 @@
 {
   "name": "codespaces-react",
   "version": "0.1.0",
-  "homepage": "https://zarmdev.github.io/To-Doz-React",
-  "private": false,
+  "homepage": "https://zarmdev.github.io/To-doz-React",
+  "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
@@ -18,7 +18,7 @@
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "start": "BROWSER=none WDS_SOCKET_PORT=0 react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
