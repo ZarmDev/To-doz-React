@@ -1,4 +1,4 @@
-![Alt text](./Surface Book.png?raw=true "Title")
+![Alt text](To-doz-React/Surface Book.png?raw=true "Title")
 
 # To-doz-React
 A to-do list site that ACTUALLY helps you get things done.
