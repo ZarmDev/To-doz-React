@@ -11,23 +11,51 @@ class Main extends React.Component {
             items: Object.values(JSON.parse(localStorage.getItem('localItems')))[0]
         }
         this.addPane = this.addPane.bind(this)
+        this.editPane = this.editPane.bind(this)
+        this.deletePane = this.deletePane.bind(this)
     }
     addPane() {
         this.setState({
-            items: this.state.items.concat('Unnamed Pane|Description|pane·')
+            items: this.state.items.concat('·Unnamed Pane|Description|pane')
         })
+    }
+    editPane(value) {
+        var tempItems = this.state.items.split('·')
+        var panes = document.getElementsByClassName('pane');
+        console.log(panes, value);
+        var currPane = panes[value]
+        console.log(currPane);
+        let title = currPane.getElementsByClassName('title')[0];
+        let description = currPane.getElementsByClassName('description')[0];
+        let className = currPane.className;
+        tempItems[value] = `${title.innerText}|${description.innerText}|${className}`;
+        console.log(tempItems)
+        this.setState({
+            items: tempItems.join('·')
+        })
+    }
+    deletePane(value) {
+        var tempItems = this.state.items.split('·')
+        tempItems.splice(value, 1)
+        console.log(tempItems.length);
+        this.setState({
+            items: tempItems.join('·')
+        })
+        if (tempItems.length == 0) {
+            this.editPane(0)
+        }
     }
     render() {
         // TEMPORARY solution, I am using count with the variable item for my key
-        let count = 0
+        let count = -1
         var elementItems = this.state.items.split('·').map((item) => {
             count++
-            return <Pane key={item + count} parentCallback={this.handleChange} items={item}></Pane>
+            return <Pane key={count} editPaneProp={this.editPane} deletePaneProp={this.deletePane} items={item} unique={count}></Pane>
         })
-        // var itemObj = JSON.parse(localStorage.getItem('localItems'));
-        // itemObj[window.currentSection] = this.state.items;
-        // localStorage.setItem('localItems', JSON.stringify(itemObj))
-        // console.log(this.state.items);
+        let obj = JSON.parse(localStorage.getItem('localItems'));
+        obj[window.currentSection] = this.state.items
+        console.log(this.state.items);
+        localStorage.setItem('localItems', JSON.stringify(obj))
         return (
             <div id="panes">
                 <div id="topbar">
