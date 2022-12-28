@@ -59,23 +59,28 @@ img {
 #sections ul {
   list-style-type: none;
 }
-#sections ul li {
+#sections ul * {
   background-color: rgb(24, 25, 30);
   padding: 0.5vw;
   padding-left: 0;
   transition: 0.5s;
   cursor: pointer;
+  color: white;
 }
-#sections ul li:hover::before {
+#sections ul *:hover::before {
   padding-left: 10%;
 }
-#sections ul li::before {
+#sections ul p::before {
   background-color: rgb(15, 11, 16);
   content: ">";
   color: rgb(0, 0, 0);
   padding: 0.5vw;
   margin: 0;
   transition: 0.5s;
+}
+#sections ul p {
+  background-color: rgb(26, 25, 31);
+  padding: 0;
 }
 #toolbar {
   display: flex;
@@ -121,7 +126,7 @@ img {
 }
 .splashAnimate {
   animation-name: animate;
-  animation-duration: 1.5s;
+  animation-duration: 1s;
   animation-timing-function: ease-in;
 }
 .Test {
@@ -141,4 +146,7 @@ img {
 .pane > pre {
   font-family: inherit;
   color: white;
+}
+.pane > button {
+  background-color: rgba(44, 41, 41, 0.813);
 }

@@ -34,13 +34,17 @@ var items = document.getElementsByClassName('pane');
 var allItems = ''
 var splitC = '·'
 console.log(localStorage.getItem('localItems'));
+/*
 window.onload = function () {
   const splashscreen = document.getElementById('splashscreen');
 
-  const sectionsItems = document.getElementById('sectionsItems');
-  sectionsItems.addEventListener('click', function () {
-    splashscreen.className = 'splashAnimate';
-  })
+  const sectionsItems = document.getElementById('sectionsItems').getElementsByTagName('li');
+  for (var i = 0; i < sectionsItems.length; i++) {
+    console.log(sectionsItems[i]);
+    sectionsItems[i].addEventListener('click', function () {
+      splashscreen.className = 'splashAnimate';
+    })
+  }
 }
-
+*/
 export default App;

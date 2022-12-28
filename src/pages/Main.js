@@ -8,7 +8,7 @@ class Main extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            items: Object.values(JSON.parse(localStorage.getItem('localItems')))[0]
+            items: JSON.parse(localStorage.getItem('localItems'))[window.currentSection]
         }
         this.addPane = this.addPane.bind(this)
         this.editPane = this.editPane.bind(this)
