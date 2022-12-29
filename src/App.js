@@ -24,7 +24,7 @@ function App() {
 
   return (
     <>
-      {loading ? <SectionComp parentCallback={setLoading} /> : <Main />}
+      {loading ? <SectionComp parentCallback={setLoading} /> : <Main parentCallback={setLoading}></Main>}
     </>
   );
 }

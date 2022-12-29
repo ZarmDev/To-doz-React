@@ -3,6 +3,7 @@ import { unmountComponentAtNode } from 'react-dom';
 import ReactDOM from 'react-dom';
 import Pane from '/workspaces/To-doz-React/src/components/Pane.js';
 import { toHaveDisplayValue } from '@testing-library/jest-dom/dist/matchers';
+import SectionComp from './SectionComp';
 
 class Main extends React.Component {
     constructor(props) {
@@ -58,12 +59,16 @@ class Main extends React.Component {
         localStorage.setItem('localItems', JSON.stringify(obj))
         return (
             <div id="panes">
-                <div id="topbar">
-                    <h1>To-doz</h1><button id="settings">Settings</button>
+                <div id="sidebar">
+                <SectionComp parentCallback={this.props.parentCallback}></SectionComp>
                 </div>
-                <button onClick={this.addPane} id="add">+</button>
-                <div id="panes">
+                <div>
+                <div id="topbar">
+                    <button id="settings">Settings</button><button onClick={this.addPane} id="add">+</button>
+                </div>
+                <div id="panesElements">
                     {elementItems}
+                </div>
                 </div>
             </div>
         )

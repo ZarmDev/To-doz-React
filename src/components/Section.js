@@ -23,6 +23,7 @@ class Section extends React.Component {
         return (
             <div className="section">
                 <p>{this.props.section}
+                <br></br>
                 <button onClick={this.handleChange}>➡️</button>
                 <button onClick={this.onEdit}>✏️</button>
                 <button onClick={this.onDelete}>❌</button>

@@ -50,7 +50,6 @@ class SectionComp extends React.Component {
         let newObj = {};
         let sectionsState = this.state.sections
         for (var i = 0; i < sectionsState.length; i++) {
-          console.log(objKeys.indexOf(sectionsState[i]));
           if (objKeys.indexOf(sectionsState[i]) != -1) {
             newObj[sectionsState[i]] = obj[sectionsState[i]];
           } else {
@@ -60,11 +59,7 @@ class SectionComp extends React.Component {
         localStorage.setItem('localItems', JSON.stringify(newObj))
     return (
         <div className={this.state.shown == true ? "SectionComp" : "Test"}>
-      <div id="topbar">
-        <h1>To-doz</h1>
-      </div>
       <div id="toolbar">
-      <p id="sectionList">|||</p>
       <p id="add" onClick={this.add}>+</p>
       </div>
       <div id="sections">
