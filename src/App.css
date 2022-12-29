@@ -2,6 +2,7 @@
   --button-width: 10ch;
   --button-height: 5ch;
   --button-color: #1c212d;
+  --resize: 25%;
 }
 body {
   background-color: #282c34;
@@ -24,6 +25,8 @@ img {
   margin-left: 20px;
   display: flex;
   align-items: center;
+  position: relative;
+  left: var(--resize);
 }
 #settings {
   width: var(--button-width);
@@ -43,34 +46,76 @@ img {
   color: white;
   font-size: 2ch;
 }
-#panes {
-  /* display: flex;
-  flex-wrap: wrap; */
-  position: relative;
-  left: 15%;
-}
-#panesElements {
-  display: grid;
-  margin-left: 2vw;
-  /* Math: since 15% is already taken */
-  grid-template-columns: 26% 26% 26%;
-  grid-template-rows: 1fr 1fr 1fr;
-  gap: 10px;
+
+#main {
+  margin-left: 4vw;
 }
 
+#panesElements {
+  /* display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  gap: 20px; */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2vw;
+  width: calc(100% - var(--resize));
+  position: relative;
+  left: var(--resize);
+}
+@media screen and (max-width: 1000px) {
+  #sidebar {
+    display: none;
+  }
+  #panesElements {
+    left: 0 !important;
+    width: auto !important;
+  }
+}
 #sidebar {
   padding: 0;
   font-size: 2.2ch;
-  width: 15%;
-  height: 100vh;
+  height: 100%;
   background-color: black;
-  overflow-x: scroll;
-  position: fixed;
+  overflow-x: auto;
   left: 0;
+  width: var(--resize);
+  border-radius: 10px;
+  font-size: 120%;
+  padding-right: 1vw;
+  position: fixed;
 }
 #sidebar div {
-  width: auto;
+  /* word-wrap: break-word; */
+}
+#sidebar .section {
+  width: 95%;
+  height: 10%;
+  background-color:rgb(15, 11, 16);
+}
+#sidebar .section * {
+  padding: 0;
+  margin: 0;
+}
+#sidebar .section p {
+  background-color:rgba(0, 0, 0, 0.009);
   word-wrap: break-word;
+  width: 90%;
+}
+#sidebar .section button {
+  font-size: 80%;
+  padding: 1%;
+  position: relative;
+  left: 20%;
+  bottom: 20%;
+}
+
+#toggleSidebar {
+  font-size: 2ch;
+  cursor: pointer;
+  padding-left: 1vw;
+  padding: 0;
+  margin: 0;
 }
 #panes > .pane {
   margin: 5px;
@@ -90,26 +135,36 @@ img {
   color: white;
 }
 #sections ul *:hover::before {
-  padding-left: 10%;
+  padding-left: 2%;
 }
-#sections ul p::before {
+#sections ul div {
+  display: flex;
+  align-items: center;
+  border-style: inset;
+  border: solid rgb(90, 90, 90) 0.2ch;
+  /* word-wrap:break-word; */
+  height: 6ch;
+}
+#sections ul div::before {
   background-color: rgb(15, 11, 16);
   content: ">";
   color: rgb(0, 0, 0);
   padding: 0.5vw;
   margin: 0;
   transition: 0.5s;
+  width: 0.2ch;
 }
 #sections ul p {
-  background-color: rgb(26, 25, 31);
+  /* background-color: rgb(26, 25, 31); */
   padding: 0;
 }
 #toolbar {
   display: flex;
+  position: relative;
+  justify-content: center;
   align-items: center;
 }
 #toolbar #add {
-  margin-left: 5vw;
   font-size: 2.5ch;
   font-weight: bold;
   cursor: pointer;
@@ -157,8 +212,8 @@ img {
 }
 .pane {
   background-color: black;
-  width: auto;
-  height: auto;
+  width: calc(16ch + 2vw);
+  height: calc(20ch + 2vh);
   font-size: 2ch;
   border-radius: 5px;
   text-align: center;

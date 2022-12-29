@@ -60,9 +60,10 @@ class Main extends React.Component {
         return (
             <div id="panes">
                 <div id="sidebar">
+                <p id="toggleSidebar">{'<'}</p>
                 <SectionComp parentCallback={this.props.parentCallback}></SectionComp>
                 </div>
-                <div>
+                <div id="main">
                 <div id="topbar">
                     <button id="settings">Settings</button><button onClick={this.addPane} id="add">+</button>
                 </div>
