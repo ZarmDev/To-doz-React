@@ -23,28 +23,39 @@ img {
 }
 #topbar {
   margin-left: 20px;
+  position: relative;
+  left: calc(var(--resize) + 5%);
+}
+#topHeader {
   display: flex;
   align-items: center;
-  position: relative;
-  left: var(--resize);
+  margin: 0;
+  padding: 0;
+}
+#topHeader > * {
+  margin: 0;
+  padding: 0;
 }
 #settings {
   width: var(--button-width);
   height: var(--button-height);
+  margin: 0;
   margin-left: 2ch;
   background-color: var(--button-color);
   color: white;
   cursor: pointer;
+  margin-top: 2ch;
 }
 #add {
   background-color: var(--button-color);
   border: none;
   border-radius: 10px;
   padding: 2ch;
-  margin: 0.5ch;
+  margin: 1ch;
   cursor: pointer;
   color: white;
   font-size: 2ch;
+  margin-top: 2ch;
 }
 
 #main {
@@ -58,10 +69,10 @@ img {
   gap: 20px; */
   display: flex;
   flex-wrap: wrap;
-  gap: 2vw;
+  gap: 1vw;
   width: calc(100% - var(--resize));
   position: relative;
-  left: var(--resize);
+  left: calc(var(--resize) + 80px);
 }
 @media screen and (max-width: 1000px) {
   #sidebar {
@@ -71,6 +82,16 @@ img {
     left: 0 !important;
     width: auto !important;
   }
+  #topbar {
+    left: 0 !important;
+  }
+}
+.sidebarOff {
+  left: 0 !important;
+}
+/* For the toggle sidebar */
+.sidebarOffToggle {
+  content: '>' !important;
 }
 #sidebar {
   padding: 0;
@@ -84,6 +105,7 @@ img {
   font-size: 120%;
   padding-right: 1vw;
   position: fixed;
+  margin-top: 0 !important;
 }
 #sidebar div {
   /* word-wrap: break-word; */
@@ -116,6 +138,8 @@ img {
   padding-left: 1vw;
   padding: 0;
   margin: 0;
+  position: absolute;
+  z-index: 1;
 }
 #panes > .pane {
   margin: 5px;
@@ -212,12 +236,17 @@ img {
 }
 .pane {
   background-color: black;
-  width: calc(16ch + 2vw);
-  height: calc(20ch + 2vh);
-  font-size: 2ch;
+  width: calc(14ch + 2vw);
+  height: calc(16ch + 2vh);
   border-radius: 5px;
   text-align: center;
   color: white;
+}
+.pane .title {
+  font-size: 3ch;
+  margin: 0;
+}
+.pane .description {
   font-size: 2ch;
 }
 .pane > pre {

@@ -9,11 +9,13 @@ class Main extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            items: JSON.parse(localStorage.getItem('localItems'))[window.currentSection]
+            items: JSON.parse(localStorage.getItem('localItems'))[window.currentSection],
+            showSidebar: true
         }
         this.addPane = this.addPane.bind(this)
         this.editPane = this.editPane.bind(this)
         this.deletePane = this.deletePane.bind(this)
+        this.toggleSidebar = this.toggleSidebar.bind(this)
     }
     addPane() {
         this.setState({
@@ -46,6 +48,18 @@ class Main extends React.Component {
             this.editPane(0)
         }
     }
+    toggleSidebar() {
+        if (this.state.showSidebar == true) {
+            this.setState({
+                showSidebar: false
+            })
+        } else {
+            this.setState({
+                showSidebar: true
+            })
+        }
+        console.log(this.state.showSidebar);
+    }
     render() {
         // TEMPORARY solution, I am using count with the variable item for my key
         let count = -1
@@ -59,15 +73,17 @@ class Main extends React.Component {
         localStorage.setItem('localItems', JSON.stringify(obj))
         return (
             <div id="panes">
-                <div id="sidebar">
-                <p id="toggleSidebar">{'<'}</p>
+                <p onClick={this.toggleSidebar} className={this.state.showSidebar ? 'sidebarOnToggle' : 'sidebarOffToggle'} id="toggleSidebar">{this.state.showSidebar ? '>' : '<'}</p>
+                {this.state.showSidebar ? <div id="sidebar">
                 <SectionComp parentCallback={this.props.parentCallback}></SectionComp>
-                </div>
+                </div> : <></>}
                 <div id="main">
-                <div id="topbar">
-                    <button id="settings">Settings</button><button onClick={this.addPane} id="add">+</button>
+                <div id="topbar" className={this.state.showSidebar ? 'sidebarOn' : 'sidebarOff'}>
+                    <div id="topHeader"><h1>{window.currentSection}</h1>
+                    <button id="settings">Settings</button></div>
+                    <button onClick={this.addPane} id="add">+</button>
                 </div>
-                <div id="panesElements">
+                <div id="panesElements" className={this.state.showSidebar ? 'sidebarOn' : 'sidebarOff'}>
                     {elementItems}
                 </div>
                 </div>
