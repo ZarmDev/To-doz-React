@@ -16,6 +16,7 @@ class Main extends React.Component {
         this.editPane = this.editPane.bind(this)
         this.deletePane = this.deletePane.bind(this)
         this.toggleSidebar = this.toggleSidebar.bind(this)
+        this.reset = this.reset.bind(this)
     }
     addPane() {
         this.setState({
@@ -60,6 +61,12 @@ class Main extends React.Component {
         }
         console.log(this.state.showSidebar);
     }
+    reset() {
+        this.setState({
+            items: JSON.parse(localStorage.getItem('localItems'))[window.currentSection],
+            showSidebar: true
+        })
+    }
     render() {
         // TEMPORARY solution, I am using count with the variable item for my key
         let count = -1
@@ -75,7 +82,7 @@ class Main extends React.Component {
             <div id="panes">
                 <p onClick={this.toggleSidebar} className={this.state.showSidebar ? 'sidebarOnToggle' : 'sidebarOffToggle'} id="toggleSidebar">{this.state.showSidebar ? '>' : '<'}</p>
                 {this.state.showSidebar ? <div id="sidebar">
-                <SectionComp parentCallback={this.props.parentCallback}></SectionComp>
+                <SectionComp reset={this.reset}></SectionComp>
                 </div> : <></>}
                 <div id="main">
                 <div id="topbar" className={this.state.showSidebar ? 'sidebarOn' : 'sidebarOff'}>

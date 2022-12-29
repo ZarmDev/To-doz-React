@@ -21,7 +21,7 @@ if (localStorage.getItem('localItems') == undefined || Object.values(JSON.parse(
 
 function App() {
   const [loading, setLoading] = useState("true")
-
+  console.log(loading);
   return (
     <>
       {loading ? <SectionComp parentCallback={setLoading} /> : <Main parentCallback={setLoading}></Main>}

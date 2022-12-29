@@ -36,7 +36,11 @@ class SectionComp extends React.Component {
     goToSection(value) {
       console.log(value);
       window.currentSection = value;
-      this.props.parentCallback(false)
+      try {
+        this.props.parentCallback(false)
+      } catch {
+        this.props.reset()
+      }
     }
     render () {
       let count = -1
