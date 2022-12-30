@@ -20,18 +20,22 @@ class SectionComp extends React.Component {
         sections: this.state.sections.concat(`Unnamed Section${Math.floor(Math.random() * 20)}`)
       })
     }
-    onEdit(value) {
-      
+    onEdit(oldindex, oldsectionname) {
+      var obj = this.state.sections;
+      console.log(obj);
+      obj[oldindex] = document.getElementsByClassName('section')[oldindex].getElementsByTagName('p')[0].innerText;
+      console.log(obj);
+      this.setState({
+        sections: obj
+      })
     }
     onDelete(value) {
       // I don't trust this code
       var obj = this.state.sections;
-      console.log(this.state.sections);
       obj.splice(obj.indexOf(value), 1)
       this.setState({
         sections: obj
       })
-      console.log(this.state.sections);
     }
     goToSection(value) {
       console.log(value);
@@ -46,7 +50,7 @@ class SectionComp extends React.Component {
       let count = -1
         var elementItems = this.state.sections.map((item) => {
             count++
-            return <Section unique={count} key={count} goToSectionProp={this.goToSection} deleteSectionProp={() => {this.onDelete(item)}} editSectionProp={() => {this.onEdit(item)}} section={item}></Section>
+            return <Section unique={count} key={count} goToSectionProp={this.goToSection} deleteSectionProp={() => {this.onDelete(item)}} editSectionProp={(value) => {this.onEdit(value, item)}} section={item}></Section>
         })
         let obj = JSON.parse(localStorage.getItem('localItems'));
         let objKeys = Object.keys(obj)

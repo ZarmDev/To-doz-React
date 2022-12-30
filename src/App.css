@@ -145,8 +145,8 @@ img {
 #panes > .pane {
   margin: 5px;
 }
-#section {
-  margin: 0;
+.section p {
+  margin-right: 20px;
 }
 #sections ul {
   list-style-type: none;

@@ -16,18 +16,17 @@ class Section extends React.Component {
     }
     onDelete = () => {
         // this.props.unique not needed here, just for reference
-        this.props.deleteSectionProp(this.props.unique)
+        this.props.deleteSectionProp()
     }
     render () {
         var section = this.props.section
         return (
             <div className="section">
-                <p>{this.props.section}
+                <p onBlur={this.onEdit} contentEditable="true">{this.props.section}</p>
                 <br></br>
                 <button onClick={this.handleChange}>➡️</button>
                 <button onClick={this.onEdit}>✏️</button>
                 <button onClick={this.onDelete}>❌</button>
-                </p>
             </div>
         )
     }

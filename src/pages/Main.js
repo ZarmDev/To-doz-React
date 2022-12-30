@@ -76,7 +76,6 @@ class Main extends React.Component {
         })
         let obj = JSON.parse(localStorage.getItem('localItems'));
         obj[window.currentSection] = this.state.items
-        console.log(this.state.items);
         localStorage.setItem('localItems', JSON.stringify(obj))
         return (
             <div id="panes">
