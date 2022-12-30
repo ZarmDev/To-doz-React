@@ -17,7 +17,7 @@ class SectionComp extends React.Component {
     }
     add() {
       this.setState({
-        sections: this.state.sections.concat(`Unnamed Section${Math.random() * 20}`)
+        sections: this.state.sections.concat(`Unnamed Section${Math.floor(Math.random() * 20)}`)
       })
     }
     onEdit(value) {

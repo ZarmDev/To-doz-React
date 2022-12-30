@@ -24,7 +24,7 @@ img {
 #topbar {
   margin-left: 20px;
   position: relative;
-  left: calc(var(--resize) + 5%);
+  left: calc(var(--resize));
 }
 #topHeader {
   display: flex;
@@ -72,7 +72,7 @@ img {
   gap: 1vw;
   width: calc(100% - var(--resize));
   position: relative;
-  left: calc(var(--resize) + 80px);
+  left: calc(var(--resize));
 }
 @media screen and (max-width: 1000px) {
   #sidebar {
@@ -102,8 +102,6 @@ img {
   left: 0;
   width: var(--resize);
   border-radius: 10px;
-  font-size: 120%;
-  padding-right: 1vw;
   position: fixed;
   margin-top: 0 !important;
 }
@@ -120,16 +118,19 @@ img {
   margin: 0;
 }
 #sidebar .section p {
+  display: flex;
+  margin: 0;
+  padding: 0;
   background-color:rgba(0, 0, 0, 0.009);
   word-wrap: break-word;
   width: 90%;
+  font-size: 80%;
 }
 #sidebar .section button {
-  font-size: 80%;
-  padding: 1%;
+  font-size: 100%;
+  margin: 0;
+  padding: 0;
   position: relative;
-  left: 20%;
-  bottom: 20%;
 }
 
 #toggleSidebar {
