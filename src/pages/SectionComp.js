@@ -20,14 +20,23 @@ class SectionComp extends React.Component {
         sections: this.state.sections.concat(`Unnamed Section${Math.floor(Math.random() * 20)}`)
       })
     }
-    onEdit(oldindex, oldsectionname) {
-      var obj = this.state.sections;
-      console.log(obj);
-      obj[oldindex] = document.getElementsByClassName('section')[oldindex].getElementsByTagName('p')[0].innerText;
-      console.log(obj);
+    onEdit(index, oldSectionName) {
+      var sections = this.state.sections;
+      var sectionElements = document.getElementsByClassName('section');
+      var obj = JSON.parse(localStorage.getItem('localItems'));
+      // Data transfer
+      var data = obj[oldSectionName];
+      var newSectionName = sectionElements[index].getElementsByTagName('p')[0].innerText;
+      sections.splice(index , 1)
+      sections = sections.concat(newSectionName)
+      console.log(JSON.parse(localStorage.getItem('localItems')));
       this.setState({
-        sections: obj
+        sections: sections
       })
+      // transfer
+      obj[newSectionName] = obj[oldSectionName];
+      console.log(obj[oldSectionName]);
+      localStorage.setItem('localItems', JSON.stringify(obj))
     }
     onDelete(value) {
       // I don't trust this code

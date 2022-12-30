@@ -7,7 +7,7 @@ class Pane extends React.Component {
         super(props)
     }
     onEdit = () => {
-        this.props.editPaneProp()
+        this.props.editPaneProp(this.props.unique)
     }
     onDelete = () => {
         this.props.deletePaneProp()

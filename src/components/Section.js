@@ -22,7 +22,7 @@ class Section extends React.Component {
         var section = this.props.section
         return (
             <div className="section">
-                <p onBlur={this.onEdit} contentEditable="true">{this.props.section}</p>
+                <p onBlur={this.onEdit} suppressContentEditableWarning={true} contentEditable="true">{this.props.section}</p>
                 <br></br>
                 <button onClick={this.handleChange}>➡️</button>
                 <button onClick={this.onEdit}>✏️</button>

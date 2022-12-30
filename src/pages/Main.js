@@ -23,10 +23,10 @@ class Main extends React.Component {
             items: this.state.items.concat('·Unnamed Pane|Description|pane')
         })
     }
-    editPane(value) {
+    editPane(value, unique) {
         var tempItems = this.state.items.split('·')
         var panes = document.getElementsByClassName('pane');
-        console.log(panes, value);
+        console.log(panes, unique);
         var currPane = panes[value]
         console.log(currPane);
         let title = currPane.getElementsByClassName('title')[0];
@@ -72,10 +72,11 @@ class Main extends React.Component {
         let count = -1
         var elementItems = this.state.items.split('·').map((item) => {
             count++
-            return <Pane key={count} editPaneProp={this.editPane} deletePaneProp={this.deletePane} items={item} unique={count}></Pane>
+            return <Pane key={count} editPaneProp={(value) => {this.editPane(value)}} deletePaneProp={this.deletePane} items={item} unique={count}></Pane>
         })
         let obj = JSON.parse(localStorage.getItem('localItems'));
         obj[window.currentSection] = this.state.items
+        console.log(this.state.items);
         localStorage.setItem('localItems', JSON.stringify(obj))
         return (
             <div id="panes">
