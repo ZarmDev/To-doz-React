@@ -76,7 +76,8 @@ img {
 }
 @media screen and (max-width: 1000px) {
   #sidebar {
-    display: none;
+    /* display: none; */
+    width: calc(var(--resize) + 25%) !important;
   }
   #panesElements {
     left: 0 !important;
@@ -104,6 +105,7 @@ img {
   border-radius: 10px;
   position: fixed;
   margin-top: 0 !important;
+  z-index: 1;
 }
 #sidebar div {
   /* word-wrap: break-word; */
@@ -140,7 +142,7 @@ img {
   padding: 0;
   margin: 0;
   position: absolute;
-  z-index: 1;
+  z-index: 2;
 }
 #panes > .pane {
   margin: 5px;
