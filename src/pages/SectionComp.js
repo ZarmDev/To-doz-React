@@ -27,8 +27,10 @@ class SectionComp extends React.Component {
       // Data transfer
       var data = obj[oldSectionName];
       var newSectionName = sectionElements[index].getElementsByTagName('p')[0].innerText;
-      sections.splice(index , 1)
-      sections = sections.concat(newSectionName)
+      console.log(sections, index);
+      sections.splice(index, 1)
+      console.log(sections, index);
+      sections.splice(index, 0, newSectionName)
       console.log(JSON.parse(localStorage.getItem('localItems')));
       this.setState({
         sections: sections

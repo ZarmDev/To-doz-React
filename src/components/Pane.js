@@ -10,7 +10,7 @@ class Pane extends React.Component {
         this.props.editPaneProp(this.props.unique)
     }
     onDelete = () => {
-        this.props.deletePaneProp()
+        this.props.deletePaneProp(this.props.unique)
     }
     render () {
         var items = this.props.items.split('·')

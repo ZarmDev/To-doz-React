@@ -41,7 +41,7 @@ class Main extends React.Component {
     deletePane(value) {
         var tempItems = this.state.items.split('·')
         tempItems.splice(value, 1)
-        console.log(tempItems.length);
+        console.log(tempItems);
         this.setState({
             items: tempItems.join('·')
         })
