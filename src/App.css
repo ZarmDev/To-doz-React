@@ -1,7 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 :root {
-  --button-width: 10ch;
+  --button-width: 12ch;
   --button-height: 5ch;
-  --button-color: #1c212d;
+  --button-color: rgba(15, 11, 16, 0.422);
   --resize: 15%;
 }
 body {
@@ -36,15 +37,43 @@ img {
   margin: 0;
   padding: 0;
 }
-#settings {
+#topHeader button {
   width: var(--button-width);
   height: var(--button-height);
   margin: 0;
   margin-left: 2ch;
   background-color: var(--button-color);
+  border-radius: 2px;
   color: white;
   cursor: pointer;
   margin-top: 2ch;
+  transition: 0.2s;
+  border: solid rgb(12, 12, 12) 2px;
+  box-shadow: 2px 2px 1px #1b1f28;
+  font-family: 'Roboto', sans-serif;
+}
+#topHeader button:hover {
+  background-color: rgb(24, 24, 24);
+}
+#focusSession {
+  position: absolute;
+  background-color: rgb(17, 17, 23);
+  z-index: 3;
+  transition: 1s;
+  text-align: center;
+}
+#focusSession h1 {
+  transition: 0s;
+}
+.focusSideBarOn {
+  width: 20vw;
+  left: 80vw;
+  height: 100vh;
+}
+.focusSideBarOff {
+  left: 0;
+  width: 100vw;
+  height: 100vh;
 }
 #add {
   background-color: var(--button-color);
@@ -136,7 +165,7 @@ img {
 }
 
 #toggleSidebar {
-  font-size: 2ch;
+  font-size: 25px;
   cursor: pointer;
   padding-left: 1vw;
   padding: 0;
@@ -265,4 +294,82 @@ img {
 }
 .section {
   text-align: center;
+}
+#themes {
+  background-image: url(https://images.unsplash.com/photo-1614850523011-8f49ffc73908?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80);
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: absolute;
+  height: 25vw;
+  width: 75vw;
+  opacity: 0.5;
+  left: 15%;
+  top: 15%;
+}
+#themeContainer {
+  background-size: cover;
+  border-radius: 10px;
+  /* filter: hue-rotate(75deg); */
+  backdrop-filter: blur(10px);
+  position: absolute;
+  left: 15%;
+  top: 15%;
+}
+#themeSelect {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+#themeContainer h1 {
+  padding: 5px;
+  margin: 5px;
+  position: relative;
+  z-index: 1;
+}
+#themeSelect div {
+  width: 10ch;
+  height: 6ch;
+  background-color: rgba(0, 0, 0, 0.137);
+  backdrop-filter: blur(20px);
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s;
+}
+#themeSelect div:hover {
+  padding: 1vw;
+}
+#themeSelect div:nth-child(2) {
+  background-image: url('/darkmode.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+#startFocus {
+  background-color: rgb(25, 19, 54);
+  border-radius: 2px;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+  border: solid rgb(90, 96, 114) 2px;
+  box-shadow: 2px 2px 1px #1b1f28;
+  font-family: 'Roboto', sans-serif;
+}
+
+#focusTimer button {
+  width: var(--button-width);
+  height: var(--button-height);
+  background-color: rgb(17, 15, 27);
+  border-radius: 2px;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+  border: solid rgb(90, 96, 114) 2px;
+  box-shadow: 2px 2px 1px #1b1f28;
+  font-family: 'Roboto', sans-serif;
+}
+
+#focusTimer input {
+  width: 6ch;
 }

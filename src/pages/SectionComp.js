@@ -37,8 +37,9 @@ class SectionComp extends React.Component {
       })
       // transfer
       obj[newSectionName] = obj[oldSectionName];
-      console.log(obj[oldSectionName]);
+      window.currentSection = newSectionName;
       localStorage.setItem('localItems', JSON.stringify(obj))
+      this.props.reset()
     }
     onDelete(value) {
       // I don't trust this code

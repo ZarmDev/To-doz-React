@@ -1,22 +1,23 @@
 import React, { useEffect } from 'react';
-import { unmountComponentAtNode } from 'react-dom';
 import ReactDOM from 'react-dom';
 import Pane from '/workspaces/To-doz-React/src/components/Pane.js';
-import { toHaveDisplayValue } from '@testing-library/jest-dom/dist/matchers';
 import SectionComp from './SectionComp';
+import FocusSession from '../components/FocusSession';
 
 class Main extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             items: JSON.parse(localStorage.getItem('localItems'))[window.currentSection],
-            showSidebar: true
+            showSidebar: true,
+            focusSessionOpen: false
         }
         this.addPane = this.addPane.bind(this)
         this.editPane = this.editPane.bind(this)
         this.deletePane = this.deletePane.bind(this)
         this.toggleSidebar = this.toggleSidebar.bind(this)
         this.reset = this.reset.bind(this)
+        this.startSession = this.startSession.bind(this)
     }
     addPane() {
         this.setState({
@@ -67,6 +68,11 @@ class Main extends React.Component {
             showSidebar: true
         })
     }
+    startSession() {
+        this.setState({
+            focusSessionOpen: true
+        })
+    }
     render() {
         // TEMPORARY solution, I am using count with the variable item for my key
         let count = -1
@@ -80,14 +86,18 @@ class Main extends React.Component {
         localStorage.setItem('localItems', JSON.stringify(obj))
         return (
             <div id="panes">
+                {this.state.focusSessionOpen ? <FocusSession></FocusSession> : <></>}
                 <p onClick={this.toggleSidebar} className={this.state.showSidebar ? 'sidebarOnToggle' : 'sidebarOffToggle'} id="toggleSidebar">{this.state.showSidebar ? '>' : '<'}</p>
                 {this.state.showSidebar ? <div id="sidebar">
                 <SectionComp reset={this.reset}></SectionComp>
                 </div> : <></>}
                 <div id="main">
                 <div id="topbar" className={this.state.showSidebar ? 'sidebarOn' : 'sidebarOff'}>
-                    <div id="topHeader"><h1>{window.currentSection}</h1>
-                    <button id="settings">Settings</button></div>
+                    <div id="topHeader">
+                        <h1>{window.currentSection}</h1>
+                        <button onClick={this.startSession} id="startSession">Start a focus session</button>
+                        <button id="settings">Settings</button>
+                    </div>
                     <button onClick={this.addPane} id="add">+</button>
                 </div>
                 <div id="panesElements" className={this.state.showSidebar ? 'sidebarOn' : 'sidebarOff'}>
