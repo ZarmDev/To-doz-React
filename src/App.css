@@ -268,7 +268,7 @@ img {
 }
 .pane {
   background-color: black;
-  width: calc(14ch + 2vw);
+  width: fit-content;
   height: calc(16ch + 2vh);
   border-radius: 5px;
   text-align: center;
@@ -277,13 +277,16 @@ img {
 .pane .title {
   font-size: 3ch;
   margin: 0;
+  width: auto;
 }
 .pane .description {
   font-size: 2ch;
+  width: auto;
 }
 .pane > pre {
   font-family: inherit;
   color: white;
+  width: auto;
 }
 .pane > button {
   background-color: rgba(44, 41, 41, 0.813);
