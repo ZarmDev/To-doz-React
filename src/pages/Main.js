@@ -27,14 +27,11 @@ class Main extends React.Component {
     editPane(value, unique) {
         var tempItems = this.state.items.split('·')
         var panes = document.getElementsByClassName('pane');
-        console.log(panes, unique);
         var currPane = panes[value]
-        console.log(currPane);
         let title = currPane.getElementsByClassName('title')[0];
         let description = currPane.getElementsByClassName('description')[0];
         let className = currPane.className;
         tempItems[value] = `${title.innerText}|${description.innerText}|${className}`;
-        console.log(tempItems)
         this.setState({
             items: tempItems.join('·')
         })
@@ -42,7 +39,6 @@ class Main extends React.Component {
     deletePane(value) {
         var tempItems = this.state.items.split('·')
         tempItems.splice(value, 1)
-        console.log(tempItems);
         this.setState({
             items: tempItems.join('·')
         })
@@ -60,7 +56,6 @@ class Main extends React.Component {
                 showSidebar: true
             })
         }
-        console.log(this.state.showSidebar);
     }
     reset() {
         this.setState({
@@ -82,7 +77,6 @@ class Main extends React.Component {
         })
         let obj = JSON.parse(localStorage.getItem('localItems'));
         obj[window.currentSection] = this.state.items
-        console.log(this.state.items);
         localStorage.setItem('localItems', JSON.stringify(obj))
         return (
             <div id="panes">
