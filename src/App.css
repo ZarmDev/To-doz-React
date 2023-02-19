@@ -123,6 +123,13 @@ img {
   margin-top: 0 !important;
   z-index: 1;
   transition: 0.5s;
+  animation-name: firstOpenSidebar;
+  animation-duration: 0.5s;
+  animation-iteration-count: 1;
+}
+@keyframes firstOpenSidebar {
+  from {width: 0;}
+  to {width: var(--resize);}
 }
 #sidebar div {
   /* word-wrap: break-word; */
