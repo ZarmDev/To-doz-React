@@ -56,7 +56,7 @@ img {
   background-color: rgb(24, 24, 24);
 }
 #focusSession {
-  position: absolute;
+  position: fixed;
   background-color: rgb(17, 17, 23);
   z-index: 3;
   transition: 1s;
@@ -71,7 +71,7 @@ img {
   height: 100vh;
 }
 .focusSideBarOff {
-  left: 0;
+  /* left: 0; */
   width: 100vw;
   height: 100vh;
 }
@@ -351,6 +351,17 @@ img {
   transition: 0.2s;
   border: solid rgb(90, 96, 114) 2px;
   box-shadow: 2px 2px 1px #1b1f28;
+  font-family: 'Roboto', sans-serif;
+}
+
+#exitFocus {
+  background-color: rgb(25, 19, 54);
+  border-radius: 2px;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+  border: solid rgba(255, 0, 0, 0.324) 2px;
+  box-shadow: 2px 2px 1px #ff000056;
   font-family: 'Roboto', sans-serif;
 }
 

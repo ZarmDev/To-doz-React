@@ -17,7 +17,8 @@ class Main extends React.Component {
         this.deletePane = this.deletePane.bind(this)
         this.toggleSidebar = this.toggleSidebar.bind(this)
         this.reset = this.reset.bind(this)
-        this.startSession = this.startSession.bind(this)
+        this.setFocusOn = this.setFocusOn.bind(this)
+        this.setFocusOff = this.setFocusOff.bind(this)
     }
     addPane() {
         this.setState({
@@ -63,9 +64,14 @@ class Main extends React.Component {
             showSidebar: true
         })
     }
-    startSession() {
+    setFocusOn() {
         this.setState({
             focusSessionOpen: true
+        })
+    }
+    setFocusOff() {
+        this.setState({
+            focusSessionOpen: false
         })
     }
     render() {
@@ -80,7 +86,7 @@ class Main extends React.Component {
         localStorage.setItem('localItems', JSON.stringify(obj))
         return (
             <div id="panes">
-                {this.state.focusSessionOpen ? <FocusSession></FocusSession> : <></>}
+                {this.state.focusSessionOpen ? <FocusSession parentCallback={this.setFocusOff}></FocusSession> : <></>}
                 <p onClick={this.toggleSidebar} className={this.state.showSidebar ? 'sidebarOnToggle' : 'sidebarOffToggle'} id="toggleSidebar">{this.state.showSidebar ? '>' : '<'}</p>
                 {this.state.showSidebar ? <div id="sidebar">
                 <SectionComp reset={this.reset}></SectionComp>
@@ -89,7 +95,7 @@ class Main extends React.Component {
                 <div id="topbar" className={this.state.showSidebar ? 'sidebarOn' : 'sidebarOff'}>
                     <div id="topHeader">
                         <h1>{window.currentSection}</h1>
-                        <button onClick={this.startSession} id="startSession">Start a focus session</button>
+                        <button onClick={this.setFocusOn} id="startSession">Start a focus session</button>
                         <button id="settings">Settings</button>
                     </div>
                     <button onClick={this.addPane} id="add">+</button>
