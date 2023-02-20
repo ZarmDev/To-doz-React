@@ -66,8 +66,8 @@ img {
   transition: 0s;
 }
 .focusSideBarOn {
-  width: 20vw;
-  left: 80vw;
+  width: 40vw;
+  left: 65vw;
   height: 100vh;
 }
 .focusSideBarOff {
@@ -109,6 +109,12 @@ img {
 /* For the toggle sidebar */
 .sidebarOffToggle {
   content: '>' !important;
+}
+@media screen and (max-width: 1000px) {
+  @keyframes firstOpenSidebar {
+    from {width: 0;}
+    to {width: var(--resize) + 25% !important;}
+  }
 }
 #sidebar {
   padding: 0;
