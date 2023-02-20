@@ -87,7 +87,7 @@ class Main extends React.Component {
         return (
             <div id="panes">
                 {this.state.focusSessionOpen ? <FocusSession parentCallback={this.setFocusOff}></FocusSession> : <></>}
-                <p onClick={this.toggleSidebar} className={this.state.showSidebar ? 'sidebarOnToggle' : 'sidebarOffToggle'} id="toggleSidebar">{this.state.showSidebar ? '>' : '<'}</p>
+                <button onClick={this.toggleSidebar} className={this.state.showSidebar ? 'sidebarOnToggle' : 'sidebarOffToggle'} id="toggleSidebar">{this.state.showSidebar ? '>' : '<'}</button>
                 {this.state.showSidebar ? <div id="sidebar">
                 <SectionComp reset={this.reset}></SectionComp>
                 </div> : <></>}

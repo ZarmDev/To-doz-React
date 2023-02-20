@@ -79,7 +79,7 @@ class SectionComp extends React.Component {
     return (
         <div className={this.state.shown == true ? "SectionComp" : "Test"}>
       <div id="toolbar">
-      <p id="add" onClick={this.add}>+</p>
+      <button id="add" onClick={this.add}>+</button>
       </div>
       <div id="sections">
         <ul id="sectionsItems">

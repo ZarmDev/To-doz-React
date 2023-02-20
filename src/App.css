@@ -125,6 +125,7 @@ img {
   left: 0;
   width: var(--resize);
   border-radius: 10px;
+  border-top-left-radius: 0;
   position: fixed;
   margin-top: 0 !important;
   z-index: 1;
@@ -173,6 +174,9 @@ img {
   margin: 0;
   position: absolute;
   z-index: 2;
+  background-color:rgba(0, 0, 0, 0);
+  border: none;
+  color: whitesmoke;
 }
 #panes > .pane {
   margin: 5px;
