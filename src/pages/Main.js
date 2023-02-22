@@ -3,14 +3,16 @@ import ReactDOM from 'react-dom';
 import Pane from '/workspaces/To-doz-React/src/components/Pane.js';
 import SectionComp from './SectionComp';
 import FocusSession from '../components/FocusSession';
+import Settings from '../pages/Settings'
 
 class Main extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             items: JSON.parse(localStorage.getItem('localItems'))[window.currentSection],
-            showSidebar: true,
-            focusSessionOpen: false
+            showSidebar: false,
+            focusSessionOpen: false,
+            settingsOpen: false
         }
         this.addPane = this.addPane.bind(this)
         this.editPane = this.editPane.bind(this)
@@ -19,6 +21,8 @@ class Main extends React.Component {
         this.reset = this.reset.bind(this)
         this.setFocusOn = this.setFocusOn.bind(this)
         this.setFocusOff = this.setFocusOff.bind(this)
+        this.openSettings = this.openSettings.bind(this)
+        this.closeSettings = this.closeSettings.bind(this)
     }
     addPane() {
         this.setState({
@@ -74,6 +78,16 @@ class Main extends React.Component {
             focusSessionOpen: false
         })
     }
+    openSettings() {
+        this.setState({
+            settingsOpen: true
+        })
+    }
+    closeSettings() {
+        this.setState({
+            settingsOpen: false
+        })
+    }
     render() {
         // TEMPORARY solution, I am using count with the variable item for my key
         let count = -1
@@ -86,6 +100,7 @@ class Main extends React.Component {
         localStorage.setItem('localItems', JSON.stringify(obj))
         return (
             <div id="panes">
+                {this.state.settingsOpen ? <Settings parentCallback={this.closeSettings}></Settings> : <></>}
                 {this.state.focusSessionOpen ? <FocusSession parentCallback={this.setFocusOff}></FocusSession> : <></>}
                 <button onClick={this.toggleSidebar} className={this.state.showSidebar ? 'sidebarOnToggle' : 'sidebarOffToggle'} id="toggleSidebar">{this.state.showSidebar ? '>' : '<'}</button>
                 {this.state.showSidebar ? <div id="sidebar">
@@ -96,7 +111,7 @@ class Main extends React.Component {
                     <div id="topHeader">
                         <h1>{window.currentSection}</h1>
                         <button onClick={this.setFocusOn} id="startSession">Start a focus session</button>
-                        <button id="settings">Settings</button>
+                        <button onClick={this.openSettings} id="settings">Settings</button>
                     </div>
                     <button onClick={this.addPane} id="add">+</button>
                 </div>

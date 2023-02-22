@@ -3,7 +3,7 @@
   /* --button-width: 12ch; */
   --button-height: 5ch;
   --button-color: rgba(15, 11, 16, 0.422);
-  --resize: 15%;
+  --resize: 200px;
 }
 body {
   background-color: #282c34;
@@ -66,8 +66,8 @@ img {
   transition: 0s;
 }
 .focusSideBarOn {
-  width: 40vw;
-  left: 65vw;
+  left: 75vw;
+  width: 25vw;
   height: 100vh;
 }
 .focusSideBarOff {
@@ -91,10 +91,6 @@ img {
   margin-left: 4vw;
 }
 @media screen and (max-width: 1000px) {
-  #sidebar {
-    /* display: none; */
-    width: calc(var(--resize) + 25%) !important;
-  }
   #panesElements {
     left: 0 !important;
     width: auto !important;
@@ -109,12 +105,6 @@ img {
 /* For the toggle sidebar */
 .sidebarOffToggle {
   content: '>' !important;
-}
-@media screen and (max-width: 1000px) {
-  @keyframes firstOpenSidebar {
-    from {width: 0;}
-    to {width: var(--resize) + 25% !important;}
-  }
 }
 #sidebar {
   padding: 0;
@@ -369,6 +359,9 @@ img {
   border: solid rgb(90, 96, 114) 2px;
   box-shadow: 2px 2px 1px #1b1f28;
   font-family: 'Roboto', sans-serif;
+  font-size: 1.8ch;
+  width: 3ch;
+  height: 3ch;
 }
 
 #exitFocus {
@@ -377,9 +370,13 @@ img {
   color: white;
   cursor: pointer;
   transition: 0.2s;
-  border: solid rgba(255, 0, 0, 0.324) 2px;
-  box-shadow: 2px 2px 1px #ff000056;
+  border: solid rgb(90, 96, 114) 2px;
+  box-shadow: 2px 2px 1px #1b1f28;
   font-family: 'Roboto', sans-serif;
+  font-size: 1.8ch;
+  width: 3ch;
+  height: 3ch;
+  color: red;
 }
 
 #focusTimer button {
@@ -400,4 +397,39 @@ img {
 }
 #showSeconds {
   margin-bottom: 20px;
+}
+#settingsWindow {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: 6;
+  background-color: black;
+}
+#settingsWindow h1 {
+  margin: 0.5vw;
+}
+#exitSettings {
+  background-color: rgb(64, 64, 64);
+  border: rgb(49, 49, 49);
+  cursor: pointer;
+  position: absolute;
+  left: 85vw;
+  top: 2vw;
+}
+#settingsSidebar ul {
+  list-style-type: none;
+  margin-left: 0;
+  margin-top: 5%;
+}
+#settingsSidebar ul li {
+  background-color: rgb(35, 35, 50);
+  width: 10vw;
+  padding: 0.5vw;
+  font-size: 2ch;
+  margin-left: 0;
+  cursor: pointer;
+  border: solid rgb(49, 55, 73) 2px;
+}
+#settingsSidebar ul li:hover {
+  background-color: rgb(14, 14, 19);
 }
