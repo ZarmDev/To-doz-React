@@ -13,17 +13,7 @@ class Pane extends React.Component {
         this.props.deletePaneProp(this.props.unique)
     }
     onChange = (event) => {
-        console.log('let me l')
-        let scrollW = event.target.scrollWidth;
-        console.log(scrollW, 'SUP');
-        let eventParent = event.target.parentElement;
-        if (scrollW <= 140) {
-            eventParent.style.gridColumn = '1 / span 1'
-        } else if (scrollW <= 250) {
-            // eventParent.style.gridColumn = '1 / span 2'
-        } else if (scrollW <= 350) {
-            // eventParent.style.gridColumn = '1 / span 3'
-        }
+        // Work in progress
     }
     render () {
         var items = this.props.items.split('·')
