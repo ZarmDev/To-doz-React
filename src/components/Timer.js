@@ -19,21 +19,28 @@ class Timer extends React.Component {
         if (this.state.time != 0) {
             this.setState({
                 focus: true,
-                time: this.state.time * 60
+                time: this.state.time
             })
             this.time = setInterval(this.countDown, 1000)
         }
     }
+    // 12 minutes == 720000
+    // * 60000 = 60 seconds in a minute * 1000 for each second
+    // 12 seconds == 12000
+    // convert to miliseconds
+    // to get seconds, divide by 100
+    // to get minutes, divide by 1000
+    // to get seconds, divide by 10000
 
     countDown() {
         console.log(this.state);
         this.setState({
-            time: this.state.time -= 1,
+            time: this.state.time -= 1000,
         })
         if (this.state.time == 0) {
             this.setState({
                 time: 0,
-                focus: false,
+                focus: false
             })
             clearInterval(this.time)
         }
@@ -41,8 +48,11 @@ class Timer extends React.Component {
 
     getNumber(event) {
         console.log(event);
+        let newNum = event;
+        // convert to miliseconds
+        newNum = newNum * 60000;
         this.setState({
-            time: event
+            time: newNum
         })
     }
 
@@ -55,10 +65,15 @@ class Timer extends React.Component {
     }
 
     render () {
+        const totalSeconds = Math.round(this.state.time / 1000);
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+        const timeInString = this.state.checked ? `${String(minutes)} minutes and ${String(seconds)} seconds` : `${String(minutes)}`;
+        document.title = timeInString;
         return (
             <div id="focusTimer">
-                <h1>{this.state.checked ? `${String(Math.round(this.state.time / 60))} minutes and ${String(this.state.time % 60)} seconds` : String(Math.round(this.state.time / 60))}</h1>
-                <label for="showSec">Show seconds?</label>
+                <h1>{timeInString}</h1>
+                <label for="showSec">Show time?</label>
                 <input onClick={(event) => {this.showSeconds(event)}} id="showSeconds" name="showSec" type="checkbox"></input><br></br>
                 <button disabled={this.state.focus} onClick={this.startTimer}>Start Focus Timer</button>
                 <p>Time to focus: </p>

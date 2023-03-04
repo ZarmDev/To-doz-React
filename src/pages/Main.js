@@ -113,7 +113,7 @@ class Main extends React.Component {
                         <button onClick={this.setFocusOn} id="startSession">Start a focus session</button>
                         <button onClick={this.openSettings} id="settings">Settings</button>
                     </div>
-                    <button onClick={this.addPane} id="add">+</button>
+                    <button onClick={this.addPane} id="addPane">+</button>
                 </div>
                 <div id="panesElements" className={this.state.showSidebar ? 'sidebarOn' : 'sidebarOff'}>
                     {elementItems}

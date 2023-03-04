@@ -5,6 +5,9 @@ import ReactDOM from 'react-dom/client';
 class Pane extends React.Component {
     constructor(props) {
         super(props)
+        this.state = {
+            fading: false
+        }
     }
     onEdit = (event) => {
         this.props.editPaneProp(this.props.unique)
@@ -15,12 +18,20 @@ class Pane extends React.Component {
     onChange = (event) => {
         // Work in progress
     }
+    fade = () => {
+        this.setState({
+            fading: true
+        })
+    }
     render () {
         var items = this.props.items.split('·')
         return (
-            <div className={items[0].split('|')[2]}>
+            <div className={this.state.fading ? `fadeOutPane ${items[0].split('|')[2]}` : items[0].split('|')[2]}>
                 <button onClick={this.onEdit}>✏️</button>
-                <button onClick={this.onDelete}>❌</button>
+                <button onClick={() => {
+                    this.fade()
+                    setTimeout(this.onDelete, 200)
+                }}>❌</button>
                 <h1 onBlur={(event) => {this.onEdit(event)}} onInput={(event) => {this.onChange(event)}} contentEditable="true" suppressContentEditableWarning={true} className="title newp">{items[0].split('|')[0]}</h1>
                 <pre onBlur={(event) => {this.onEdit(event)}} onInput={(event) => {this.onChange(event)}} contentEditable="true" suppressContentEditableWarning={true} className="description newp">{items[0].split('|')[1]}</pre>
             </div>

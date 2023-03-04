@@ -1,20 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
 :root {
   /* --button-width: 12ch; */
   --button-height: 5ch;
   --button-color: rgba(15, 11, 16, 0.422);
   --resize: 200px;
 }
+
 body {
   background-color: #282c34;
   color: white;
   overflow-x: hidden;
 }
+
 #sm {
   margin: 5px;
   color: rgba(255, 255, 255, 0.272);
   cursor: pointer;
 }
+
 img {
   width: 5ch;
   height: 5ch;
@@ -22,21 +26,25 @@ img {
   background-color: white;
   border-radius: 20px;
 }
+
 #topbar {
   margin-left: 20px;
   position: relative;
   left: calc(var(--resize));
 }
+
 #topHeader {
   display: flex;
   align-items: center;
   margin: 0;
   padding: 0;
 }
-#topHeader > * {
+
+#topHeader>* {
   margin: 0;
   padding: 0;
 }
+
 #topHeader button {
   width: var(--button-width);
   height: var(--button-height);
@@ -52,9 +60,11 @@ img {
   box-shadow: 2px 2px 1px #1b1f28;
   font-family: 'Roboto', sans-serif;
 }
+
 #topHeader button:hover {
   background-color: rgb(24, 24, 24);
 }
+
 #focusSession {
   position: fixed;
   background-color: rgb(17, 17, 23);
@@ -65,50 +75,54 @@ img {
   animation-duration: 0.5s;
   animation-iteration-count: 1;
 }
+
 #focusSession h1 {
   transition: 0s;
 }
+
+/* focusSideBarOn is in a media query */
 .focusSideBarOn {
-  left: 75vw;
-  width: 25vw;
+  left: 85vw;
+  width: 15vw;
   height: 100vh;
 }
+
 .focusSideBarOff {
   /* left: 0; */
   width: 100vw;
   height: 100vh;
 }
-#add {
-  background-color: var(--button-color);
-  border: none;
-  border-radius: 10px;
-  padding: 2ch;
-  margin: 1ch;
-  cursor: pointer;
-  color: white;
-  font-size: 2ch;
-  margin-top: 2ch;
-}
 
 #main {
   margin-left: 4vw;
 }
+
 @media screen and (max-width: 1000px) {
   #panesElements {
     left: 0 !important;
     width: auto !important;
   }
+
   #topbar {
     left: 0 !important;
   }
+
+  .focusSideBarOn {
+    left: 75vw;
+    width: 25vw;
+    height: 100vh;
+  }
 }
+
 .sidebarOff {
   left: 0 !important;
 }
+
 /* For the toggle sidebar */
 .sidebarOffToggle {
   content: '>' !important;
 }
+
 #sidebar {
   padding: 0;
   font-size: 2.2ch;
@@ -127,34 +141,45 @@ img {
   animation-duration: 0.5s;
   animation-iteration-count: 1;
 }
+
 @keyframes firstOpenSidebar {
-  from {width: 0;}
-  to {width: var(--resize);}
+  from {
+    width: 0;
+  }
+
+  to {
+    width: var(--resize);
+  }
 }
+
 #sidebar .section {
   width: 95%;
   height: 10%;
-  background-color:rgb(15, 11, 16);
+  background-color: rgb(15, 11, 16);
 }
+
 #sidebar .section * {
   padding: 0;
   margin: 0;
 }
+
 #sidebar .section p {
   display: flex;
   margin: 0;
   padding: 0;
-  background-color:rgba(0, 0, 0, 0.009);
+  background-color: rgba(0, 0, 0, 0.009);
   word-wrap: break-word;
   width: 90%;
   font-size: 80%;
 }
+
 #sidebar .section button {
   font-size: 100%;
   margin: 0;
   padding: 0;
   position: relative;
 }
+
 /* For main page and section page */
 .section button:hover {
   background-color: rgb(40, 40, 40);
@@ -168,19 +193,23 @@ img {
   margin: 0;
   position: absolute;
   z-index: 2;
-  background-color:rgba(0, 0, 0, 0);
+  background-color: rgba(0, 0, 0, 0);
   border: none;
   color: whitesmoke;
 }
-#panes > .pane {
+
+#panes>.pane {
   margin: 5px;
 }
+
 .section p {
   margin-right: 20px;
 }
+
 #sections ul {
   list-style-type: none;
 }
+
 #sections ul * {
   background-color: rgb(24, 25, 30);
   padding: 0.5vw;
@@ -189,9 +218,22 @@ img {
   cursor: pointer;
   color: white;
 }
+
+#sections ul button {
+  width: calc(48px - 1vw);
+  height: calc(48px - 1vh);
+  font-size: 2ch;
+  text-align: center;
+}
+
+#sections ul button:hover {
+  background-color: rgb(34, 34, 47);
+}
+
 #sections ul *:hover::before {
   padding-left: 2%;
 }
+
 #sections ul div {
   display: flex;
   align-items: center;
@@ -200,35 +242,53 @@ img {
   /* word-wrap:break-word; */
   height: 6ch;
 }
+
 #sections ul div::before {
   background-color: rgb(15, 11, 16);
-  content: ">";
+  content: " ";
   color: rgb(0, 0, 0);
   padding: 0.5vw;
   margin: 0;
   transition: 0.5s;
   width: 0.2ch;
+  height: 2ch;
+  margin: 0;
 }
+
 #sections ul p {
   /* background-color: rgb(26, 25, 31); */
   padding: 0;
 }
+
+#sections ul p:hover {
+  background-color: rgb(0, 0, 0);
+  padding: 0.5vw;
+}
+
 #toolbar {
   display: flex;
   position: relative;
   justify-content: center;
   align-items: center;
 }
+
 #toolbar #add {
-  font-size: 2.5ch;
+  font-size: 3.5ch;
   font-weight: bold;
   cursor: pointer;
-  transition: 0.5s;
-  padding: 0.2vw;
+  transition: 0.2s;
+  background-color: var(--button-color);
+  border: none;
+  border-radius: 10px;
+  margin: 1ch;
+  color: white;
+  margin-top: 2ch;
 }
+
 #toolbar #add:hover {
-  background-color: rgb(27, 27, 41);
+  background-color: rgb(33, 33, 49);
 }
+
 #splashscreen {
   position: absolute;
   width: 100vw;
@@ -241,30 +301,54 @@ img {
   visibility: hidden;
   z-index: 1;
 }
+
+#addPane {
+  font-size: 3.5ch;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+  background-color: var(--button-color);
+  border: none;
+  border-radius: 10px;
+  margin: 1ch;
+  color: white;
+  margin-top: 2ch;
+}
+
+#addPane:hover {
+  background-color: rgb(33, 33, 49);
+}
+
 @keyframes animate {
   0% {
     width: 0;
     visibility: visible;
   }
+
   40% {
     width: 100%;
   }
+
   60% {
     width: 100%;
   }
+
   100% {
     width: 0;
   }
 }
+
 .splashAnimate {
   animation-name: animate;
   animation-duration: 1s;
   animation-timing-function: ease-in;
 }
+
 .Test {
   opacity: 0;
   transition: 1s;
 }
+
 #panesElements {
   display: flex;
   flex-wrap: wrap;
@@ -273,43 +357,71 @@ img {
   position: relative;
   left: calc(var(--resize));
 }
+
+.fadeOutPane {
+  animation-name: fadeOut;
+  animation-duration: 200ms;
+  animation-iteration-count: 1;
+  /* animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1); */
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 100;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
 .pane {
   background-color: black;
   width: fit-content;
-  height: calc(16ch + 2vh);
+  height: fit-content;
   border-radius: 5px;
   text-align: center;
   color: white;
   transition: 0.5s;
 }
+
 .pane:hover {
   background-color: rgb(8, 8, 16);
 }
+
 .pane .title {
   font-size: 3ch;
   margin: 0;
 }
+
 .pane .description {
   font-size: 2ch;
   text-align: center;
 }
-.pane > pre {
+
+.pane>pre {
   font-family: inherit;
   color: white;
 }
-.pane > button {
+
+.pane>button {
   background-color: rgba(44, 41, 41, 0.813);
+  font-size: 1.9ch;
 }
-.pane > button:hover {
+
+.pane>button:hover {
   background-color: rgb(40, 40, 40);
 }
+
 #sectionsItems {
   margin: 0;
   padding: 0;
 }
+
 .section {
   text-align: center;
 }
+
 #themes {
   background-image: url(https://images.unsplash.com/photo-1614850523011-8f49ffc73908?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80);
   background-repeat: no-repeat;
@@ -321,6 +433,7 @@ img {
   left: 15%;
   top: 15%;
 }
+
 #themeContainer {
   background-size: cover;
   border-radius: 10px;
@@ -330,18 +443,21 @@ img {
   left: 15%;
   top: 15%;
 }
+
 #themeSelect {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
 }
+
 #themeContainer h1 {
   padding: 5px;
   margin: 5px;
   position: relative;
   z-index: 1;
 }
+
 #themeSelect div {
   width: 10ch;
   height: 6ch;
@@ -352,9 +468,11 @@ img {
   cursor: pointer;
   transition: 0.3s;
 }
+
 #themeSelect div:hover {
   padding: 1vw;
 }
+
 #themeSelect div:nth-child(2) {
   background-image: url('/darkmode.png');
   background-size: contain;
@@ -365,8 +483,8 @@ img {
   background-color: rgb(14, 14, 14);
   border: rgb(49, 49, 49);
   cursor: pointer;
-  width: 5ch;
-  height: 5ch;
+  width: 6ch;
+  height: 6ch;
   transition: 0.5s;
   border-radius: 5px;
   color: white;
@@ -383,13 +501,14 @@ img {
   background-color: rgb(14, 14, 14);
   border: rgb(49, 49, 49);
   cursor: pointer;
-  width: 5ch;
-  height: 5ch;
+  width: 6ch;
+  height: 6ch;
   transition: 0.5s;
   border-radius: 5px;
   color: rgb(255, 0, 0);
   border: solid black 2px;
 }
+
 #exitFocus:hover {
   background-color: rgb(40, 40, 40);
   box-shadow: 5px 5px 2px rgb(14, 14, 28);
@@ -407,6 +526,7 @@ img {
   box-shadow: 2px 2px 1px #1b1f28;
   font-family: 'Roboto', sans-serif;
 }
+
 #focusTimer button:hover {
   background-color: rgb(20, 20, 30);
 }
@@ -414,9 +534,11 @@ img {
 #focusTimer input {
   width: 6ch;
 }
+
 #showSeconds {
   margin-bottom: 20px;
 }
+
 #settingsWindow {
   position: absolute;
   width: 100vw;
@@ -427,10 +549,25 @@ img {
   animation-duration: 0.5s;
   animation-iteration-count: 1;
 }
+
 @keyframes fadeIn {
-  from {background-color: rgb(37, 37, 37); width: 90vw; height: 90vh; left: 5vw; top: 5vh;}
-  to {background-color: black; width: 100vw; height: 100vh; left: 0; top: 0;}
+  from {
+    background-color: rgb(37, 37, 37);
+    width: 90vw;
+    height: 90vh;
+    left: 5vw;
+    top: 5vh;
+  }
+
+  to {
+    background-color: black;
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    top: 0;
+  }
 }
+
 #exitSettings {
   background-color: rgb(14, 14, 14);
   border: rgb(49, 49, 49);
@@ -441,41 +578,50 @@ img {
   transition: 0.5s;
   border-radius: 5px;
   border: solid black 2px;
+  font-size: 2ch;
 }
+
 #exitSettings:hover {
   background-color: rgb(40, 40, 40);
   box-shadow: 5px 5px 2px rgb(14, 14, 28);
 }
+
 #settingsWindow h1 {
   margin-left: 2vw;
 }
+
 #settingsSidebar {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr;
 }
+
 #settingsContent {
   grid-column-start: 2;
   grid-column-end: 6;
   grid-row-start: 1;
   grid-row-end: 2;
 }
+
 #settingsContent h1 {
   margin-top: 30px;
 }
+
 #settingsContent div {
   margin: 30px;
 }
+
 #settingsSidebar ul {
   list-style-type: none;
   margin-left: 2vw;
   margin-top: 30px;
-  padding:0;
+  padding: 0;
   grid-row-start: 1;
   grid-row-end: 2;
   grid-column-start: 1;
   grid-column-end: 1;
 }
+
 #settingsSidebar ul li {
   width: 125px;
   height: 5ch;
@@ -487,6 +633,7 @@ img {
   background-color: rgb(8, 8, 9);
   margin: 0;
 }
+
 #settingsSidebar ul li:hover {
   background-color: rgb(14, 14, 19);
 }
