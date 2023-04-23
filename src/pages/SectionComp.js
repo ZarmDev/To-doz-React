@@ -1,7 +1,7 @@
 import React from 'react';
 import { unmountComponentAtNode } from 'react-dom';
 import ReactDOM from 'react-dom/client';
-import Section from '/workspaces/To-doz-React/src/components/Section.js'
+import Section from '../components/Section'
 
 class SectionComp extends React.Component {
     constructor(props) {

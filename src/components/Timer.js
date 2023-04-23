@@ -14,6 +14,7 @@ class Timer extends React.Component {
         this.getNumber = this.getNumber.bind(this);
         this.countDown = this.countDown.bind(this);
         this.showSeconds = this.showSeconds.bind(this);
+        this.pauseTimer = this.pauseTimer.bind(this);
     }
     startTimer() {
         if (this.state.time != 0) {
@@ -64,6 +65,14 @@ class Timer extends React.Component {
         })
     }
 
+    pauseTimer() {
+        console.log('test');
+        clearInterval(this.time)
+        this.setState({
+            focus: false
+        })
+    }
+
     render () {
         const totalSeconds = Math.round(this.state.time / 1000);
         const minutes = Math.floor(totalSeconds / 60);
@@ -75,7 +84,8 @@ class Timer extends React.Component {
                 <h1>{timeInString}</h1>
                 <label for="showSec">Show time?</label>
                 <input onClick={(event) => {this.showSeconds(event)}} id="showSeconds" name="showSec" type="checkbox"></input><br></br>
-                <button disabled={this.state.focus} onClick={this.startTimer}>Start Focus Timer</button>
+                <button className="themedButton" onClick={this.startTimer}>{'▶️'}</button>
+                <button className="themedButton" onClick={this.pauseTimer}>{'⏸️'}</button>
                 <p>Time to focus: </p>
                 <input disabled={this.state.focus} onChange={(event) => {this.getNumber(event.target.value)}} type="number"></input>
             </div>

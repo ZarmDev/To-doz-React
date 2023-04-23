@@ -27,8 +27,8 @@ class Pane extends React.Component {
         var items = this.props.items.split('·')
         return (
             <div className={this.state.fading ? `fadeOutPane ${items[0].split('|')[2]}` : items[0].split('|')[2]}>
-                <button onClick={this.onEdit}>✏️</button>
-                <button onClick={() => {
+                <button className="themedButton" onClick={this.onEdit}>✏️</button>
+                <button className="themedButton" onClick={() => {
                     this.fade()
                     setTimeout(this.onDelete, 200)
                 }}>❌</button>

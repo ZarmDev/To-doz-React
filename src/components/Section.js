@@ -24,9 +24,9 @@ class Section extends React.Component {
             <div className="section">
                 <p onBlur={this.onEdit} suppressContentEditableWarning={true} contentEditable="true">{this.props.section}</p>
                 <br></br>
-                <button onClick={this.handleChange}>➡️</button>
-                <button onClick={this.onEdit}>✏️</button>
-                <button onClick={this.onDelete}>❌</button>
+                <button className="themedButton" onClick={this.handleChange}>➡️</button>
+                <button className="themedButton" onClick={this.onEdit}>✏️</button>
+                <button className="themedButton" onClick={this.onDelete}>❌</button>
             </div>
         )
     }

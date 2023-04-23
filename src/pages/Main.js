@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import Pane from '/workspaces/To-doz-React/src/components/Pane.js';
+import Pane from '../components/Pane';
 import SectionComp from './SectionComp';
 import FocusSession from '../components/FocusSession';
 import Settings from '../pages/Settings'
@@ -98,6 +98,7 @@ class Main extends React.Component {
         let obj = JSON.parse(localStorage.getItem('localItems'));
         obj[window.currentSection] = this.state.items
         localStorage.setItem('localItems', JSON.stringify(obj))
+        document.title = window.currentSection;
         return (
             <div id="panes">
                 {this.state.settingsOpen ? <Settings parentCallback={this.closeSettings}></Settings> : <></>}
@@ -110,8 +111,8 @@ class Main extends React.Component {
                 <div id="topbar" className={this.state.showSidebar ? 'sidebarOn' : 'sidebarOff'}>
                     <div id="topHeader">
                         <h1>{window.currentSection}</h1>
-                        <button onClick={this.setFocusOn} id="startSession">Start a focus session</button>
-                        <button onClick={this.openSettings} id="settings">Settings</button>
+                        <button className="bigThemedButton" onClick={this.setFocusOn} id="startSession">Start a focus session</button>
+                        <button className="bigThemedButton" onClick={this.openSettings} id="settings">Settings</button>
                     </div>
                     <button onClick={this.addPane} id="addPane">+</button>
                 </div>

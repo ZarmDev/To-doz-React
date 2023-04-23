@@ -20,17 +20,17 @@ class Settings extends React.Component {
     }
     render() {
         const settingsButton = this.state.list.map((item, index) => {
-            return <li key={index} onClick={() => {this.goToSetting(item)}}>{item}</li>;
+            return <li key={index} onClick={() => { this.goToSetting(item) }}>{item}</li>;
         })
         return (
             <div id="settingsWindow">
-                <button onClick={this.exitSettings} id="exitSettings">❌</button>
+                <button className="bigThemedButton" onClick={this.exitSettings} id="exitSettings">❌</button>
                 <h1>Settings</h1>
                 <div id="settingsSidebar">
-                {this.state.settingsState == 'Customization' ? <Customization></Customization> : <></>}
                     <ul>
                         {settingsButton}
                     </ul>
+                    {this.state.settingsState == 'Customization' ? <Customization></Customization> : <></>}
                 </div>
             </div>
         )

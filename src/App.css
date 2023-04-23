@@ -3,8 +3,49 @@
 :root {
   /* --button-width: 12ch; */
   --button-height: 5ch;
-  --button-color: rgba(15, 11, 16, 0.422);
+  --button-color: rgba(28, 28, 28, 0.909);
+  --button-color-hover: rgba(97, 97, 97, 0.783);
+  --button-border: solid rgba(0, 0, 0, 0.053) 2px;
+  --button-border-hover: solid rgb(34, 34, 34) 2px;
+  --button-border-radius: 6px;
+  --button-font-size: 2.3ch;
+  --big-button-color: rgba(28, 30, 34, 0.824);
+  --big-button-color-hover: rgb(77, 77, 77);
+  --big-button-border: solid rgb(66, 66, 66) 2px;
   --resize: 200px;
+}
+
+.themedButton {
+  color: white;
+  width: calc(54px - 1vw);
+  height: calc(48px - 1vh);
+  font-size: var(--button-font-size);
+  background-color: var(--button-color);
+  border: var(--button-border);
+  transition: 0.5s;
+  border-radius: var(--button-border-radius);
+  cursor: pointer;
+}
+
+.themedButton:hover {
+  background-color: var(--button-color-hover);
+  border: var(--button-border-hover)
+}
+
+.bigThemedButton {
+  color: white;
+  background-color: var(--big-button-color);
+  /* border: var(--big-button-border); */
+  font-size: 2ch;
+  transition: 0.4s;
+  border-radius: var(--button-border-radius);
+  border: solid rgba(0, 0, 0, 0.055) 2px;
+  cursor: pointer;
+}
+
+.bigThemedButton:hover {
+  background-color: var(--big-button-color-hover);
+  border: var(--big-button-border);
 }
 
 body {
@@ -45,24 +86,14 @@ img {
   padding: 0;
 }
 
-#topHeader button {
-  width: var(--button-width);
-  height: var(--button-height);
-  margin: 0;
-  margin-left: 2ch;
-  background-color: var(--button-color);
-  border-radius: 2px;
-  color: white;
-  cursor: pointer;
-  margin-top: 2ch;
-  transition: 0.2s;
-  border: solid rgb(12, 12, 12) 2px;
-  box-shadow: 2px 2px 1px #1b1f28;
-  font-family: 'Roboto', sans-serif;
+#topHeader h1 {
+  margin-right: 10px;
 }
 
-#topHeader button:hover {
-  background-color: rgb(24, 24, 24);
+#topHeader button {
+  padding: 0.5vw;
+  margin: 2px;
+  margin-top: 10px;
 }
 
 #focusSession {
@@ -82,6 +113,11 @@ img {
 
 /* focusSideBarOn is in a media query */
 .focusSideBarOn {
+  left: 96vw;
+  width: 15vw;
+  height: 100vh;
+}
+.focusSideBarOn:hover {
   left: 85vw;
   width: 15vw;
   height: 100vh;
@@ -210,35 +246,20 @@ img {
   list-style-type: none;
 }
 
-#sections ul * {
+#sections ul {
   background-color: rgb(24, 25, 30);
   padding: 0.5vw;
   padding-left: 0;
   transition: 0.5s;
-  cursor: pointer;
   color: white;
-}
-
-#sections ul button {
-  width: calc(48px - 1vw);
-  height: calc(48px - 1vh);
-  font-size: 2ch;
-  text-align: center;
-}
-
-#sections ul button:hover {
-  background-color: rgb(34, 34, 47);
-}
-
-#sections ul *:hover::before {
-  padding-left: 2%;
+  border: solid rgba(54, 54, 72, 0.235) 2px;
 }
 
 #sections ul div {
   display: flex;
   align-items: center;
   border-style: inset;
-  border: solid rgb(90, 90, 90) 0.2ch;
+  border: none;
   /* word-wrap:break-word; */
   height: 6ch;
 }
@@ -258,11 +279,13 @@ img {
 #sections ul p {
   /* background-color: rgb(26, 25, 31); */
   padding: 0;
+  transition: 0.5s;
 }
 
 #sections ul p:hover {
   background-color: rgb(0, 0, 0);
   padding: 0.5vw;
+  border-radius: 2px;
 }
 
 #toolbar {
@@ -404,13 +427,18 @@ img {
   color: white;
 }
 
-.pane>button {
-  background-color: rgba(44, 41, 41, 0.813);
-  font-size: 1.9ch;
+.pane button {
+  width: calc(48px - 1vw);
+  height: calc(48px - 1vh);
+  font-size: 2ch;
+  text-align: center;
+  background-color: var(--button-color);
+  border: var(--button-border);
+  transition: 0.5s;
+  border-radius: var(--button-border-radius);
 }
-
-.pane>button:hover {
-  background-color: rgb(40, 40, 40);
+.pane button:hover {
+  background-color: var(--button-color-hover);
 }
 
 #sectionsItems {
@@ -480,55 +508,26 @@ img {
 }
 
 #startFocus {
-  background-color: rgb(14, 14, 14);
-  border: rgb(49, 49, 49);
-  cursor: pointer;
-  width: 6ch;
-  height: 6ch;
-  transition: 0.5s;
-  border-radius: 5px;
-  color: white;
-  border: solid black 2px;
-  font-size: 1.5ch;
+  text-align: center;
+  border-radius: 10px;
 }
 
 #startFocus:hover {
-  background-color: rgb(40, 40, 40);
   box-shadow: 5px 5px 2px rgb(14, 14, 28);
 }
 
 #exitFocus {
-  background-color: rgb(14, 14, 14);
-  border: rgb(49, 49, 49);
-  cursor: pointer;
-  width: 6ch;
-  height: 6ch;
-  transition: 0.5s;
-  border-radius: 5px;
+  text-align: center;
   color: rgb(255, 0, 0);
-  border: solid black 2px;
+  border-radius: 10px;
 }
 
 #exitFocus:hover {
-  background-color: rgb(40, 40, 40);
   box-shadow: 5px 5px 2px rgb(14, 14, 28);
 }
 
 #focusTimer button {
-  width: var(--button-width);
-  height: var(--button-height);
-  background-color: rgb(17, 15, 27);
-  border-radius: 2px;
-  color: white;
-  cursor: pointer;
-  transition: 0.2s;
-  border: solid rgb(90, 96, 114) 2px;
-  box-shadow: 2px 2px 1px #1b1f28;
-  font-family: 'Roboto', sans-serif;
-}
-
-#focusTimer button:hover {
-  background-color: rgb(20, 20, 30);
+  text-align: center;
 }
 
 #focusTimer input {
@@ -569,16 +568,12 @@ img {
 }
 
 #exitSettings {
-  background-color: rgb(14, 14, 14);
   border: rgb(49, 49, 49);
-  cursor: pointer;
   position: absolute;
   left: 85vw;
   top: 2vw;
-  transition: 0.5s;
   border-radius: 5px;
-  border: solid black 2px;
-  font-size: 2ch;
+  font-size: 2.5ch;
 }
 
 #exitSettings:hover {
@@ -590,17 +585,14 @@ img {
   margin-left: 2vw;
 }
 
-#settingsSidebar {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-}
-
 #settingsContent {
-  grid-column-start: 2;
-  grid-column-end: 6;
-  grid-row-start: 1;
-  grid-row-end: 2;
+  background-color: rgba(82, 82, 82, 0.498);
+  border-radius: 10px;
+  width: 50vw;
+  margin: 0;
+  position: fixed;
+  left: 30vw;
+  transition: 0.5s;
 }
 
 #settingsContent h1 {
@@ -616,22 +608,28 @@ img {
   margin-left: 2vw;
   margin-top: 30px;
   padding: 0;
-  grid-row-start: 1;
-  grid-row-end: 2;
-  grid-column-start: 1;
-  grid-column-end: 1;
+  width: fit-content;
+  background-color: rgba(82, 82, 82, 0.498);
+  border-radius: 10px;
+  margin-left: 10px;
+  position: fixed;
 }
 
 #settingsSidebar ul li {
-  width: 125px;
+  width: 25vw;
   height: 5ch;
   padding: 0.5vw;
   font-size: 2ch;
   margin-left: 0;
   cursor: pointer;
   border-radius: 10px;
-  background-color: rgb(8, 8, 9);
-  margin: 0;
+  background-color: rgb(24, 25, 30);
+  margin: 5px;
+  transition: 0.5s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.731);
 }
 
 #settingsSidebar ul li:hover {
