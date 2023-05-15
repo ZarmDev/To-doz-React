@@ -3,40 +3,42 @@
 :root {
   /* --button-width: 12ch; */
   --button-height: 5ch;
-  --button-color: rgba(28, 28, 28, 0.909);
-  --button-color-hover: rgba(97, 97, 97, 0.783);
-  --button-border: solid rgba(0, 0, 0, 0.053) 2px;
-  --button-border-hover: solid rgb(34, 34, 34) 2px;
+  --button-color: rgba(39, 33, 40, 0.909);
+  --button-color-hover: rgba(64, 53, 64, 0.783);
+  --button-border: solid rgba(54, 50, 75, 0.669) 2px;
+  --button-border-hover: solid rgba(162, 34, 143, 0.384) 2px;
   --button-border-radius: 6px;
-  --button-font-size: 2.3ch;
+  --button-font-size: 20px;
   --big-button-color: rgba(28, 30, 34, 0.824);
-  --big-button-color-hover: rgb(77, 77, 77);
-  --big-button-border: solid rgb(66, 66, 66) 2px;
-  --resize: 200px;
+  --big-button-color-hover: rgba(39, 23, 42, 0.402);
+  --big-button-border: solid rgba(54, 50, 75, 0.669) 2px;
+  --big-button-border-hover: solid rgba(162, 34, 143, 0.279) 2px;
+  --resize: 300px;
 }
 
 .themedButton {
   color: white;
-  width: calc(54px - 1vw);
-  height: calc(48px - 1vh);
   font-size: var(--button-font-size);
   background-color: var(--button-color);
   border: var(--button-border);
   transition: 0.5s;
   border-radius: var(--button-border-radius);
   cursor: pointer;
+  padding: 0.5vw;
+  text-align: center;
 }
 
 .themedButton:hover {
   background-color: var(--button-color-hover);
-  border: var(--button-border-hover)
+  border: var(--button-border-hover);
 }
 
 .bigThemedButton {
   color: white;
   background-color: var(--big-button-color);
-  /* border: var(--big-button-border); */
-  font-size: 2ch;
+  border: var(--big-button-border);
+  font-size: 1rem;
+  padding: 1ch;
   transition: 0.4s;
   border-radius: var(--button-border-radius);
   border: solid rgba(0, 0, 0, 0.055) 2px;
@@ -46,6 +48,8 @@
 .bigThemedButton:hover {
   background-color: var(--big-button-color-hover);
   border: var(--big-button-border);
+  /* x, y, blur, spread */
+  box-shadow: 0px 2px 0px 0px rgb(46, 44, 46);
 }
 
 body {
@@ -83,7 +87,6 @@ img {
 
 #topHeader>* {
   margin: 0;
-  padding: 0;
 }
 
 #topHeader h1 {
@@ -91,7 +94,6 @@ img {
 }
 
 #topHeader button {
-  padding: 0.5vw;
   margin: 2px;
   margin-top: 10px;
 }
@@ -210,10 +212,16 @@ img {
 }
 
 #sidebar .section button {
-  font-size: 100%;
+  font-size: 125%;
   margin: 0;
   padding: 0;
   position: relative;
+}
+.section button:hover {
+  margin: 0.2vw;
+}
+#sidebar .section button:hover {
+  margin: 1%;
 }
 
 /* For main page and section page */
@@ -227,7 +235,7 @@ img {
   padding-left: 1vw;
   padding: 0;
   margin: 0;
-  position: absolute;
+  position: fixed;
   z-index: 2;
   background-color: rgba(0, 0, 0, 0);
   border: none;
@@ -252,7 +260,7 @@ img {
   padding-left: 0;
   transition: 0.5s;
   color: white;
-  border: solid rgba(54, 54, 72, 0.235) 2px;
+  border: solid #3d2b49 2px;
 }
 
 #sections ul div {
@@ -300,7 +308,6 @@ img {
   font-weight: bold;
   cursor: pointer;
   transition: 0.2s;
-  background-color: var(--button-color);
   border: none;
   border-radius: 10px;
   margin: 1ch;
@@ -309,7 +316,7 @@ img {
 }
 
 #toolbar #add:hover {
-  background-color: rgb(33, 33, 49);
+  padding: 0.7vw;
 }
 
 #splashscreen {
@@ -330,7 +337,6 @@ img {
   font-weight: bold;
   cursor: pointer;
   transition: 0.2s;
-  background-color: var(--button-color);
   border: none;
   border-radius: 10px;
   margin: 1ch;
@@ -339,7 +345,7 @@ img {
 }
 
 #addPane:hover {
-  background-color: rgb(33, 33, 49);
+  padding: 0.7vw;
 }
 
 @keyframes animate {
@@ -406,6 +412,8 @@ img {
   text-align: center;
   color: white;
   transition: 0.5s;
+  border: solid #3d2b49 2px;
+  padding: 0.5vw;
 }
 
 .pane:hover {
@@ -425,20 +433,6 @@ img {
 .pane>pre {
   font-family: inherit;
   color: white;
-}
-
-.pane button {
-  width: calc(48px - 1vw);
-  height: calc(48px - 1vh);
-  font-size: 2ch;
-  text-align: center;
-  background-color: var(--button-color);
-  border: var(--button-border);
-  transition: 0.5s;
-  border-radius: var(--button-border-radius);
-}
-.pane button:hover {
-  background-color: var(--button-color-hover);
 }
 
 #sectionsItems {
@@ -510,6 +504,9 @@ img {
 #startFocus {
   text-align: center;
   border-radius: 10px;
+  margin-top: 5px;
+  font-size: 2.8ch;
+  width: 38px;
 }
 
 #startFocus:hover {
@@ -519,7 +516,7 @@ img {
 #exitFocus {
   text-align: center;
   color: rgb(255, 0, 0);
-  border-radius: 10px;
+  margin-top: 5px;
 }
 
 #exitFocus:hover {
@@ -530,12 +527,19 @@ img {
   text-align: center;
 }
 
-#focusTimer input {
-  width: 6ch;
+#focusMinutesInput {
+  font-size: 3ch;
+  width: 3ch;
+  height: 20px;
+  border-radius: 10px;
+  border: solid rgba(40, 21, 41, 0.621) 2px;
+  transition: 0.5s;
+  text-align: center;
 }
 
 #showSeconds {
   margin-bottom: 20px;
+  margin-left: 10px;
 }
 
 #settingsWindow {
@@ -568,17 +572,9 @@ img {
 }
 
 #exitSettings {
-  border: rgb(49, 49, 49);
   position: absolute;
   left: 85vw;
   top: 2vw;
-  border-radius: 5px;
-  font-size: 2.5ch;
-}
-
-#exitSettings:hover {
-  background-color: rgb(40, 40, 40);
-  box-shadow: 5px 5px 2px rgb(14, 14, 28);
 }
 
 #settingsWindow h1 {

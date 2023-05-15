@@ -22,7 +22,7 @@ class Timer extends React.Component {
                 focus: true,
                 time: this.state.time
             })
-            this.time = setInterval(this.countDown, 1000)
+            this.time = setInterval(this.countDown, 10)
         }
     }
     // 12 minutes == 720000
@@ -66,7 +66,6 @@ class Timer extends React.Component {
     }
 
     pauseTimer() {
-        console.log('test');
         clearInterval(this.time)
         this.setState({
             focus: false
@@ -87,7 +86,7 @@ class Timer extends React.Component {
                 <button className="themedButton" onClick={this.startTimer}>{'▶️'}</button>
                 <button className="themedButton" onClick={this.pauseTimer}>{'⏸️'}</button>
                 <p>Time to focus: </p>
-                <input disabled={this.state.focus} onChange={(event) => {this.getNumber(event.target.value)}} type="number"></input>
+                <input id="focusMinutesInput" disabled={this.state.focus} onChange={(event) => {this.getNumber(event.target.value)}} type="number"></input>
             </div>
         )
     }

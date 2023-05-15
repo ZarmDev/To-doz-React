@@ -1,5 +1,5 @@
 import React from 'react';
-import Customization from '../components/Settings components/Customization'
+import Customization from './Settings components/Customization'
 
 class Settings extends React.Component {
     constructor(props) {
@@ -24,7 +24,7 @@ class Settings extends React.Component {
         })
         return (
             <div id="settingsWindow">
-                <button className="bigThemedButton" onClick={this.exitSettings} id="exitSettings">❌</button>
+                <button className="themedButton" onClick={this.exitSettings} id="exitSettings">❌</button>
                 <h1>Settings</h1>
                 <div id="settingsSidebar">
                     <ul>
