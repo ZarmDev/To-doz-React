@@ -5,7 +5,7 @@ import SectionComp from './SectionComp';
 import FocusSession from '../components/FocusSession';
 import Settings from '../pages/Settings'
 
-let mobile = navigator.userAgentData.mobile;
+//let mobile = navigator.userAgentData.mobile;
 
 class Main extends React.Component {
     constructor(props) {
@@ -28,18 +28,18 @@ class Main extends React.Component {
         this.closeSettings = this.closeSettings.bind(this)
     }
     addPane() {
-        if (mobile == false) {
-            // Add on to existing list of items
-            if (this.state.items != '') {
-                this.setState({
-                    items: this.state.items.concat('·||pane')
-                })
-            } else {
-                this.setState({
-                    items: '||pane'
-                })
-            }
+        // if (mobile == false) {
+        // Add on to existing list of items
+        if (this.state.items != '') {
+            this.setState({
+                items: this.state.items.concat('·||pane')
+            })
+        } else {
+            this.setState({
+                items: '||pane'
+            })
         }
+        // }
     }
     editPane(value, isPinned) {
         if (isPinned == false) {
@@ -55,14 +55,16 @@ class Main extends React.Component {
             let filteredDescription = ''
             for (let i = 0; i < title.length; i++) {
                 if (!(title[i] == '·' || title[i] == '|')) {
-                    filterCheck = true
                     filteredTitle += title[i]
+                } else {
+                    filterCheck = true
                 }
             }
             for (let z = 0; z < description.length; z++) {
                 if (!(description[z] == '·' || description[z] == '|')) {
-                    filterCheck = true
                     filteredDescription += description[z]
+                } else {
+                    filterCheck = true
                 }
             }
             tempItems[value] = `${filteredTitle}|${filteredDescription}|${className}`;
@@ -85,14 +87,16 @@ class Main extends React.Component {
             let filteredDescription = ''
             for (let i = 0; i < title.length; i++) {
                 if (!(title[i] == '·' || title[i] == '|')) {
-                    filterCheck = true
                     filteredTitle += title[i]
+                } else {
+                    filterCheck = true
                 }
             }
             for (let z = 0; z < description.length; z++) {
                 if (!(description[z] == '·' || description[z] == '|')) {
-                    filterCheck = true
                     filteredDescription += description[z]
+                } else {
+                    filterCheck = true
                 }
             }
             tempItems[value] = `${filteredTitle}|${filteredDescription}|${className}`;

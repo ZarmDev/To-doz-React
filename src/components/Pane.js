@@ -41,7 +41,7 @@ class Pane extends React.Component {
         })
     }
     onDelete = () => {
-        this.props.deletePaneProp(this.props.unique)
+        this.props.deletePaneProp(this.props.unique, this.state.pinned)
     }
     onChange = (event) => {
         // Work in progress
@@ -74,10 +74,10 @@ class Pane extends React.Component {
                 </div>}
                 </div>}
                 {this.state.editing ? <div>
-                <div class="title">
+                <div className="title">
                 <h1 onBlur={(event) => {this.onEdit(event)}} onInput={(event) => {this.onChange(event)}} contentEditable="true" suppressContentEditableWarning={true} className="title newp">{title}</h1>
                 </div>
-                <div class="description">
+                <div className="description">
                 <p onBlur={(event) => {this.onEdit(event)}} onInput={(event) => {this.onChange(event)}} contentEditable="true" suppressContentEditableWarning={true} className="description newp">{description}</p>
                 </div>
                 </div> : 
