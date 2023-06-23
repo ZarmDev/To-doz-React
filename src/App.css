@@ -81,7 +81,7 @@
 }
 @keyframes popInEffect {
   from {padding: 0.1vw; font-size: 0.1ch}
-  to {padding: 0.5vw; font-size: var(--button-font-size)}
+  to {padding: 0.5ch; font-size: var(--button-font-size)}
 }
 .popOutEffect {
   animation-name: popOutEffect;

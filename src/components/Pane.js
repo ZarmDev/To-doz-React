@@ -81,8 +81,8 @@ class Pane extends React.Component {
                 <p onBlur={(event) => {this.onEdit(event)}} onInput={(event) => {this.onChange(event)}} contentEditable="true" suppressContentEditableWarning={true} className="description newp">{description}</p>
                 </div>
                 </div> : 
-                <div>
-                <ReactMarkdown className="title">{`## ${title}`}</ReactMarkdown><ReactMarkdown className="description">{description}</ReactMarkdown>
+                <div onClick={(event) => {this.onEdit(event)}}>
+                <div><ReactMarkdown className="title">{`## ${title}`}</ReactMarkdown><ReactMarkdown className="description">{description}</ReactMarkdown></div>
                 </div>}
                 </div>
         )
