@@ -1,5 +1,5 @@
 {
-  "name": "codespaces-react",
+  "name": "To-Doz",
   "version": "0.1.0",
   "homepage": "https://zarmdev.github.io/To-doz-React",
   "private": true,
@@ -7,8 +7,10 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
+    "marked": "^5.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-markdown": "^8.0.7",
     "react-redux": "^8.0.5",
     "react-scripts": "5.0.1",
     "redux": "^4.2.0",

@@ -25,9 +25,9 @@ class Settings extends React.Component {
         return (
             <div id="settingsWindow">
                 <button className="themedButton" onClick={this.exitSettings} id="exitSettings">❌</button>
-                <h1>Settings</h1>
                 <div id="settingsSidebar">
                     <ul>
+                    <h1 id="settingsWindowTitle">Settings</h1>
                         {settingsButton}
                     </ul>
                     {this.state.settingsState == 'Customization' ? <Customization></Customization> : <></>}

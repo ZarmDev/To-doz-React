@@ -5,13 +5,14 @@
   --button-height: 5ch;
   --button-color: rgba(39, 33, 40, 0.909);
   --button-color-hover: rgba(64, 53, 64, 0.783);
+  --button-color-clicked-hover: rgba(255, 0, 0, 0.135);
   --button-border: solid rgba(54, 50, 75, 0.669) 2px;
   --button-border-hover: solid rgba(162, 34, 143, 0.384) 2px;
   --button-border-radius: 6px;
   --button-font-size: 20px;
-  --big-button-color: rgba(28, 30, 34, 0.824);
+  --big-button-color: rgba(46, 26, 101, 0.44);
   --big-button-color-hover: rgba(39, 23, 42, 0.402);
-  --big-button-border: solid rgba(54, 50, 75, 0.669) 2px;
+  --big-button-border: #ff7f500d solid 2px;
   --big-button-border-hover: solid rgba(162, 34, 143, 0.279) 2px;
   --resize: 300px;
 }
@@ -24,7 +25,7 @@
   transition: 0.5s;
   border-radius: var(--button-border-radius);
   cursor: pointer;
-  padding: 0.5vw;
+  padding: 0.5ch;
   text-align: center;
 }
 
@@ -33,15 +34,26 @@
   border: var(--button-border-hover);
 }
 
+.themedButtonClicked {
+  color: white;
+  font-size: var(--button-font-size);
+  transition: 0.5s;
+  border-radius: var(--button-border-radius);
+  cursor: pointer;
+  padding: 0.5ch;
+  text-align: center;
+  background-color: var(--button-color-clicked-hover);
+  border: var(--button-border-hover);
+}
+
 .bigThemedButton {
   color: white;
   background-color: var(--big-button-color);
   border: var(--big-button-border);
-  font-size: 1rem;
-  padding: 1ch;
+  font-size: 1.8ch;
+  padding: 10px;
   transition: 0.4s;
   border-radius: var(--button-border-radius);
-  border: solid rgba(0, 0, 0, 0.055) 2px;
   cursor: pointer;
 }
 
@@ -50,6 +62,38 @@
   border: var(--big-button-border);
   /* x, y, blur, spread */
   box-shadow: 0px 2px 0px 0px rgb(46, 44, 46);
+}
+
+.fadeInEffect {
+  animation-name: fadeInEffect;
+  animation-duration: 1s;
+}
+
+@keyframes fadeInEffect {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+.popInEffect {
+  animation-name: popInEffect;
+  animation-duration: 0.5s;
+  animation-timing-function: cubic-bezier(0.49, 0.54, 0.01, 0.97);
+}
+@keyframes popInEffect {
+  from {padding: 0.1vw; font-size: 0.1ch}
+  to {padding: 0.5vw; font-size: var(--button-font-size)}
+}
+.popOutEffect {
+  animation-name: popOutEffect;
+  animation-duration: 0.1s;
+  animation-timing-function: cubic-bezier(-0.03, 0.8, 0.96, 0.47);
+  /* Would have used display but animation doesn't work */
+  visibility: hidden;
+  position: absolute;
+}
+@keyframes popOutEffect {
+  from {padding: 0.5vw; font-size: var(--button-font-size); visibility: visible; position: relative;}
+  to {padding: 0.1vw; font-size: 0.1ch;}
 }
 
 body {
@@ -100,7 +144,7 @@ img {
 
 #focusSession {
   position: fixed;
-  background-color: rgb(17, 17, 23);
+  background-color: rgb(9 9 27);
   z-index: 3;
   transition: 1s;
   text-align: center;
@@ -230,7 +274,8 @@ img {
 }
 
 #toggleSidebar {
-  font-size: 25px;
+  font-size: 30px;
+  opacity: 0.8;
   cursor: pointer;
   padding-left: 1vw;
   padding: 0;
@@ -319,6 +364,19 @@ img {
   padding: 0.7vw;
 }
 
+#pin {
+  display: inline;
+}
+
+#pinned {
+  text-align: center;
+}
+
+/* #pinnedPanes {
+  border: solid rgba(255, 0, 93, 0.301) 1px;
+  border-radius: 5px;
+} */
+
 #splashscreen {
   position: absolute;
   width: 100vw;
@@ -339,9 +397,8 @@ img {
   transition: 0.2s;
   border: none;
   border-radius: 10px;
-  margin: 1ch;
   color: white;
-  margin-top: 2ch;
+  margin-left: 40px;
 }
 
 #addPane:hover {
@@ -385,6 +442,7 @@ img {
   width: calc(100% - var(--resize));
   position: relative;
   left: calc(var(--resize));
+  margin-top: 7ch;
 }
 
 .fadeOutPane {
@@ -404,9 +462,43 @@ img {
   }
 }
 
+.pinnedPane {
+  background-color: black;
+  width: fit-content;
+  min-width: 150px;
+  height: fit-content;
+  border-radius: 5px;
+  text-align: center;
+  color: white;
+  transition: 0.5s;
+  border: solid #3d2b49 2px;
+  padding: 0.5vw;
+  border: solid rgba(255, 0, 0, 0.295) 1px;
+}
+
+.pinnedPane:hover {
+  background-color: rgb(8, 8, 16);
+}
+
+.pinnedPane .title * {
+  font-size: 3ch;
+  margin: 1vw;
+}
+
+.pinnedPane .description * {
+  font-size: 2ch;
+  text-align: center;
+}
+
+.pinnedPane >pre {
+  font-family: inherit;
+  color: white;
+}
+
 .pane {
   background-color: black;
   width: fit-content;
+  min-width: 150px;
   height: fit-content;
   border-radius: 5px;
   text-align: center;
@@ -420,12 +512,12 @@ img {
   background-color: rgb(8, 8, 16);
 }
 
-.pane .title {
+.pane .title * {
   font-size: 3ch;
-  margin: 0;
+  margin: 1vw;
 }
 
-.pane .description {
+.pane .description * {
   font-size: 2ch;
   text-align: center;
 }
@@ -445,15 +537,18 @@ img {
 }
 
 #themes {
-  background-image: url(https://images.unsplash.com/photo-1614850523011-8f49ffc73908?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80);
-  background-repeat: no-repeat;
-  background-size: cover;
+  /* background-image: url(https://images.unsplash.com/photo-1614850523011-8f49ffc73908?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80); */
+  /* background-repeat: no-repeat; */
+  /* background-size: cover; */
   position: absolute;
-  height: 25vw;
-  width: 75vw;
-  opacity: 0.5;
-  left: 15%;
-  top: 15%;
+  background-color: rgba(37, 29, 40, 0.888);
+  z-index: 2;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  top: 0;
+  left: 0;
 }
 
 #themeContainer {
@@ -462,15 +557,16 @@ img {
   /* filter: hue-rotate(75deg); */
   backdrop-filter: blur(10px);
   position: absolute;
-  left: 15%;
-  top: 15%;
+  z-index: 3;
+  padding-left: 15px;
 }
 
 #themeSelect {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 40px;
+  margin-bottom: 25px;
 }
 
 #themeContainer h1 {
@@ -480,9 +576,30 @@ img {
   z-index: 1;
 }
 
+#themeContainer p {
+  padding: 5px;
+  margin: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: rgb(255, 255, 255);
+  position: relative;
+  z-index: 1;
+}
+
+#changeLater {
+  color: rgba(105, 105, 105, 0.639) !important;
+}
+
+#themeContainer button {
+  padding: 5px;
+  margin-left: 20px;
+  position: relative;
+  z-index: 1;
+}
+
 #themeSelect div {
-  width: 10ch;
-  height: 6ch;
+  width: 20ch;
+  height: 12ch;
   background-color: rgba(0, 0, 0, 0.137);
   backdrop-filter: blur(20px);
   border-radius: 10px;
@@ -499,6 +616,9 @@ img {
   background-image: url('/darkmode.png');
   background-size: contain;
   background-repeat: no-repeat;
+}
+#otherSettings {
+
 }
 
 #startFocus {
@@ -528,13 +648,23 @@ img {
 }
 
 #focusMinutesInput {
-  font-size: 3ch;
-  width: 3ch;
-  height: 20px;
-  border-radius: 10px;
-  border: solid rgba(40, 21, 41, 0.621) 2px;
-  transition: 0.5s;
+  color: white;
+  font-size: var(--button-font-size);
+  background-color: var(--button-color);
+  border: var(--button-border);
+  /* transition: 0.5s; */
+  border-radius: var(--button-border-radius);
+  padding: 0.5vw;
   text-align: center;
+  width: 6ch;
+  height: 3ch;
+}
+#focusMinutesInput:hover {
+  background-color: var(--button-color-hover);
+  border: var(--button-border-hover);
+}
+#focusMinutesInput::-webkit-inner-spin-button, ::-webkit-outer-spin-button{
+  opacity: 0;
 }
 
 #showSeconds {
@@ -547,7 +677,7 @@ img {
   width: 100vw;
   height: 100vh;
   z-index: 6;
-  background-color: black;
+  background-color: rgb(9 9 27);
   animation: fadeIn;
   animation-duration: 0.5s;
   animation-iteration-count: 1;
@@ -563,7 +693,7 @@ img {
   }
 
   to {
-    background-color: black;
+    background-color: rgb(9 9 27);
     width: 100vw;
     height: 100vh;
     left: 0;
@@ -573,19 +703,34 @@ img {
 
 #exitSettings {
   position: absolute;
-  left: 85vw;
+  left: 90vw;
   top: 2vw;
 }
 
-#settingsWindow h1 {
-  margin-left: 2vw;
+#settingsWindowTitle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25vw;
+  height: 10%;
+  font-size: 3ch;
+  margin-left: 0;
+  cursor: default;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.037);
+  margin: 5px;
+  transition: 0.5s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgba(172, 185, 230, 0.998);
 }
 
 #settingsContent {
-  background-color: rgba(82, 82, 82, 0.498);
+  background-color: rgba(141, 148, 203, 0.297);
   border-radius: 10px;
-  width: 50vw;
-  margin: 0;
+  width: 65vw;
+  margin-top: 15vh;
   position: fixed;
   left: 30vw;
   transition: 0.5s;
@@ -593,6 +738,8 @@ img {
 
 #settingsContent h1 {
   margin-top: 30px;
+  margin-left: 2vw;
+  color: rgba(255, 255, 255, 0.763)
 }
 
 #settingsContent div {
@@ -601,31 +748,33 @@ img {
 
 #settingsSidebar ul {
   list-style-type: none;
-  margin-left: 2vw;
-  margin-top: 30px;
   padding: 0;
-  width: fit-content;
-  background-color: rgba(82, 82, 82, 0.498);
-  border-radius: 10px;
-  margin-left: 10px;
+  background-color: rgba(61, 93, 165, 0.498);
+  border-radius: 5px;
   position: fixed;
+  margin: 0;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 
 #settingsSidebar ul li {
   width: 25vw;
-  height: 5ch;
-  padding: 0.5vw;
+  height: 15%;
+  padding: 0.1vw;
   font-size: 2ch;
   margin-left: 0;
   cursor: pointer;
   border-radius: 10px;
-  background-color: rgb(24, 25, 30);
+  background-color: rgba(0, 0, 0, 0.221);
   margin: 5px;
   transition: 0.5s;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: rgba(255, 255, 255, 0.731);
+  color: rgba(172, 185, 230, 0.998);
+  min-height: 100px;
 }
 
 #settingsSidebar ul li:hover {

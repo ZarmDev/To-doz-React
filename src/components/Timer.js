@@ -1,6 +1,30 @@
 import { clear } from '@testing-library/user-event/dist/clear';
 import React from 'react'
 
+function notifyMe() {
+    const message = "You have completed your focus session. Nice job! 👍"
+    if (!("Notification" in window)) {
+      // Check if the browser supports notifications
+      alert("This browser does not support desktop notification");
+    } else if (Notification.permission === "granted") {
+      // Check whether notification permissions have already been granted;
+      // if so, create a notification
+      const notification = new Notification(message);
+      // …
+    } else if (Notification.permission !== "denied") {
+      // We need to ask the user for permission
+      Notification.requestPermission().then((permission) => {
+        // If the user accepts, let's create a notification
+        if (permission === "granted") {
+          const notification = new Notification(message);
+          // …
+        }
+      });
+    }
+  
+    // At last, if the user has denied notifications, and you
+    // want to be respectful there is no need to bother them anymore.
+  }
 class Timer extends React.Component {
     constructor(props) {
         super(props)
@@ -22,7 +46,7 @@ class Timer extends React.Component {
                 focus: true,
                 time: this.state.time
             })
-            this.time = setInterval(this.countDown, 10)
+            this.time = setInterval(this.countDown, 1000)
         }
     }
     // 12 minutes == 720000
@@ -39,6 +63,7 @@ class Timer extends React.Component {
             time: this.state.time -= 1000,
         })
         if (this.state.time == 0) {
+            notifyMe()
             this.setState({
                 time: 0,
                 focus: false
@@ -86,7 +111,7 @@ class Timer extends React.Component {
                 <button className="themedButton" onClick={this.startTimer}>{'▶️'}</button>
                 <button className="themedButton" onClick={this.pauseTimer}>{'⏸️'}</button>
                 <p>Time to focus: </p>
-                <input id="focusMinutesInput" disabled={this.state.focus} onChange={(event) => {this.getNumber(event.target.value)}} type="number"></input>
+                <input id="focusMinutesInput" autocomplete="off" disabled={this.state.focus} onChange={(event) => {this.getNumber(event.target.value)}} type="number"></input>
             </div>
         )
     }
