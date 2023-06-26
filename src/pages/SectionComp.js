@@ -46,6 +46,24 @@ class SectionComp extends React.Component {
     obj[newSectionName] = obj[oldSectionName];
     window.currentSection = newSectionName;
     localStorage.setItem('localItems', JSON.stringify(obj))
+
+    var sections = this.state.pinnedSections;
+    var sectionElements = document.getElementsByClassName('section');
+    var obj = JSON.parse(localStorage.getItem('localPinnedItems'));
+    // Data transfer
+    var data = obj[oldSectionName];
+    var newSectionName = sectionElements[index].getElementsByTagName('p')[0].innerText;
+    sections.splice(index, 1)
+    console.log(sections, index);
+    sections.splice(index, 0, newSectionName)
+    console.log(JSON.parse(localStorage.getItem('localPinnedItems')));
+    this.setState({
+      pinnedSections: sections
+    })
+    // transfer
+    obj[newSectionName] = obj[oldSectionName];
+    window.currentSection = newSectionName;
+    localStorage.setItem('localPinnedItems', JSON.stringify(obj))
     this.props.reset()
   }
   onDelete(value) {
@@ -54,6 +72,12 @@ class SectionComp extends React.Component {
     obj.splice(obj.indexOf(value), 1)
     this.setState({
       sections: obj
+    })
+
+    var obj = this.state.pinnedSections;
+    obj.splice(obj.indexOf(value), 1)
+    this.setState({
+      pinnedSections: obj
     })
   }
   goToSection(value) {
