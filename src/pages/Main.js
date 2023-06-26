@@ -109,6 +109,11 @@ class Main extends React.Component {
         }
     }
     deletePane(value, isPinned) {
+        // Note: Removed fadeOutPane because it's inefficient
+        // If the pane is not pinned and there is only one pane, don't delete it
+        if (!isPinned && this.state.items.split('·').length == 1) {
+            return false
+        }
         if (isPinned == false) {
             var tempItems = this.state.items.split('·')
             if (tempItems.length == 0) {
@@ -143,6 +148,7 @@ class Main extends React.Component {
     reset() {
         this.setState({
             items: JSON.parse(localStorage.getItem('localItems'))[window.currentSection],
+            pinned: JSON.parse(localStorage.getItem('localPinnedItems'))[window.currentSection],
             showSidebar: true
         })
     }
@@ -170,17 +176,33 @@ class Main extends React.Component {
         var tempItems = this.state.items.split('·')
         let item = tempItems.splice(value, 1)[0]
         item = item.split('|')
+        let lengthOfItems = this.state.items.split('·').length
         // If pinned is empty
+        console.log(lengthOfItems, this.state.items)
         if (this.state.pinned != '') {
-            this.setState({
-                items: tempItems.join('·'),
-                pinned: this.state.pinned.concat(`·${item[0]}|${item[1]}|pinnedPane`)
-            })
+            if (lengthOfItems == 1) {
+                this.setState({
+                    items: 'Unnamed pane|Description|pane',
+                    pinned: this.state.pinned.concat(`·${item[0]}|${item[1]}|pinnedPane`)
+                })
+            } else {
+                this.setState({
+                    items: tempItems.join('·'),
+                    pinned: this.state.pinned.concat(`·${item[0]}|${item[1]}|pinnedPane`)
+                })
+            }
         } else {
-            this.setState({
-                items: tempItems.join('·'),
-                pinned: `${item[0]}|${item[1]}|pinnedPane`
-            })
+            if (lengthOfItems == 1) {
+                this.setState({
+                    items: 'Unnamed pane|Description|pane',
+                    pinned: `${item[0]}|${item[1]}|pinnedPane`
+                })
+            } else {
+                this.setState({
+                    items: tempItems.join('·'),
+                    pinned: `${item[0]}|${item[1]}|pinnedPane`
+                })
+            }
         }
     }
     unPinProp(value) {
@@ -198,7 +220,6 @@ class Main extends React.Component {
         // SECURITY vulnerability, if you put · you can break the system...
         console.log(`Pinned: `, this.state.pinned);
         console.log(`Items: `, this.state.items);
-        // console.log(`-------------------------`);
         if (this.state.pinned != '') {
             var pinnedItems = this.state.pinned.split('·').map((item) => {
                 count++

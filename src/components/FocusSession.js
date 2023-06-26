@@ -1,6 +1,10 @@
 import React from 'react';
 import Timer from '../components/Timer.js'
 
+function addBlur(state) {
+  setTimeout(function () {document.getElementById('focusSession').className = `${document.getElementById('focusSession').className} window`}, 1000)
+}
+
 class FocusSession extends React.Component {
     constructor(props) {
       super(props)
@@ -11,8 +15,11 @@ class FocusSession extends React.Component {
       this.toggleSideBar = this.toggleSideBar.bind(this)
       this.exitFocus = this.exitFocus.bind(this)
     }
-
+    componentDidMount() {
+      addBlur(this.state.sideBarToggled)
+    }
     toggleSideBar() {
+      addBlur(this.state.sideBarToggled)
       this.setState({
         sideBarToggled: !this.state.sideBarToggled
       })

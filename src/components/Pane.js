@@ -8,7 +8,6 @@ class Pane extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            fading: false,
             editing: false,
             pinned: this.props.pinned
         }
@@ -46,27 +45,19 @@ class Pane extends React.Component {
     onChange = (event) => {
         // Work in progress
     }
-    fade = () => {
-        this.setState({
-            fading: true
-        })
-    }
     render () {
         var items = this.props.items.split('·')
         var title = items[0].split('|')[0];
         var description = items[0].split('|')[1];
         return (
-            <div className={this.state.fading ? `fadeOutPane ${items[0].split('|')[2]}` : items[0].split('|')[2]}>
+            <div className={`${items[0].split('|')[2]} paneStyle`}>
                 {this.state.editing ? <div>
                 <button className="themedButton popOutEffect">✏️</button>
                 <button className="themedButton popOutEffect">❌</button>
                 <button className="themedButton popInEffect" onClick={this.onSubmit}>✅</button>
                 </div> : <div>
                 <button className="themedButton" onClick={this.onEdit}>✏️</button>
-                <button className="themedButton" onClick={() => {
-                    this.fade()
-                    setTimeout(this.onDelete, 200)
-                }}>❌</button>
+                <button className="themedButton" onClick={this.onDelete}>❌</button>
                 {this.state.pinned ? <div id="pin">
                 <button className="themedButtonClicked" onClick={this.unPin}>📌</button>
                 </div> : <div id="pin">

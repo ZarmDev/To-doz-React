@@ -15,6 +15,7 @@
   --big-button-border: #ff7f500d solid 2px;
   --big-button-border-hover: solid rgba(162, 34, 143, 0.279) 2px;
   --resize: 300px;
+  --linearTheme: linear-gradient(rgba(26, 44, 79, 0.395), rgb(5, 36, 53));
 }
 
 .themedButton {
@@ -97,9 +98,24 @@
 }
 
 body {
+  background-image: url('../assets/blur.png');
   background-color: #282c34;
   color: white;
   overflow-x: hidden;
+}
+
+#splashscreen {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.454);
+  visibility: hidden;
+  margin: 0;
+  padding: 0;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  /* backdrop-filter: blur(30px); */
 }
 
 #sm {
@@ -144,7 +160,7 @@ img {
 
 #focusSession {
   position: fixed;
-  background-color: rgb(9 9 27);
+  background-color: rgb(9 9 27 / 63%);
   z-index: 3;
   transition: 1s;
   text-align: center;
@@ -162,6 +178,7 @@ img {
   left: 96vw;
   width: 15vw;
   height: 100vh;
+  backdrop-filter: none !important;
 }
 .focusSideBarOn:hover {
   left: 85vw;
@@ -209,6 +226,7 @@ img {
   padding: 0;
   font-size: 2.2ch;
   height: 100%;
+  background: var(--linearTheme);
   background-color: black;
   overflow-x: hidden;
   left: 0;
@@ -237,7 +255,6 @@ img {
 #sidebar .section {
   width: 95%;
   height: 10%;
-  background-color: rgb(15, 11, 16);
 }
 
 #sidebar .section * {
@@ -300,7 +317,7 @@ img {
 }
 
 #sections ul {
-  background-color: rgb(24, 25, 30);
+  background-color: rgba(24, 25, 30, 0.279);
   padding: 0.5vw;
   padding-left: 0;
   transition: 0.5s;
@@ -377,19 +394,6 @@ img {
   border-radius: 5px;
 } */
 
-#splashscreen {
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgb(0, 0, 0);
-  margin: 0;
-  padding: 0;
-  top: 0;
-  left: 0;
-  visibility: hidden;
-  z-index: 1;
-}
-
 #addPane {
   font-size: 3.5ch;
   font-weight: bold;
@@ -430,11 +434,6 @@ img {
   animation-timing-function: ease-in;
 }
 
-.Test {
-  opacity: 0;
-  transition: 1s;
-}
-
 #panesElements {
   display: flex;
   flex-wrap: wrap;
@@ -462,69 +461,39 @@ img {
   }
 }
 
+.paneStyle {
+  width: fit-content;
+  min-width: 150px;
+  height: fit-content;
+  border-radius: 5px;
+  text-align: center;
+  color: white;
+  transition: 0.5s;
+  border: solid #3d2b49 2px;
+  padding: 0.5vw;
+}
+
+.paneStyle:hover {
+  background-color: rgba(23, 23, 45, 0.564);
+}
+
+.paneStyle .title * {
+  font-size: 3ch;
+  margin: 1vw;
+}
+
+.paneStyle .description * {
+  font-size: 2ch;
+  text-align: center;
+}
+
+.paneStyle >pre {
+  font-family: inherit;
+  color: white;
+}
+
 .pinnedPane {
-  background-color: black;
-  width: fit-content;
-  min-width: 150px;
-  height: fit-content;
-  border-radius: 5px;
-  text-align: center;
-  color: white;
-  transition: 0.5s;
-  border: solid #3d2b49 2px;
-  padding: 0.5vw;
   border: solid rgba(255, 0, 0, 0.295) 1px;
-}
-
-.pinnedPane:hover {
-  background-color: rgb(8, 8, 16);
-}
-
-.pinnedPane .title * {
-  font-size: 3ch;
-  margin: 1vw;
-}
-
-.pinnedPane .description * {
-  font-size: 2ch;
-  text-align: center;
-}
-
-.pinnedPane >pre {
-  font-family: inherit;
-  color: white;
-}
-
-.pane {
-  background-color: black;
-  width: fit-content;
-  min-width: 150px;
-  height: fit-content;
-  border-radius: 5px;
-  text-align: center;
-  color: white;
-  transition: 0.5s;
-  border: solid #3d2b49 2px;
-  padding: 0.5vw;
-}
-
-.pane:hover {
-  background-color: rgb(8, 8, 16);
-}
-
-.pane .title * {
-  font-size: 3ch;
-  margin: 1vw;
-}
-
-.pane .description * {
-  font-size: 2ch;
-  text-align: center;
-}
-
-.pane>pre {
-  font-family: inherit;
-  color: white;
 }
 
 #sectionsItems {
@@ -677,7 +646,7 @@ img {
   width: 100vw;
   height: 100vh;
   z-index: 6;
-  background-color: rgb(9 9 27);
+  background-color: rgba(9, 9, 27, 0.765);
   animation: fadeIn;
   animation-duration: 0.5s;
   animation-iteration-count: 1;
@@ -779,4 +748,7 @@ img {
 
 #settingsSidebar ul li:hover {
   background-color: rgb(14, 14, 19);
+}
+.window {
+  backdrop-filter: blur(10px);
 }

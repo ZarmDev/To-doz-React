@@ -11,6 +11,8 @@ const toolbar = document.getElementById('toolbar');
 // Check if localItems is defined
 //localStorage.clear()
 
+// To keep track variables in the window
+
 var firstStartUp = undefined;
 
 if (localStorage.getItem('localItems') == undefined || Object.values(JSON.parse(localStorage.getItem('localItems')))[0] == '') {
@@ -48,10 +50,6 @@ function App() {
 
 var items = document.getElementsByClassName('pane');
 
-var allItems = ''
-var splitC = '·'
-console.log(localStorage.getItem('localItems'));
-
 // First start up
 
 window.onload = function () {
@@ -59,7 +57,10 @@ if (firstStartUp) {
   let hue = Math.floor(Math.random() * 360);
   document.getElementById('themes').style.filter = `hue-rotate(${hue}deg)`;
   let state = 0
-  setInterval(function() {
+  var hueChange = setInterval(function() {
+    if (document.getElementById('reactThemes').style.display == 'none') {
+      clearInterval(hueChange)
+    }
     if (state == 0) {
       hue += 1
       if (hue > 150) {

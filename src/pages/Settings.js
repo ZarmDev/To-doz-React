@@ -23,7 +23,7 @@ class Settings extends React.Component {
             return <li key={index} onClick={() => { this.goToSetting(item) }}>{item}</li>;
         })
         return (
-            <div id="settingsWindow">
+            <div id="settingsWindow" className="window">
                 <button className="themedButton" onClick={this.exitSettings} id="exitSettings">❌</button>
                 <div id="settingsSidebar">
                     <ul>
