@@ -117,7 +117,7 @@ class SectionComp extends React.Component {
         console.log(sectionsState[i])
         newObj2[sectionsState2[i]] = obj2[sectionsState[i]];
       } else {
-        newObj[sectionsState[i]] = window.paneStyle;
+        newObj[sectionsState[i]] = 'Unnamed pane|Description|pane';
         newObj2[sectionsState2[i]] = '';
       }
     }

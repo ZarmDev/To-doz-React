@@ -3,7 +3,7 @@
 :root {
   /* --button-width: 12ch; */
   --button-height: 5ch;
-  --button-color: rgba(39, 33, 40, 0.909);
+  --button-color: rgba(48, 43, 49, 0.792);
   --button-color-hover: rgba(64, 53, 64, 0.783);
   --button-color-clicked-hover: rgba(255, 0, 0, 0.135);
   --button-border: solid rgba(54, 50, 75, 0.669) 2px;

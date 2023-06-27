@@ -2,7 +2,7 @@ import React from 'react';
 import Timer from '../components/Timer.js'
 
 function addBlur(state) {
-  setTimeout(function () {document.getElementById('focusSession').className = `${document.getElementById('focusSession').className} window`}, 700)
+  setTimeout(function () {document.getElementById('focusSession').className = `${document.getElementById('focusSession').className} window`}, 500)
 }
 
 class FocusSession extends React.Component {
