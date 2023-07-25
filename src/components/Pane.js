@@ -3,6 +3,14 @@ import { unmountComponentAtNode } from 'react-dom';
 import ReactDOM from 'react-dom/client';
 import { marked } from 'marked';
 import ReactMarkdown from 'react-markdown'
+import rehypeRaw from 'rehype-raw'
+
+/*
+When you edit the pane and click submit, it will
+run this.props.editPaneProp(this.props.unique, this.state.pinned)
+which will run the editPane function in the Main component.
+
+*/
 
 class Pane extends React.Component {
     constructor(props) {
@@ -46,11 +54,14 @@ class Pane extends React.Component {
         // Work in progress
     }
     render () {
-        var items = this.props.items.split('·')
+        var items = this.props.items.split('·');
         var title = items[0].split('|')[0];
         var description = items[0].split('|')[1];
+
+        console.log(title, description)
+        //console.log(String.raw`${description}`, typeof description);
         return (
-            <div className={`${items[0].split('|')[2]} paneStyle`}>
+            <div className={`${items[0].split('|')[2]}`}>
                 {this.state.editing ? <div>
                 <button className="themedButton popOutEffect">✏️</button>
                 <button className="themedButton popOutEffect">❌</button>
@@ -64,16 +75,12 @@ class Pane extends React.Component {
                 <button className="themedButton" onClick={this.onPin}>📌</button>
                 </div>}
                 </div>}
-                {this.state.editing ? <div>
-                <div className="title">
-                <h1 onBlur={(event) => {this.onEdit(event)}} onInput={(event) => {this.onChange(event)}} contentEditable="true" suppressContentEditableWarning={true} className="title newp">{title}</h1>
-                </div>
-                <div className="description">
-                <p onBlur={(event) => {this.onEdit(event)}} onInput={(event) => {this.onChange(event)}} contentEditable="true" suppressContentEditableWarning={true} className="description newp">{description}</p>
-                </div>
-                </div> : 
-                <div onClick={(event) => {this.onEdit(event)}}>
-                <div><ReactMarkdown className="title">{`## ${title}`}</ReactMarkdown><ReactMarkdown className="description">{description}</ReactMarkdown></div>
+                {this.state.editing ? 
+                <div>
+                <h1 onInput={(event) => {this.onChange(event)}} contentEditable="true" suppressContentEditableWarning={true} className="title newp" dangerouslySetInnerHTML={{__html: title}}></h1>
+                <p onInput={(event) => {this.onChange(event)}} contentEditable="true" suppressContentEditableWarning={true} className="description newp" dangerouslySetInnerHTML={{__html: description}}></p>
+                </div> : <div onClick={(event) => {this.onEdit(event)}}>
+                <ReactMarkdown className="title" rehypePlugins={[rehypeRaw]} children={title}></ReactMarkdown><ReactMarkdown className="description" rehypePlugins={[rehypeRaw]} children={description}></ReactMarkdown>
                 </div>}
                 </div>
         )

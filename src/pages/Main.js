@@ -32,11 +32,11 @@ class Main extends React.Component {
         // Add on to existing list of items
         if (this.state.items != '') {
             this.setState({
-                items: this.state.items.concat('·||pane')
+                items: this.state.items.concat('·||pane paneStyle')
             })
         } else {
             this.setState({
-                items: '||pane'
+                items: '||pane paneStyle'
             })
         }
         // }
@@ -46,8 +46,8 @@ class Main extends React.Component {
             var tempItems = this.state.items.split('·')
             var panes = document.getElementsByClassName('pane');
             var currPane = panes[value]
-            let title = currPane.getElementsByClassName('title')[0].innerText;
-            let description = currPane.getElementsByClassName('description')[0].innerText;
+            let title = currPane.getElementsByClassName('title')[0].innerHTML;
+            let description = currPane.getElementsByClassName('description')[0].innerHTML;
             let className = currPane.className;
             //Filter out keywords: · and |
             let filterCheck = false
@@ -67,6 +67,7 @@ class Main extends React.Component {
                     filterCheck = true
                 }
             }
+            console.log(`${filteredTitle}|${filteredDescription}|${className}`)
             tempItems[value] = `${filteredTitle}|${filteredDescription}|${className}`;
             this.setState({
                 items: tempItems.join('·')
@@ -78,8 +79,8 @@ class Main extends React.Component {
             var tempItems = this.state.pinned.split('·')
             var panes = document.getElementsByClassName('pinnedPane');
             var currPane = panes[value]
-            let title = currPane.getElementsByClassName('title')[0].innerText;
-            let description = currPane.getElementsByClassName('description')[0].innerText;
+            let title = currPane.getElementsByClassName('title')[0].innerHTML;
+            let description = currPane.getElementsByClassName('description')[0].innerHTML;
             let className = currPane.className;
             //Filter out keywords: · and |
             let filterCheck = false
@@ -182,25 +183,25 @@ class Main extends React.Component {
         if (this.state.pinned != '') {
             if (lengthOfItems == 1) {
                 this.setState({
-                    items: 'Unnamed pane|Description|pane',
-                    pinned: this.state.pinned.concat(`·${item[0]}|${item[1]}|pinnedPane`)
+                    items: 'Unnamed pane|Description|pane paneStyle',
+                    pinned: this.state.pinned.concat(`·${item[0]}|${item[1]}|pinnedPane paneStyle`)
                 })
             } else {
                 this.setState({
                     items: tempItems.join('·'),
-                    pinned: this.state.pinned.concat(`·${item[0]}|${item[1]}|pinnedPane`)
+                    pinned: this.state.pinned.concat(`·${item[0]}|${item[1]}|pinnedPane paneStyle`)
                 })
             }
         } else {
             if (lengthOfItems == 1) {
                 this.setState({
-                    items: 'Unnamed pane|Description|pane',
-                    pinned: `${item[0]}|${item[1]}|pinnedPane`
+                    items: 'Unnamed pane|Description|pane paneStyle',
+                    pinned: `${item[0]}|${item[1]}|pinnedPane paneStyle`
                 })
             } else {
                 this.setState({
                     items: tempItems.join('·'),
-                    pinned: `${item[0]}|${item[1]}|pinnedPane`
+                    pinned: `${item[0]}|${item[1]}|pinnedPane paneStyle`
                 })
             }
         }
@@ -211,15 +212,15 @@ class Main extends React.Component {
         item = item.split('|')
         this.setState({
             pinned: tempItems.join('·'),
-            items: this.state.items.concat(`·${item[0]}|${item[1]}|pane`)
+            items: this.state.items.concat(`·${item[0]}|${item[1]}|pane paneStyle`)
         })
     }
     render() {
         // TEMPORARY solution, I am using count with the variable item for my key
         let count = -1
         // SECURITY vulnerability, if you put · you can break the system...
-        console.log(`Pinned: `, this.state.pinned);
-        console.log(`Items: `, this.state.items);
+        // console.log(`Pinned: `, this.state.pinned);
+        // console.log(`Items: `, this.state.items);
         if (this.state.pinned != '') {
             var pinnedItems = this.state.pinned.split('·').map((item) => {
                 count++

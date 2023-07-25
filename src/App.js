@@ -18,7 +18,7 @@ var firstStartUp = undefined;
 if (localStorage.getItem('localItems') == undefined || Object.values(JSON.parse(localStorage.getItem('localItems')))[0] == '') {
   // Create a object that has all the data of items (placeholder)
   let data = {
-    'Unnamed section': 'Unnamed pane|Do homework|pane',
+    'Unnamed section': 'Unnamed pane|Do homework|pane paneStyle',
   }
   localStorage.setItem('localItems', JSON.stringify(data))
   window.currentSection = Object.keys(JSON.parse(localStorage.getItem('localItems')))[0];

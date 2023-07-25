@@ -125,8 +125,8 @@ body {
 }
 
 img {
-  width: 5ch;
-  height: 5ch;
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
   cursor: pointer;
   background-color: white;
   border-radius: 20px;
@@ -405,10 +405,6 @@ img {
   margin-left: 40px;
 }
 
-#addPane:hover {
-  padding: 0.7vw;
-}
-
 @keyframes animate {
   0% {
     width: 0;
@@ -461,6 +457,22 @@ img {
   }
 }
 
+.title * {
+  font-weight: bold;
+  white-space: pre-wrap;
+  font-size: 4ch;
+  padding: 0;
+  margin: 15px !important;
+}
+
+.description * {
+  padding: 5px;
+  margin: 5px;
+  text-align: center;
+  padding: 0;
+  margin: 10px !important;
+}
+
 .paneStyle {
   width: fit-content;
   min-width: 150px;
@@ -475,21 +487,6 @@ img {
 
 .paneStyle:hover {
   background-color: rgba(23, 23, 45, 0.564);
-}
-
-.paneStyle .title * {
-  font-size: 3ch;
-  margin: 1vw;
-}
-
-.paneStyle .description * {
-  font-size: 2ch;
-  text-align: center;
-}
-
-.paneStyle >pre {
-  font-family: inherit;
-  color: white;
 }
 
 .pinnedPane {

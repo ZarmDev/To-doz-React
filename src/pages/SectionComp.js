@@ -105,7 +105,6 @@ class SectionComp extends React.Component {
     let sectionsState2 = this.state.pinnedSections
     // For pinned
     let obj2 = JSON.parse(localStorage.getItem('localPinnedItems'));
-    console.log(obj2, 'obj2')
     let newObj2 = {};
     for (var i = 0; i < sectionsState.length; i++) {
       // IF the object keys (ex: Unnamed Section) is not found in the localstorage, update it on the localstorage
@@ -114,10 +113,9 @@ class SectionComp extends React.Component {
         // console.log(newObj[sectionsState[i]], obj[sectionsState[i]]);
         newObj[sectionsState[i]] = obj[sectionsState[i]];
         // console.log(newObj2[sectionsState[i]], obj2[sectionsState[i]]);
-        console.log(sectionsState[i])
         newObj2[sectionsState2[i]] = obj2[sectionsState[i]];
       } else {
-        newObj[sectionsState[i]] = 'Unnamed pane|Description|pane';
+        newObj[sectionsState[i]] = 'Unnamed pane|Description|pane paneStyle';
         newObj2[sectionsState2[i]] = '';
       }
     }
