@@ -1,25 +1,22 @@
-![Alt text](https://github.com/ZarmDev/To-doz-React/blob/main/Surface%20Book.png?raw=true)
-
 # To-doz-React
-A to-do list site that ACTUALLY helps you get things done.
+**Temporary note: I'm trying to rewrite this project in Redux right now, with good React practices (previously hooks weren't being used and there was a lot of bad practice which could easily be sovled using Redux)**
+It will probably take a while :(
+
+A to-do list site that helps you get things done.
 # Who is this for?
 People who want to start a routine mostly, but you can also use it for projects.
 If you have ever used duolingo, this site has a similar streak system.
 # Contributing
-You can contribute anytime!
-**IF YOU ARE A COMPLETE BEGINNER**
-**You can do: **
-
+Contributions are welcome! Just send a pull request.
+# First time
 1.Download NPM
 
 2.Get VSCODE (or a editor)
 
-3.Open folder with this project (download)
+3.Open the downloaded folder
 
 4.Open up the terminal
 
 5.Enter ``npm run start``
 
-6.Now use it in your web browser
-
-If you have no idea how to open react projects or NPM (I don't either), you can use github codespaces or you can just go to repl.it and make a new project from github (clone it)
+6.It will be launched on localhost (in your browser)
