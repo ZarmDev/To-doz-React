@@ -4,7 +4,6 @@
 It will probably take a while :(
 
 **I also want to use a database feature where you can have a unique random generated username and a random generated password (to make sure any data breached isn't important)
-
 or i'll just usegoogle auth like a normal person**
 
 A to-do list site that helps you get things done.
