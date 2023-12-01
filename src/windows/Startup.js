@@ -27,14 +27,21 @@ function notifyMe() {
     // want to be respectful there is no need to bother them anymore.
   }
 
-class Themes extends React.Component {
+class Startup extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            order: 'themes'
+            order: 'welcomeScreen'
         }
+        this.allowCookies = this.allowCookies.bind(this)
         this.selectedTheme = this.selectedTheme.bind(this)
         this.allowNotifications = this.allowNotifications.bind(this)
+    }
+
+    allowCookies() {
+        this.setState({
+            order: 'themes'
+        })
     }
 
     selectedTheme(event) {
@@ -58,15 +65,36 @@ class Themes extends React.Component {
     }
 
     start() {
-        document.getElementById('reactThemes').style.display = 'none'
+        document.getElementById('firstStartUpWindow').style.display = 'none'
     }
 
     render() {
         return(
-            <div id="reactThemes">
+            <div id="firstStartUpWindow">
             <div id="themes">
             </div>
             <div id="themeContainer">
+            {this.state.order == 'welcomeScreen' ? <div className="fadeInEffect">
+                <h1>Welcome to To-Doz-React!</h1>
+                <p>What is this project? It's a to-do list application which:
+                </p>
+                <ol>
+                    <li>Is easy to use</li>
+                    <li>Similar to to-do applications like notion</li>
+                    <li>Is all in your browser (No logging/signing up neccesary)</li>
+                </ol> <br></br>
+                <p>Why was it made? For convience and because I couldn't find any
+                    to-do applications that fit my needs.
+                </p>
+                <p>Before we start, this website uses <a href="https://www.freecodecamp.org/news/web-storage-localstorage-vs-sessionstorage-in-javascript/" target="_blank">localstorage</a> which is basically
+                the equivalent to cookies.
+                This localstorage is neccesary for the website to function because
+                the site will literally not save your to-do's without it.
+                So, by using this site you agree to allow localstorage.
+                </p>
+                <br></br>
+                <button className="bigThemedButton" onClick={this.allowCookies}>Let's go!</button>
+            </div> : <></>}
             {this.state.order == 'themes' ? <div className="fadeInEffect">
             <h1>Choose a theme:</h1>
             <p id="changeLater">(You can change this later.)</p>
@@ -81,7 +109,7 @@ class Themes extends React.Component {
                     <p>More coming soon...</p>
                 </div>
             </div>
-            <button onClick={this.start} className="bigThemedButton">Skip all</button>
+            <button onClick={this.start} className="bigThemedButton">Skip personalization</button>
             </div> : <></>}
             {this.state.order == 'notifications' ? <div id="notifications" className="fadeInEffect">
                 <h1>Notification settings:</h1>
@@ -105,4 +133,4 @@ class Themes extends React.Component {
     }
 }
 
-export default Themes;
+export default Startup;

@@ -1,8 +1,16 @@
 import React from 'react';
 import { unmountComponentAtNode } from 'react-dom';
 import ReactDOM from 'react-dom/client';
-import Section from '../components/Section'
-import PinTitle from '../components/PinTitle';
+import Section from '../components/sectionComponents/Section'
+import PinTitle from '../components/settingsComponents/PinTitle';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+function undoSectionEdit(oldName, index) {
+  let sectionElements = document.getElementsByClassName('section');
+  sectionElements[index].getElementsByTagName('p')[0].innerText = oldName;
+}
+
 class SectionComp extends React.Component {
   constructor(props) {
     super(props)
@@ -29,12 +37,36 @@ class SectionComp extends React.Component {
     })
   }
   onEdit(index, oldSectionName) {
-    let sections = this.state.sections;
+    // First, make sure that the name isn't too long
+    // Also, in the future "sanitize" the name just in case...
     let sectionElements = document.getElementsByClassName('section');
+    let newSectionName = sectionElements[index].getElementsByTagName('p')[0].innerText;
+    // Just in case you HAD a long section name before the update, it will change it for you
+    if (oldSectionName.length > 50) {
+      // Synthetically change the new section name
+      newSectionName = 'Unnamed section';
+      toast("Your section name was reseted because it was too long")
+    }
+    else if (newSectionName.length > 50) {
+      toast("Section name is too long!");
+      // Undo the edit
+      undoSectionEdit(oldSectionName, index)
+      return false
+    } else if (newSectionName == '') {
+      toast("You can't have an empty section name!");
+      undoSectionEdit(oldSectionName, index)
+      return false
+    } else if (newSectionName == oldSectionName) {
+      // toast("It's the same name...")
+      // return false to prevent the data transfer for no reason
+      return false
+    }
+    /**
+     * Transfer data for the localItems
+     */
+    let sections = this.state.sections;
     let obj = JSON.parse(localStorage.getItem('localItems'));
     // Data transfer
-    let data = obj[oldSectionName];
-    let newSectionName = sectionElements[index].getElementsByTagName('p')[0].innerText;
     sections.splice(index, 1)
     sections.splice(index, 0, newSectionName)
     this.setState({
@@ -46,8 +78,10 @@ class SectionComp extends React.Component {
     localStorage.setItem('localItems', JSON.stringify(obj))
 
     let sections2 = this.state.pinnedSections;
-    let sectionElements2 = document.getElementsByClassName('section');
     let obj2 = JSON.parse(localStorage.getItem('localPinnedItems'));
+    /**
+     * Transfer data for the localPinnedItems
+     */
     // Data transfer
     sections2.splice(index, 1)
     sections2.splice(index, 0, newSectionName)
@@ -129,7 +163,7 @@ class SectionComp extends React.Component {
             {pinnedItems}
           </div>
         </div> : <></>} */}
-        <div id="toolbar">
+        <div id="sectionToolbar">
           <button id="add" className="themedButton" onClick={this.add}>+</button>
         </div>
         <div id="sections">
@@ -137,6 +171,18 @@ class SectionComp extends React.Component {
             {elementItems}
           </ul>
         </div>
+        <ToastContainer
+          position="bottom-right"
+          autoClose={2500}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+        />
       </div>
     );
   }

@@ -10,20 +10,15 @@ function notifyMe() {
       // Check whether notification permissions have already been granted;
       // if so, create a notification
       const notification = new Notification(message);
-      // …
     } else if (Notification.permission !== "denied") {
       // We need to ask the user for permission
       Notification.requestPermission().then((permission) => {
         // If the user accepts, let's create a notification
         if (permission === "granted") {
           const notification = new Notification(message);
-          // …
         }
       });
     }
-  
-    // At last, if the user has denied notifications, and you
-    // want to be respectful there is no need to bother them anymore.
   }
 class Timer extends React.Component {
     constructor(props) {
@@ -31,7 +26,8 @@ class Timer extends React.Component {
         this.state = {
             time: 0,
             focus: false,
-            checked: false
+            checked: false,
+            timerId: null
         }
 
         this.startTimer = this.startTimer.bind(this);
@@ -40,25 +36,27 @@ class Timer extends React.Component {
         this.showSeconds = this.showSeconds.bind(this);
         this.pauseTimer = this.pauseTimer.bind(this);
     }
+    // Clears the interval if component is removed
+    componentWillUnmount() {
+        clearInterval(this.state.time)
+    }
     startTimer() {
-        if (this.state.time != 0) {
+        if (this.state.time != 0 && this.state.focus == false) {
             this.setState({
-                focus: true,
-                time: this.state.time
+                focus: true
             })
-            this.time = setInterval(this.countDown, 1000)
+            this.state.timerId = setInterval(this.countDown, 1000)
+            console.log(this.state.timerId);
         }
     }
-    // 12 minutes == 720000
-    // * 60000 = 60 seconds in a minute * 1000 for each second
-    // 12 seconds == 12000
-    // convert to miliseconds
-    // to get seconds, divide by 100
-    // to get minutes, divide by 1000
-    // to get seconds, divide by 10000
 
     countDown() {
-        console.log(this.state);
+        const totalSeconds = Math.round(this.state.time / 1000);
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+        // this.state.checked is for checking if seconds should be shown
+        const timeInString = `${String(minutes)} minutes and ${String(seconds)} seconds`;
+        console.log(timeInString);
         this.setState({
             time: this.state.time -= 1000,
         })
@@ -68,12 +66,11 @@ class Timer extends React.Component {
                 time: 0,
                 focus: false
             })
-            clearInterval(this.time)
+            clearInterval(this.state.timerId)
         }
     }
 
     getNumber(event) {
-        console.log(event);
         let newNum = event;
         // convert to miliseconds
         newNum = newNum * 60000;
@@ -83,7 +80,6 @@ class Timer extends React.Component {
     }
 
     showSeconds(event) {
-        console.log(event.target.checked)
         let isChecked = event.target.checked;
         this.setState({
             checked: isChecked
@@ -91,16 +87,18 @@ class Timer extends React.Component {
     }
 
     pauseTimer() {
-        clearInterval(this.time)
+        clearInterval(this.state.timerId)
         this.setState({
             focus: false
         })
+        console.log(this.state);
     }
 
     render () {
         const totalSeconds = Math.round(this.state.time / 1000);
         const minutes = Math.floor(totalSeconds / 60);
         const seconds = totalSeconds % 60;
+        // this.state.checked is for checking if seconds should be shown
         const timeInString = this.state.checked ? `${String(minutes)} minutes and ${String(seconds)} seconds` : `${String(minutes)}`;
         document.title = timeInString;
         return (

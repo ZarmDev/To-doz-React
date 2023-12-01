@@ -10,12 +10,84 @@
   --button-border-hover: solid rgba(162, 34, 143, 0.384) 2px;
   --button-border-radius: 6px;
   --button-font-size: 20px;
-  --big-button-color: rgba(46, 26, 101, 0.44);
+  --big-button-color: rgba(107, 110, 122, 0.342);
   --big-button-color-hover: rgba(39, 23, 42, 0.402);
-  --big-button-border: #ff7f500d solid 2px;
-  --big-button-border-hover: solid rgba(162, 34, 143, 0.279) 2px;
-  --resize: 300px;
+  --big-button-border: #9090c387 solid 2px;
+  --big-button-border-radius: 10px;
+  --big-button-border-effect: rgba(125, 105, 40, 0.422);
+  --big-button-border-hover: solid rgba(162, 34, 143, 0.194) 2px;
+  --simple-button-color: rgba(103, 81, 107, 0.94);
+  --simple-button-color-hover: rgba(153, 122, 165, 0.514);
+  --simple-button-border: #ff7f5018 solid 1px;
+  --simple-button-border-radius: 15px;
+  --simple-button-border-effect: rgba(125, 105, 40, 0.422);
+  --simple-button-border-hover: solid rgba(162, 34, 143, 0.194) 2px;
+  /* Used to calculate how the layout should respond when sidebar opens */
+  --resize: 400px;
   --linearTheme: linear-gradient(rgba(26, 44, 79, 0.395), rgb(5, 36, 53));
+  --tool-background-color: rgba(23, 23, 36, 0.943);
+}
+
+/* Media query for computers */
+@media screen and (min-width: 768px) {
+
+}
+
+/* Generally smaller screens */
+@media screen and (max-width: 1000px) {
+  /* body {
+    overflow: scroll;
+  } */
+
+  #panesElements {
+    left: 0 !important;
+    width: auto !important;
+  }
+
+  #topbar {
+    left: 0 !important;
+  }
+
+  .focusSideBarOn {
+    left: 75vw;
+    width: 25vw;
+    height: 100vh;
+  }
+}
+/* Mobile screen (PORTRAIT MODE) */
+@media screen and (max-width: 800px) {
+  #topHeader h1 {
+    display: none;
+  }
+}
+/* Mobile screen (NOT PORTRAIT MODE) */
+@media screen and (max-width: 500px) {
+  #topHeader h1 {
+    display: none;
+  }
+  #toolbar button {
+    min-width: 100px !important;
+    width: 200px;
+    font-size: 15px;
+    height: 1vh;
+    padding: 1px;
+    margin: 0;
+  }
+  #toolbar button:nth-child(1) {
+    margin-left: 18ch;
+  }
+  /* Hide all the other elements */
+  .focusSideBarOn > * {
+    display: none;
+  }
+  /* Show the minimizer button and the time */
+  #startFocus {
+    display: inline;
+  }
+  /* Better font size for mobile */ 
+  .paneStyle .description {
+    font-size: 2.5ch;
+  }
 }
 
 .themedButton {
@@ -28,6 +100,7 @@
   cursor: pointer;
   padding: 0.5ch;
   text-align: center;
+  min-height: 45px;
 }
 
 .themedButton:hover {
@@ -51,17 +124,51 @@
   color: white;
   background-color: var(--big-button-color);
   border: var(--big-button-border);
-  font-size: 1.8ch;
-  padding: 10px;
+  font-size: 2ch;
+  /* padding: 1vh; */
+  min-width: 12ch;
+  min-height: 50px;
+  height: 4ch;
+  /* width: 16ch; */
   transition: 0.4s;
-  border-radius: var(--button-border-radius);
+  border-radius: var(--big-button-border-radius);
   cursor: pointer;
+  box-shadow: 2px 2px 1px 0px rgba(18, 57, 88, 0.251);
 }
 
 .bigThemedButton:hover {
+  animation-name: conicBorderEffect;
+  animation-duration: 1s;
   background-color: var(--big-button-color-hover);
   border: var(--big-button-border);
   /* x, y, blur, spread */
+  box-shadow: 0px 2px 0px 0px rgb(46, 44, 46);
+}
+
+@keyframes conicBorderEffect {
+  0% {border-top-color: var(--big-button-border-effect)}
+  25% {border-right-color: var(--big-button-border-effect); border-top-color: none;}
+  50% {border-bottom-color: var(--big-button-border-effect); border-right-color: none;}
+  75% {border-left-color: var(--big-button-border-effect); border-bottom-color: none;}
+  100% {border: var(--big-button-border)}
+}
+
+.simpleThemedButton {
+  color: white;
+  background-color: var(--simple-button-color);
+  border: var(--simple-button-border);
+  font-size: 1.6ch;
+  width: 5ch;
+  height: 5ch;
+  transition: 0.4s;
+  border-radius: var(--simple-button-border-radius);
+  cursor: pointer;
+  box-shadow: 2px 2px 1px 0px rgba(18, 57, 88, 0.251);
+  font-weight: bolder;
+}
+.simpleThemedButton:hover {
+  background-color: var(--simple-button-color-hover);
+  border: var(--simple-button-border);
   box-shadow: 0px 2px 0px 0px rgb(46, 44, 46);
 }
 
@@ -74,27 +181,22 @@
   from {opacity: 0;}
   to {opacity: 1;}
 }
-
+/* Delay animation by 0.05s so the other popOutEffect will take 0.05s and popInEffect follows after */
 .popInEffect {
   animation-name: popInEffect;
-  animation-duration: 0.5s;
-  animation-timing-function: cubic-bezier(0.49, 0.54, 0.01, 0.97);
+  animation-duration: 0.1s;
+  animation-timing-function: ease-in-out;
+  /* animation-timing-function: cubic-bezier(0.49, 0.54, 0.01, 0.97); */
 }
 @keyframes popInEffect {
-  from {padding: 0.1vw; font-size: 0.1ch}
-  to {padding: 0.5ch; font-size: var(--button-font-size)}
+  from {padding: 0.1vw; font-size: 0.01ch; opacity: 0; z-index: 4;}
+  to {padding: 0.5ch; font-size: var(--button-font-size); opacity: 1;}
 }
 .popOutEffect {
-  animation-name: popOutEffect;
-  animation-duration: 0.1s;
-  animation-timing-function: cubic-bezier(-0.03, 0.8, 0.96, 0.47);
+  z-index: -1;
   /* Would have used display but animation doesn't work */
   visibility: hidden;
   position: absolute;
-}
-@keyframes popOutEffect {
-  from {padding: 0.5vw; font-size: var(--button-font-size); visibility: visible; position: relative;}
-  to {padding: 0.1vw; font-size: 0.1ch;}
 }
 
 body {
@@ -118,12 +220,6 @@ body {
   /* backdrop-filter: blur(30px); */
 }
 
-#sm {
-  margin: 5px;
-  color: rgba(255, 255, 255, 0.272);
-  cursor: pointer;
-}
-
 img {
   width: -webkit-fill-available;
   height: -webkit-fill-available;
@@ -145,28 +241,36 @@ img {
   padding: 0;
 }
 
+#toolbar {
+  display: flex;
+  align-items: center;
+  margin-left: 2%;
+  overflow-x: hidden;
+}
+
+#toolbar button {
+  min-width: 150px;
+  max-width: 25ch;
+  /* top | left and right | bottom */
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
 #topHeader>* {
   margin: 0;
 }
 
 #topHeader h1 {
-  margin-right: 10px;
-}
-
-#topHeader button {
-  margin: 2px;
-  margin-top: 10px;
+  margin-right: 2x;
+  padding: 0;
+  font-size: 200%;
+  /* Fixes the problem with the toolbar moving left and right arrows */
+  width: fit-content;
 }
 
 #focusSession {
-  position: fixed;
-  background-color: rgb(9 9 27 / 63%);
-  z-index: 3;
   transition: 1s;
   text-align: center;
-  animation: fadeIn;
-  animation-duration: 0.5s;
-  animation-iteration-count: 1;
 }
 
 #focusSession h1 {
@@ -188,29 +292,10 @@ img {
 
 .focusSideBarOff {
   /* left: 0; */
-  width: 100vw;
-  height: 100vh;
 }
 
 #main {
   margin-left: 4vw;
-}
-
-@media screen and (max-width: 1000px) {
-  #panesElements {
-    left: 0 !important;
-    width: auto !important;
-  }
-
-  #topbar {
-    left: 0 !important;
-  }
-
-  .focusSideBarOn {
-    left: 75vw;
-    width: 25vw;
-    height: 100vh;
-  }
 }
 
 .sidebarOff {
@@ -228,7 +313,6 @@ img {
   height: 100%;
   background: var(--linearTheme);
   background-color: black;
-  overflow-x: hidden;
   left: 0;
   width: var(--resize);
   border-radius: 10px;
@@ -240,6 +324,7 @@ img {
   animation-name: firstOpenSidebar;
   animation-duration: 0.5s;
   animation-iteration-count: 1;
+  overflow-x: auto;
 }
 
 @keyframes firstOpenSidebar {
@@ -358,14 +443,14 @@ img {
   border-radius: 2px;
 }
 
-#toolbar {
+#sectionToolbar {
   display: flex;
   position: relative;
   justify-content: center;
   align-items: center;
 }
 
-#toolbar #add {
+#sectionToolbar #add {
   font-size: 3.5ch;
   font-weight: bold;
   cursor: pointer;
@@ -377,7 +462,7 @@ img {
   margin-top: 2ch;
 }
 
-#toolbar #add:hover {
+#sectionToolbar #add:hover {
   padding: 0.7vw;
 }
 
@@ -388,11 +473,6 @@ img {
 #pinned {
   text-align: center;
 }
-
-/* #pinnedPanes {
-  border: solid rgba(255, 0, 93, 0.301) 1px;
-  border-radius: 5px;
-} */
 
 #addPane {
   font-size: 3.5ch;
@@ -457,20 +537,29 @@ img {
   }
 }
 
+.title {
+  margin: 20px;
+  font-size: 4ch;
+}
+
 .title * {
   font-weight: bold;
   white-space: pre-wrap;
-  font-size: 4ch;
-  padding: 0;
-  margin: 15px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.description {
+  margin: 20px;
+  font-size: 2ch;
 }
 
 .description * {
   padding: 5px;
   margin: 5px;
   text-align: center;
-  padding: 0;
-  margin: 10px !important;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
 .paneStyle {
@@ -479,7 +568,7 @@ img {
   height: fit-content;
   border-radius: 5px;
   text-align: center;
-  color: white;
+  /* color: white; */
   transition: 0.5s;
   border: solid #3d2b49 2px;
   padding: 0.5vw;
@@ -490,7 +579,7 @@ img {
 }
 
 .pinnedPane {
-  border: solid rgba(255, 0, 0, 0.295) 1px;
+  border: 1px solid rgb(192 59 59);
 }
 
 #sectionsItems {
@@ -500,6 +589,7 @@ img {
 
 .section {
   text-align: center;
+  overflow: hidden;
 }
 
 #themes {
@@ -509,8 +599,6 @@ img {
   position: absolute;
   background-color: rgba(37, 29, 40, 0.888);
   z-index: 2;
-  width: 100vw;
-  height: 100vh;
   margin: 0;
   padding: 0;
   top: 0;
@@ -535,6 +623,10 @@ img {
   margin-bottom: 25px;
 }
 
+#themeContainer div {
+  font-size: 2ch;
+}
+
 #themeContainer h1 {
   padding: 5px;
   margin: 5px;
@@ -557,7 +649,6 @@ img {
 }
 
 #themeContainer button {
-  padding: 5px;
   margin-left: 20px;
   position: relative;
   z-index: 1;
@@ -578,19 +669,16 @@ img {
   padding: 1vw;
 }
 
-#themeSelect div:nth-child(2) {
-  background-image: url('/darkmode.png');
+/* #themeSelect div:nth-child(2) {
+  background-image: url('./assets/dark-mode.png');
   background-size: contain;
   background-repeat: no-repeat;
-}
-#otherSettings {
-
-}
+} */
 
 #startFocus {
   text-align: center;
   border-radius: 10px;
-  margin-top: 5px;
+  margin-top: 35px;
   font-size: 2.8ch;
   width: 38px;
 }
@@ -599,10 +687,10 @@ img {
   box-shadow: 5px 5px 2px rgb(14, 14, 28);
 }
 
-#exitFocus {
-  text-align: center;
-  color: rgb(255, 0, 0);
-  margin-top: 5px;
+.exitToolButton {
+  position: absolute;
+  left: 90vw;
+  top: 2vw;
 }
 
 #exitFocus:hover {
@@ -639,38 +727,8 @@ img {
 }
 
 #settingsWindow {
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
-  z-index: 6;
-  background-color: rgba(9, 9, 27, 0.765);
-  animation: fadeIn;
-  animation-duration: 0.5s;
-  animation-iteration-count: 1;
-}
-
-@keyframes fadeIn {
-  from {
-    background-color: rgb(37, 37, 37);
-    width: 90vw;
-    height: 90vh;
-    left: 5vw;
-    top: 5vh;
-  }
-
-  to {
-    background-color: rgb(9 9 27);
-    width: 100vw;
-    height: 100vh;
-    left: 0;
-    top: 0;
-  }
-}
-
-#exitSettings {
-  position: absolute;
-  left: 90vw;
-  top: 2vw;
+  /* 4 so it's higher than the focus session */
+  z-index: 4;
 }
 
 #settingsWindowTitle {
@@ -723,6 +781,7 @@ img {
   display: flex;
   justify-content: center;
   flex-direction: column;
+  overflow-y: auto;
 }
 
 #settingsSidebar ul li {
@@ -740,12 +799,69 @@ img {
   justify-content: center;
   align-items: center;
   color: rgba(172, 185, 230, 0.998);
-  min-height: 100px;
+  min-height: 50px;
 }
 
 #settingsSidebar ul li:hover {
   background-color: rgb(14, 14, 19);
 }
-.window {
-  backdrop-filter: blur(10px);
+
+@keyframes fadeIn {
+  from {
+    backdrop-filter: none;
+    background-color: rgba(37, 37, 37, 0.132);
+    width: 90vw;
+    height: 90vh;
+    left: 5vw;
+    top: 5vh;
+  }
+
+  to {
+    background-color: var(--tool-background-color);
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    top: 0;
+  }
+}
+
+.tool {
+  animation: fadeIn;
+  animation-duration: 0.5s;
+  background-color: var(--tool-background-color);
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  z-index: 3;
+  /* TODO Backdrop filter is disabled on mobile to save energy */
+
+  /* TODO Implement a backdrop filter thingy, prob using useEffect() */
+}
+#showLess {
+  position: relative;
+  margin-left: 10px;
+  margin-right: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#showMore {
+  position: absolute;
+  left: 85vw;
+  margin-right: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#grades {
+  text-align: center;
+}
+#dashboard {
+  text-align: center;
+}
+.x-Button {
+  border: solid rgba(255, 0, 0, 0.198) 2px;
+}
+.pin-Button {
+  border: #a34b4b4d solid 2px;
 }

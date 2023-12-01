@@ -1,17 +1,10 @@
 import React, { useState } from 'react'
-import ReactDOM from 'react-dom'
 import './App.css';
-import SectionComp from './pages/SectionComp'
-import Main from './pages/Main'
-import Themes from './components/Themes'
+import SectionComp from './windows/Sections.js'
+import Main from './windows/Main.js'
+import Startup from './windows/Startup.js'
 
 const body = document.getElementsByTagName('body')[0];
-const toolbar = document.getElementById('toolbar');
-
-// Check if localItems is defined
-//localStorage.clear()
-
-// To keep track variables in the window
 
 var firstStartUp = undefined;
 
@@ -36,45 +29,64 @@ if (localStorage.getItem('localPinnedItems') == undefined) {
   localStorage.setItem('localPinnedItems', JSON.stringify(data))
 }
 
-// Call root.unmount(); on Themes if neccessary
-
 function App() {
-  const [loading, setLoading] = useState("true")
+  const [loading, setLoading] = useState(true);
+  const [unsavedContent, setContent] = useState(false);
+
+  const isDark = window.matchMedia("(prefers-color-scheme:dark)").matches;
+
+  window.onbeforeunload = (event) => {
+    if (unsavedContent) {
+      event.preventDefault();
+      event.returnValue = 'You have unsaved panes';
+    }
+  };
+
   return (
     <>
-      {firstStartUp ? <Themes></Themes> : <></>}
-      {loading ? <SectionComp parentCallback={setLoading} /> : <Main parentCallback={setLoading}></Main>}
+      {firstStartUp ? <Startup></Startup> : <></>}
+      {loading ? <SectionComp parentCallback={setLoading} /> : <Main saveContentCallback={setContent} parentCallback={setLoading}></Main>}
     </>
   );
 }
 
-var items = document.getElementsByClassName('pane');
-
-// First start up
+// CSS Effects :)
 
 window.onload = function () {
-if (firstStartUp) {
-  let hue = Math.floor(Math.random() * 360);
-  document.getElementById('themes').style.filter = `hue-rotate(${hue}deg)`;
-  let state = 0
-  var hueChange = setInterval(function() {
-    if (document.getElementById('reactThemes').style.display == 'none') {
-      clearInterval(hueChange)
-    }
-    if (state == 0) {
-      hue += 1
-      if (hue > 150) {
-        state = 1
-      }
-    } else if (state == 1) {
-      hue -= 1
-      if (hue < -150) {
-        state = 0
-      }
-    }
+  // Startup effect (the background color)
+  if (firstStartUp) {
+    let hue = Math.floor(Math.random() * 360);
     document.getElementById('themes').style.filter = `hue-rotate(${hue}deg)`;
-  }, 100)
+    let state = 0
+    var hueChange = setInterval(function() {
+      if (document.getElementById('firstStartUpWindow').style.display == 'none') {
+        clearInterval(hueChange)
+      }
+      if (state == 0) {
+        hue += 1
+        if (hue > 150) {
+          state = 1
+        }
+      } else if (state == 1) {
+        hue -= 1
+        if (hue < -150) {
+          state = 0
+        }
+      }
+      document.getElementById('themes').style.filter = `hue-rotate(${hue}deg)`;
+    }, 100)
+  }
+  // Add "time elapsed" since you opened the PWA - referenced in Dashboard in tools folder
+  let startTime = Date.now();
+  setInterval(function() {
+    let timeElapsed = Date.now() - startTime;
+    let seconds = Math.floor(timeElapsed / 1000);
+    let minutes = Math.floor(seconds / 60);
+    let hours = Math.floor(minutes / 60);
+
+    window.elapsedTime = `${hours} hours, ${minutes % 60} minutes and ${seconds % 60} seconds`;
+  }, 1000)
 }
-}
+
 
 export default App;
