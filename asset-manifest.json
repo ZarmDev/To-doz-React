@@ -1,17 +1,16 @@
 {
   "files": {
-    "main.css": "/To-doz-React/static/css/main.523934c6.css",
-    "main.js": "/To-doz-React/static/js/main.b0b4c9ba.js",
+    "main.css": "/To-doz-React/static/css/main.8b0d917f.css",
+    "main.js": "/To-doz-React/static/js/main.c4e1a5a9.js",
     "static/js/787.7cb4383c.chunk.js": "/To-doz-React/static/js/787.7cb4383c.chunk.js",
     "static/media/blur.png": "/To-doz-React/static/media/blur.a7fae9546de8b9f6a4be.png",
-    "static/media/darkmode.png": "/To-doz-React/static/media/darkmode.c83e9b61ee15c4cb4e24.png",
     "index.html": "/To-doz-React/index.html",
-    "main.523934c6.css.map": "/To-doz-React/static/css/main.523934c6.css.map",
-    "main.b0b4c9ba.js.map": "/To-doz-React/static/js/main.b0b4c9ba.js.map",
+    "main.8b0d917f.css.map": "/To-doz-React/static/css/main.8b0d917f.css.map",
+    "main.c4e1a5a9.js.map": "/To-doz-React/static/js/main.c4e1a5a9.js.map",
     "787.7cb4383c.chunk.js.map": "/To-doz-React/static/js/787.7cb4383c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.523934c6.css",
-    "static/js/main.b0b4c9ba.js"
+    "static/css/main.8b0d917f.css",
+    "static/js/main.c4e1a5a9.js"
   ]
 }
