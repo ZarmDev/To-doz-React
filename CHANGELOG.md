@@ -1,0 +1,25 @@
+Version 1.0.0:
+- Added changelog + completely revamped startup screen
+- New! Tutorial on first startup
+- If you delete a section, a prompt will need to be filled out
+- Added tinymce keyboard integration (if you provide an api key)
+- Started using Redux (for the settings, specifically)
+- Added spotify integration to focus session
+- Fixed some bugs
+- ❗Added API key settings
+- Added time elapsed in dashboard and planning to add more data to dashboard
+- Added backup before "updating" To-Doz
+- Added option to permanently keep sidebar open
+- Removed MANY unneccesary libraries -> Reduced by 100mb
+- ❗Switched focus session from using setInterval -> using time elapsed
+- ❗"Stopwatch" time yourself until a certain time (ex: 5:00pm)
+- ❗Allow user to add a break every x amount of time
+- ❗Allow user to change break amount of time in settings
+- ❗Allow user to change focus session to progress bar
+- ❗Added option to start from last section
+- Redesigned focus session for the billionith time
+- Security: Don't store sensitive data in local storage, use cookies instead
+- May have leaked some secrets...
+- Add long term and short term panes
+- Sub-sections
+- Add panes that are automatically added every x amount of

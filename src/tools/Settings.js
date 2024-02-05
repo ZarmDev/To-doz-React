@@ -1,10 +1,10 @@
 import React from 'react';
-import Customization from '../components/settingsComponents/Customization.js'
-import Data from '../components/settingsComponents/Data.js'
-import Features from '../components/settingsComponents/Features.js'
-import Themes from '../components/settingsComponents/Themes.js'
+import Customization from '../components/pageComponents/settingsComponents/Customization.js'
+import Data from '../components/pageComponents/settingsComponents/Data.js'
+import Features from '../components/pageComponents/settingsComponents/Features.js'
+import Themes from '../components/pageComponents/settingsComponents/Themes.js'
 
-const settingsList = ['Features', 'Customization', 'Data', 'Themes', 'Scripts']
+const settingsList = ['Features', 'Customization', 'Themes', 'Scripts', 'API Keys']
 
 class Settings extends React.Component {
     constructor(props) {

@@ -10,3 +10,7 @@ Cannot format text! And when pasting text, it can be in very unreadable colors/f
 
 The left arrow to move around the toolbar buttons will move around itself
 and be hard to click
+
+When you undo deleting the first pane, it breaks...
+
+When editing pane and going to another section, the editing persists on the corresponding pane

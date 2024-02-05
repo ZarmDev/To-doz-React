@@ -16,8 +16,8 @@
   --big-button-border-radius: 10px;
   --big-button-border-effect: rgba(125, 105, 40, 0.422);
   --big-button-border-hover: solid rgba(162, 34, 143, 0.194) 2px;
-  --simple-button-color: rgba(103, 81, 107, 0.94);
-  --simple-button-color-hover: rgba(153, 122, 165, 0.514);
+  --simple-button-color: rgba(75, 79, 154, 0.495);
+  --simple-button-color-hover: rgba(74, 102, 186, 0.514);
   --simple-button-border: #ff7f5018 solid 1px;
   --simple-button-border-radius: 15px;
   --simple-button-border-effect: rgba(125, 105, 40, 0.422);
@@ -73,9 +73,6 @@
     padding: 1px;
     margin: 0;
   }
-  #toolbar button:nth-child(1) {
-    margin-left: 18ch;
-  }
   /* Hide all the other elements */
   .focusSideBarOn > * {
     display: none;
@@ -101,11 +98,19 @@
   padding: 0.5ch;
   text-align: center;
   min-height: 45px;
+  height: 2ch;
 }
 
 .themedButton:hover {
   background-color: var(--button-color-hover);
   border: var(--button-border-hover);
+}
+
+.paneToolbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
 }
 
 .themedButtonClicked {
@@ -158,7 +163,7 @@
   background-color: var(--simple-button-color);
   border: var(--simple-button-border);
   font-size: 1.6ch;
-  width: 5ch;
+  width: 6ch;
   height: 5ch;
   transition: 0.4s;
   border-radius: var(--simple-button-border-radius);
@@ -175,6 +180,7 @@
 .fadeInEffect {
   animation-name: fadeInEffect;
   animation-duration: 1s;
+  margin-right: 40px;
 }
 
 @keyframes fadeInEffect {
@@ -202,7 +208,8 @@
 body {
   background-image: url('../assets/blur.png');
   background-color: #282c34;
-  color: white;
+  /* Bad practice */
+  /* color: white; */
   overflow-x: hidden;
 }
 
@@ -239,6 +246,7 @@ img {
   align-items: center;
   margin: 0;
   padding: 0;
+  color: white;
 }
 
 #toolbar {
@@ -271,6 +279,32 @@ img {
 #focusSession {
   transition: 1s;
   text-align: center;
+  /* overflow-y: scroll; */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+/* only buttons one level down */
+#focusSession > button {
+  position: absolute;
+}
+
+#focusSession #spotifyPart {
+  display: grid;
+  padding: 0 20px;
+  border: solid black 4px;
+  overflow-y: scroll;
+}
+#focusSession #focusPart {
+  display: inline;
+  margin-top: 20vh;
+}
+
+#focusSession input {
+  border-radius: 5px;
+  text-align: center;
+  font-size: 30px;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 #focusSession h1 {
@@ -279,14 +313,20 @@ img {
 
 /* focusSideBarOn is in a media query */
 .focusSideBarOn {
-  left: 96vw;
+  left: 90vw;
   width: 15vw;
   height: 100vh;
   backdrop-filter: none !important;
+  display: flex !important;
+  justify-content: center;
+  transition: 0.5s !important;
+}
+.focusSideBarOn #startFocus {
+  position: absolute;
 }
 .focusSideBarOn:hover {
-  left: 85vw;
-  width: 15vw;
+  left: 65vw;
+  width: 40vw;
   height: 100vh;
 }
 
@@ -376,7 +416,7 @@ img {
 }
 
 #toggleSidebar {
-  font-size: 30px;
+  font-size: 35px;
   opacity: 0.8;
   cursor: pointer;
   padding-left: 1vw;
@@ -572,6 +612,7 @@ img {
   transition: 0.5s;
   border: solid #3d2b49 2px;
   padding: 0.5vw;
+  color: white;
 }
 
 .paneStyle:hover {
@@ -596,23 +637,39 @@ img {
   /* background-image: url(https://images.unsplash.com/photo-1614850523011-8f49ffc73908?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80); */
   /* background-repeat: no-repeat; */
   /* background-size: cover; */
-  position: absolute;
+  position: fixed;
   background-color: rgba(37, 29, 40, 0.888);
   z-index: 2;
   margin: 0;
   padding: 0;
   top: 0;
   left: 0;
+  width: 100vw;
+  height: 100vh;
+  opacity: 0.4;
 }
 
 #themeContainer {
   background-size: cover;
   border-radius: 10px;
-  /* filter: hue-rotate(75deg); */
   backdrop-filter: blur(10px);
-  position: absolute;
+  position: fixed;
   z-index: 3;
   padding-left: 15px;
+  width: 100vw;
+  height: 100vh;
+  word-wrap: break-word;
+  text-align: center;
+}
+/* #themeContainer ul {
+  list-style-type: none;
+} */
+#themeContainerNext {
+  position: absolute;
+  left: 85vw;
+  top: 90vh;
+  z-index: 3;
+  background-color: rgb(46, 50, 58);
 }
 
 #themeSelect {
@@ -628,20 +685,50 @@ img {
 }
 
 #themeContainer h1 {
-  padding: 5px;
-  margin: 5px;
+  position: relative;
+  z-index: 1;
+}
+#themeContainer h2 {
   position: relative;
   z-index: 1;
 }
 
 #themeContainer p {
-  padding: 5px;
-  margin: 5px;
   margin-top: 10px;
   margin-bottom: 10px;
   color: rgb(255, 255, 255);
   position: relative;
   z-index: 1;
+}
+
+#changeLogWindow {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 50px;
+}
+
+.markdown {
+  background-color: rgba(0, 0, 0, 0.137);
+  backdrop-filter: blur(20px);
+  border-radius: 10px;
+  padding: 10px;
+  width: 40vw;
+  height: 80vh;
+  margin: 2vw;
+  overflow-y: auto;
+  z-index: 1;
+  position: fixed;
+  gap: 50px;
+}
+/* Where the filename is */
+.markdown div {
+  background-color: #282c34;
+  padding: 10px;
+}
+.markdownBehind {
+  opacity: 0.1;
 }
 
 #changeLater {
@@ -650,8 +737,6 @@ img {
 
 #themeContainer button {
   margin-left: 20px;
-  position: relative;
-  z-index: 1;
 }
 
 #themeSelect div {
@@ -676,16 +761,19 @@ img {
 } */
 
 #startFocus {
+  position: relative;
   text-align: center;
   border-radius: 10px;
-  margin-top: 35px;
   font-size: 2.8ch;
   width: 38px;
+  left: 2vw;
+  margin-top: 2vw;
 }
 
-#startFocus:hover {
+/* unneccesary effect */
+/* #startFocus:hover {
   box-shadow: 5px 5px 2px rgb(14, 14, 28);
-}
+} */
 
 .exitToolButton {
   position: absolute;
@@ -833,6 +921,7 @@ img {
   height: 100vh;
   position: fixed;
   z-index: 3;
+  color: white;
   /* TODO Backdrop filter is disabled on mobile to save energy */
 
   /* TODO Implement a backdrop filter thingy, prob using useEffect() */
@@ -864,4 +953,7 @@ img {
 }
 .pin-Button {
   border: #a34b4b4d solid 2px;
+}
+#firstStartUpWindow {
+  color: white;
 }

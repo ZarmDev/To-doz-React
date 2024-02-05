@@ -96,3 +96,27 @@ Make sure to investigate the inputs and make sure they are all secure
 
 Add a template which lets you have divContainers of subjects
 chosen by the user and have panes under those subjects
+
+Pane deleted shouldn't run when theres one pane left
+
+Add section button that lets you keep the sidebar open forever
+
+Add scroll down to bottom
+
+Go to section you were last on on startup
+
+Integrate Dashboard spotify into focus session
+
+Let user give their key to use the tinymce editor
+
+Use the time elapsed from dashboard.js to update the time elapsed in the focus session since focus session is terrible practice
+
+Change manifest.json
+
+Maybe add a way to have To-Doz only load 50 panes at the maximum and load rest when user scrolls to bottom/top
+
+Add a way to have a progress bar for each pane
+
+Copy notion
+
+Compress images if user uploads images (It takes SO Long to load!!!)

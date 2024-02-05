@@ -6,3 +6,5 @@ Very few accessibility features
 Performance issues:
 
 Redux isn't being used yet is imported
+
+tinymce api key 😭

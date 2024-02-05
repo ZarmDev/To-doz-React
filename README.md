@@ -1,18 +1,15 @@
 # To-doz-React
-**Temporary note: I'm trying to rewrite this project in Redux right now, with good React practices (previously hooks weren't being used and there was a lot of bad practice which could easily be sovled using Redux)**
-
-It will probably take a while :(
-
-**I also want to use a database feature where you can have a unique random generated username and a random generated password (to make sure any data breached isn't important)
-or i'll just usegoogle auth like a normal person**
-
-A to-do list site that helps you get things done.
+**Note: Although this project is made in React, in many components, it does NOT use
+function components or React hooks (although in some places it's slowly being implemented).**
+# What is this?
+A to-do list I made originally to learn React, but now has a lot more features and even
+helped me through my school years 💪
 # Who is this for?
 People who want to start a routine mostly, but you can also use it for projects.
 If you have ever used duolingo, this site has a similar streak system.
 # Contributing
 Contributions are welcome! Just send a pull request.
-# First time
+# First time users
 1.Download NPM
 
 2.Get VSCODE (or a editor)

@@ -93,8 +93,14 @@ class Timer extends React.Component {
         })
         console.log(this.state);
     }
-
     render () {
+        /**
+         * setInterval(() => {
+        setElapsed(performance.now())
+      }, 1000) let totalSeconds = elapsed / 1000;
+      let hours = Math.floor(totalSeconds / 3600);
+      let minutes = Math.floor((totalSeconds - (hours * 3600)) / 60);
+      let seconds = Math.floor(totalSeconds % 60); */
         const totalSeconds = Math.round(this.state.time / 1000);
         const minutes = Math.floor(totalSeconds / 60);
         const seconds = totalSeconds % 60;

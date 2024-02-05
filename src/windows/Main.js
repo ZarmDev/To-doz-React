@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import Pane from '../components/mainComponents/Pane';
+import React from 'react';
+import Pane from '../components/pageComponents/mainComponents/Pane';
 import Sections from '../windows/Sections';
 import FocusSession from '../tools/FocusSession';
 import Settings from '../tools/Settings';
@@ -11,13 +10,29 @@ import 'react-toastify/dist/ReactToastify.css';
 
 var mobile = window.matchMedia("(max-width: 800px)").matches;
 var toolbarOffset = 0;
+
+const Undo = ({ onUndo, closeToast }) => {
+    const handleClick = () => {
+        onUndo();
+        closeToast();
+    };
+
+    return (
+        <div>
+            <h3>
+                Pane deleted <button className="themedButton" onClick={() => {handleClick()}}>UNDO</button>
+            </h3>
+        </div>
+    );
+};
+
 class Main extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             pinned: JSON.parse(localStorage.getItem('localPinnedItems'))[window.currentSection],
             items: JSON.parse(localStorage.getItem('localItems'))[window.currentSection],
-            showSidebar: false,
+            showSidebar: localStorage.getItem('sidebarIsAlwaysOpen') ? true : false,
             // Which tool is open ex: focussession, settings, grades
             toolOpen: false,
             // if we need a scrollbar (too much buttons)
@@ -57,13 +72,15 @@ class Main extends React.Component {
             })
         }
     }
-    editPane(unique, isPinned) {
+    editPane(unique, isPinned, textValue) {
         if (isPinned == false) {
             var tempItems = this.state.items.split('·')
             var panes = document.getElementsByClassName('pane');
             var currPane = panes[unique]
-            let title = currPane.getElementsByClassName('title')[0].innerHTML;
-            let description = currPane.getElementsByClassName('description')[0].innerHTML;
+            // let title = currPane.getElementsByClassName('title')[0].innerHTML;
+            // let description = currPane.getElementsByClassName('description')[0].innerHTML;
+            let title = textValue[0];
+            let description = textValue[1];
             let className = currPane.className;
             //Filter out keywords: · and |
             let filterCheck = false
@@ -95,8 +112,10 @@ class Main extends React.Component {
             var tempItems = this.state.pinned.split('·')
             var panes = document.getElementsByClassName('pinnedPane');
             var currPane = panes[unique]
-            let title = currPane.getElementsByClassName('title')[0].innerHTML;
-            let description = currPane.getElementsByClassName('description')[0].innerHTML;
+            // let title = currPane.getElementsByClassName('title')[0].innerHTML;
+            // let description = currPane.getElementsByClassName('description')[0].innerHTML;
+            let title = textValue[0];
+            let description = textValue[1];
             let className = currPane.className;
             //Filter out keywords: · and |
             let filterCheck = false
@@ -148,11 +167,17 @@ class Main extends React.Component {
                 return false
             }
             let removedItem = tempItems.splice(unique, 1);
+            console.log(removedItem, tempItems);
             this.setState({
                 pinned: tempItems.join('·'),
                 lastDeletedPane: removedItem[0]
             })
         }
+        toast(<Undo onUndo={() => {this.undoDelete(unique, isPinned)}} />, {
+            // hook will be called whent the component unmount
+            // onClose: () => console.log('test')
+        });
+        return true
     }
     toggleSidebar() {
         if (this.state.showSidebar == true) {
@@ -165,6 +190,7 @@ class Main extends React.Component {
             })
         }
     }
+    // I don't exactly remember why I made this, but its to rerender everything
     reset() {
         this.setState({
             items: JSON.parse(localStorage.getItem('localItems'))[window.currentSection],
@@ -191,11 +217,13 @@ class Main extends React.Component {
         console.log(lengthOfItems, this.state.items)
         if (this.state.pinned != '') {
             if (lengthOfItems == 1) {
+                console.log(1123123);
                 this.setState({
                     items: 'Unnamed pane|Description|pane paneStyle',
                     pinned: this.state.pinned.concat(`·${item[0]}|${item[1]}|pinnedPane paneStyle`)
                 })
             } else {
+                console.log(290123901239219);
                 this.setState({
                     items: tempItems.join('·'),
                     pinned: this.state.pinned.concat(`·${item[0]}|${item[1]}|pinnedPane paneStyle`)
@@ -292,6 +320,8 @@ class Main extends React.Component {
             var pinnedItems = this.state.pinned.split('·').map((item) => {
                 count++
                 return (
+                    // Why are there so many props pointing to the parent of main?
+                    // I think I messed up here
                     <Pane
                         key={count}
                         saveContentCallback={this.props.saveContentCallback}
@@ -300,7 +330,7 @@ class Main extends React.Component {
                         unPinProp={(unique) => { this.unPinProp(unique) }}
                         editPaneProp={(unique, pinned) => { this.editPane(unique, pinned) }}
                         deletePaneProp={(unique, pinned) => { this.deletePane(unique, pinned) }}
-                        undoDelete={(unique, pinned) => {this.undoDelete(unique, pinned)}}
+                        undoDelete={(unique, pinned) => { this.undoDelete(unique, pinned) }}
                         items={item}
                         unique={count}
                     ></Pane>
@@ -318,9 +348,9 @@ class Main extends React.Component {
                         pinned={false}
                         pinProp={(unique) => { this.pinProp(unique) }}
                         unPinProp={(unique) => { this.unPinProp(unique) }}
-                        editPaneProp={(unique, pinned) => { this.editPane(unique, pinned) }}
+                        editPaneProp={(unique, pinned, textValue) => { this.editPane(unique, pinned, textValue) }}
                         deletePaneProp={(unique, pinned) => { this.deletePane(unique, pinned) }}
-                        undoDelete={(unique) => {this.undoDelete(unique)}}
+                        undoDelete={(unique) => { this.undoDelete(unique) }}
                         items={item}
                         unique={count}
                     ></Pane>
@@ -343,27 +373,34 @@ class Main extends React.Component {
         } else if (this.state.toolOpen == 'settings') {
             currentToolOpen = <Settings exitTool={() => { this.closeTool('settings') }}></Settings>
         } else if (this.state.toolOpen == 'grades') {
-            currentToolOpen = <Grades exitTool={() => {this.closeTool('grades')}}></Grades>
+            currentToolOpen = <Grades exitTool={() => { this.closeTool('grades') }}></Grades>
         } else if (this.state.toolOpen == 'dashboard') {
-            currentToolOpen = <Dashboard exitTool={() => {this.closeTool('dashboard')}}></Dashboard>
+            currentToolOpen = <Dashboard exitTool={() => { this.closeTool('dashboard') }}></Dashboard>
         }
+        let test = localStorage.getItem('sidebarIsAlwaysOpen');
         return (
             <div id="panes">
+                {/* Which "tool" or "window" is open */}
                 {currentToolOpen}
-                <button onClick={this.toggleSidebar} className={this.state.showSidebar ? 'sidebarOnToggle' : 'sidebarOffToggle'} id="toggleSidebar">{this.state.showSidebar ? '>' : '<'}</button>
+                {/* If the sidebar should be always open */}
+                {test == 'true' ? <div>
+                <div id="sidebar">
+                    <Sections reset={this.reset}></Sections>
+                </div></div> : <div><button onClick={this.toggleSidebar} className={this.state.showSidebar ? 'sidebarOnToggle' : 'sidebarOffToggle'} id="toggleSidebar">{this.state.showSidebar ? '>' : '<'}</button>
                 {this.state.showSidebar ? <div id="sidebar">
                     <Sections reset={this.reset}></Sections>
-                </div> : <></>}
+                </div> : <></>}</div>}
+                {/* Where all the pane stuff is */}
                 <div id="main">
                     <div id="topbar" className={this.state.showSidebar ? 'sidebarOn' : 'sidebarOff'}>
                         <div id="topHeader">
                             <h1>{window.currentSection}</h1>
                             {this.state.toolbarScroll ? <button id="showLess" className="simpleThemedButton" onClick={this.showLessEffect}>{'<'}</button> : <></>}
                             <div id="toolbar">
-                                <button className="bigThemedButton" onClick={() => { this.openTool('focussession')}} id="startSession">Start a focus session</button>
-                                <button className="bigThemedButton" onClick={() => { this.openTool('settings')}} id="settings">Settings</button>
-                                {/* <button className="bigThemedButton" onClick={() => { this.openTool('grades')}} id="checkGrades">Grades</button>
+                                <button className="bigThemedButton" onClick={() => { this.openTool('focussession') }} id="startSession">Start a focus session</button>
+                                <button className="bigThemedButton" onClick={() => { this.openTool('settings') }} id="settings">Settings</button>
                                 <button className="bigThemedButton" onClick={() => { this.openTool('dashboard')}} id="checkGrades">Dashboard</button>
+                                {/* <button className="bigThemedButton" onClick={() => { this.openTool('grades')}} id="checkGrades">Grades</button>
                                 <button className='bigThemedButton' onClick={() => { this.openTool('templates')}} id="findTemplates">Templates</button>
                                 <button className="bigThemedButton" onClick={() => { this.openTool('grades')}} id="checkGrades">Plugins</button> */}
                             </div>

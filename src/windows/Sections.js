@@ -1,8 +1,8 @@
 import React from 'react';
 import { unmountComponentAtNode } from 'react-dom';
 import ReactDOM from 'react-dom/client';
-import Section from '../components/sectionComponents/Section'
-import PinTitle from '../components/settingsComponents/PinTitle';
+import Section from '../components/pageComponents/sectionComponents/Section'
+import PinTitle from '../components/pageComponents/settingsComponents/PinTitle';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -25,9 +25,6 @@ class SectionComp extends React.Component {
     this.onEdit = this.onEdit.bind(this)
     this.onDelete = this.onDelete.bind(this)
   }
-  // componentDidMount() {
-  //   console.log(localStorage.getItem('localPinnedItems'));
-  // }
   add() {
     let sectionName = `Unnamed Section${Math.floor(Math.random() * 20)}`;
 
@@ -95,6 +92,10 @@ class SectionComp extends React.Component {
   }
   onDelete(value) {
     // I don't trust this code
+    const accident = prompt(`Are you sure you want to delete ${value}? (y/n)`)
+    if (accident != 'y') {
+      return false
+    }
     var obj = this.state.sections;
     obj.splice(obj.indexOf(value), 1)
     this.setState({

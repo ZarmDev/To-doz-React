@@ -21,7 +21,7 @@ class Section extends React.Component {
     render () {
         var section = this.props.section
         return (
-            <div className="section">
+            <div className="section" data-intro={`This is section, you can edit it by clicking on the text and you can delete it by clicking the X. Each section contains panes, which we will get to in a moment.`}>
                 <p onBlur={this.onEdit} suppressContentEditableWarning={true} contentEditable="true">{this.props.section}</p>
                 <br></br>
                 <button className="themedButton" onClick={this.handleChange}>➡️</button>
