@@ -1,9 +1,9 @@
 # To-doz-React
-**Note: Although this project is made in React, in many components, it does NOT use
-function components or React hooks (although in some places it's slowly being implemented).**
-# What is this?
-A to-do list I made originally to learn React, but now has a lot more features and even
-helped me through my school years 💪
+**Temporary note: Some components HAVE been rewritten with modern practices and a new update is coming with many changes...
+I'm considering using indexed-db instead of localstorage: https://github.com/jakearchibald/idb
+**
+
+A to-do list site that helps you get things done.
 # Who is this for?
 People who want to start a routine mostly, but you can also use it for projects.
 If you have ever used duolingo, this site has a similar streak system.
