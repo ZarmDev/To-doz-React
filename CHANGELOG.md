@@ -1,0 +1,14 @@
+Version 1.0.0:
+- Added changelog + completely revamped startup screen
+- New! Tutorial on first startup
+- If you delete a section, a prompt will need to be filled out
+- Added react-quill keyboard (NO API KEY NEEDED 🥳)
+- Started using Redux (for the settings, specifically)
+- Added spotify integration to focus session
+- Fixed some bugs
+- Added time elapsed in dashboard and planning to add more data to dashboard
+- Added backup before "updating" To-Doz
+- Added option to permanently keep sidebar open
+- Removed MANY unneccesary libraries -> Reduced by 100mb
+- Switched focus session from using setInterval -> using time elapsed
+- Redesigned focus session for the billionith time
