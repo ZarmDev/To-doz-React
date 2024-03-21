@@ -1,16 +1,13 @@
 {
   "files": {
-    "main.css": "/To-doz-React/static/css/main.8b0d917f.css",
-    "main.js": "/To-doz-React/static/js/main.c4e1a5a9.js",
-    "static/js/787.7cb4383c.chunk.js": "/To-doz-React/static/js/787.7cb4383c.chunk.js",
-    "static/media/blur.png": "/To-doz-React/static/media/blur.a7fae9546de8b9f6a4be.png",
+    "main.css": "/To-doz-React/static/css/main.16ce9450.css",
+    "main.js": "/To-doz-React/static/js/main.9a5c10e7.js",
     "index.html": "/To-doz-React/index.html",
-    "main.8b0d917f.css.map": "/To-doz-React/static/css/main.8b0d917f.css.map",
-    "main.c4e1a5a9.js.map": "/To-doz-React/static/js/main.c4e1a5a9.js.map",
-    "787.7cb4383c.chunk.js.map": "/To-doz-React/static/js/787.7cb4383c.chunk.js.map"
+    "main.16ce9450.css.map": "/To-doz-React/static/css/main.16ce9450.css.map",
+    "main.9a5c10e7.js.map": "/To-doz-React/static/js/main.9a5c10e7.js.map"
   },
   "entrypoints": [
-    "static/css/main.8b0d917f.css",
-    "static/js/main.c4e1a5a9.js"
+    "static/css/main.16ce9450.css",
+    "static/js/main.9a5c10e7.js"
   ]
 }
