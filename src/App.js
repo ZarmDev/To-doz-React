@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './App.css';
-import SectionComp from './windows/Sections.js'
+import Sections from './windows/Sections.js'
 import Main from './windows/Main.js'
 import Startup from './windows/Startup.js'
 import introJs from 'intro.js';
-import 'intro.js/introjs.css'; 
+import 'intro.js/introjs.css';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 import { ToastContainer } from 'react-toastify';
@@ -88,9 +88,42 @@ function startTutorial(shouldStart) {
   }
 }
 
+function changeHue(condition, elem) {
+  let hue = Math.floor(Math.random() * 360);
+  const rateOfChange = 5;
+  elem.style.filter = `hue-rotate(${hue}deg)`;
+  let state = 0
+  var hueChange = setInterval(function () {
+    console.log(condition == true);
+    if (condition == true) {
+      clearInterval(hueChange)
+    }
+    if (state == 0) {
+      hue += rateOfChange
+      if (hue > 150) {
+        state = 1
+      }
+    } else if (state == 1) {
+      hue -= rateOfChange
+      if (hue < -150) {
+        state = 0
+      }
+    }
+    console.log(hue);
+    elem.style.filter = `hue-rotate(${hue}deg)`;
+  }, 100)
+}
+
 function App() {
+  // used to determine whether sections.js or main.js is shown (true or false)
   const [loading, setLoading] = useState(true);
   const [unsavedContent, setContent] = useState(false);
+
+  useEffect(() => {
+    if (window.shouldPresentFirstStartUp["all"] == true) {
+      changeHue(() => document.getElementById('firstStartUpWindow').style.display == 'none', document.getElementById('themes'))
+    }
+  })
 
   // TODO: Use to check dark mode
   // const isDark = window.matchMedia("(prefers-color-scheme:dark)").matches;
@@ -104,8 +137,9 @@ function App() {
 
   return (
     <Provider store={store}>
-      {(window.shouldPresentFirstStartUp["all"] == true || isOldUser) ? <Startup oldUser={isOldUser && window.shouldPresentFirstStartUp["all"] == true} parentCallback={startTutorial}></Startup> : <></>}
-      {loading ? <SectionComp parentCallback={setLoading} /> : <Main saveContentCallback={setContent} parentCallback={setLoading}></Main>}
+      {(window.shouldPresentFirstStartUp["all"] == true || isOldUser) ? <Startup oldUser={isOldUser && !window.shouldPresentFirstStartUp["all"] == true} parentCallback={startTutorial}></Startup> : <></>}
+      {/* annoyingly, to make sections work, I need to use a empty function as a prop */}
+      {loading ? <Sections reset={function () { }} parentCallback={setLoading} /> : <Main saveContentCallback={setContent} parentCallback={setLoading}></Main>}
       <ToastContainer
         position="bottom-right"
         autoClose={2000}
@@ -119,45 +153,6 @@ function App() {
       />
     </Provider>
   );
-}
-
-// This may be a bad practice, I'm using setInterval to add a CSS effect to startup.js
-// and to get the time elapsed every second
-window.onload = function () {
-  // Startup effect (the background color)
-  if (window.firstStartUp) {
-    let hue = Math.floor(Math.random() * 360);
-    const rateOfChange = 5;
-    document.getElementById('themes').style.filter = `hue-rotate(${hue}deg)`;
-    let state = 0
-    var hueChange = setInterval(function () {
-      if (document.getElementById('firstStartUpWindow').style.display == 'none') {
-        clearInterval(hueChange)
-      }
-      if (state == 0) {
-        hue += rateOfChange
-        if (hue > 150) {
-          state = 1
-        }
-      } else if (state == 1) {
-        hue -= rateOfChange
-        if (hue < -150) {
-          state = 0
-        }
-      }
-      document.getElementById('themes').style.filter = `hue-rotate(${hue}deg)`;
-    }, 100)
-  }
-  // Add "time elapsed" since you opened the PWA - referenced in Dashboard in tools folder
-  let startTime = Date.now();
-  setInterval(function () {
-    let timeElapsed = Date.now() - startTime;
-    let seconds = Math.floor(timeElapsed / 1000);
-    let minutes = Math.floor(seconds / 60);
-    let hours = Math.floor(minutes / 60);
-
-    window.elapsedTime = `${hours} hours, ${minutes % 60} minutes and ${seconds % 60} seconds`;
-  }, 1000)
 }
 
 export default App;

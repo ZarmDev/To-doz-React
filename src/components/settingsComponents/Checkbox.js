@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { toggleSidebar } from '../../../redux/store';
+import { toggleSidebar } from '../../redux/store';
 
 function Checkbox(props) {
     const dispatch = useDispatch();
@@ -16,7 +16,7 @@ function Checkbox(props) {
 
     return (
         <div>
-            <label htmlFor={props.localValue}>Permanently open sidebar?</label>
+            <label htmlFor={props.localValue}>{props.labelValue}</label>
             <input
                 checked={checked}
                 onChange={handleChange}

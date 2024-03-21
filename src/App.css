@@ -246,8 +246,8 @@
 }
 
 body {
-  background-image: url('../assets/blur.png');
-  background-color: #282c34;
+  /* background-image: url('../assets/blur.png'); */
+  background-color: #111929ed;
   /* Bad practice */
   /* color: white; */
   overflow-x: hidden;
@@ -403,8 +403,25 @@ img {
   animation-name: firstOpenSidebar;
   animation-duration: 0.2s;
   animation-iteration-count: 1;
-  overflow-x: auto;
+  overflow-x: hidden;
 }
+/* 
+AI Generated code. Might use later.
+#sidebar::-webkit-scrollbar {
+  width: 8px;
+  background-color: #e4e4e4;
+  border-radius: 100px;
+}
+
+#sidebar::-webkit-scrollbar-track {
+  background-color: #e4e4e4;
+  border-radius: 100px;
+}
+
+#sidebar::-webkit-scrollbar-thumb {
+  background-color: #d4aa70;
+  border-radius: 100px;
+} */
 
 @keyframes firstOpenSidebar {
   from {
@@ -417,38 +434,26 @@ img {
 }
 
 #sidebar .section {
-  width: 95%;
+  width: 90%;
   height: 10%;
-}
-
-#sidebar .section * {
-  padding: 0;
-  margin: 0;
+  padding: 2vw;
 }
 
 #sidebar .section p {
   display: flex;
   margin: 0;
-  padding: 0;
+  padding: 2ch;
   background-color: rgba(0, 0, 0, 0.009);
   word-wrap: break-word;
-  width: 90%;
   font-size: 80%;
+  width: 45%;
 }
 
 #sidebar .section button {
   font-size: 125%;
   margin: 0;
   padding: 0;
-  position: relative;
-}
-
-.section button:hover {
-  margin: 0.2vw;
-}
-
-#sidebar .section button:hover {
-  margin: 1%;
+  position: absolute;
 }
 
 /* For main page and section page */
@@ -474,54 +479,51 @@ img {
   margin: 5px;
 }
 
+.section {
+  /* border-bottom: rgb(0, 94, 255) solid 2px; */
+  /* border-bottom-style: dashed; */
+  background-color: rgba(24, 25, 30, 0.279);
+  padding: 0.5vw;
+  padding-left: 0;
+  transition: 0.5s;
+  color: white;
+  border-bottom: solid #3d2b49 2px;
+  overflow: hidden;
+}
+
 .section p {
   margin-right: 20px;
+  padding-top: 5vh;
+  padding-bottom: 5vh;
+  padding-left: 5vw;
 }
 
 #sections ul {
   list-style-type: none;
 }
 
-#sections ul {
-  background-color: rgba(24, 25, 30, 0.279);
-  padding: 0.5vw;
-  padding-left: 0;
-  transition: 0.5s;
-  color: white;
-  border: solid #3d2b49 2px;
-}
-
 #sections ul div {
   display: flex;
   align-items: center;
-  border-style: inset;
-  border: none;
   /* word-wrap:break-word; */
   height: 6ch;
-}
-
-#sections ul div::before {
-  background-color: rgb(15, 11, 16);
-  content: " ";
-  color: rgb(0, 0, 0);
-  padding: 0.5vw;
-  margin: 0;
-  transition: 0.5s;
-  width: 0.2ch;
-  height: 2ch;
-  margin: 0;
+  padding-left: 1vw;
 }
 
 #sections ul p {
   /* background-color: rgb(26, 25, 31); */
-  padding: 0;
   transition: 0.5s;
+  width: 100%;
 }
 
 #sections ul p:hover {
   background-color: rgb(0, 0, 0);
-  padding: 0.5vw;
   border-radius: 2px;
+}
+
+#sections ul button {
+  position: absolute;
+  left: 25vw;
 }
 
 #sectionToolbar {
@@ -564,6 +566,7 @@ img {
   border-radius: 10px;
   color: white;
   margin-left: 40px;
+  background-color: rgb(53, 50, 53);
 }
 
 @keyframes animate {
@@ -654,7 +657,8 @@ img {
   text-align: center;
   /* color: white; */
   transition: 0.5s;
-  border: solid #3d2b49 2px;
+  border: solid #571981 2px;
+  background-color: #312d33bd;
   padding: 0.5vw;
   color: white;
 }
@@ -670,11 +674,6 @@ img {
 #sectionsItems {
   margin: 0;
   padding: 0;
-}
-
-.section {
-  text-align: center;
-  overflow: hidden;
 }
 
 #themes {

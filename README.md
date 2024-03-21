@@ -12,12 +12,13 @@ Contributions are welcome! Just send a pull request.
 # First time users
 1.Download NPM
 
-2.Get VSCODE (or a editor)
+2.Get VSCODE (or any other editor)
 
-3.Open the downloaded folder
+3.Open the downloaded folder in VSCODE
 
 4.Open up the terminal
 
+Enter ``npm install``
 5.Enter ``npm run start``
 
 6.It will be launched on localhost (in your browser)

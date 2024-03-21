@@ -82,15 +82,7 @@ Add a way to add a custom background image
 
 Have every original to-doz feature 😎
 
-Use modern react practices
-
-Integrate Redux?
-
-Integrade database
-
 Automatically open the section you were last on
-
-Update the favicon
 
 Make sure to investigate the inputs and make sure they are all secure
 
@@ -105,11 +97,7 @@ Add scroll down to bottom
 
 Go to section you were last on on startup
 
-Integrate Dashboard spotify into focus session
-
 Let user give their key to use the tinymce editor
-
-Use the time elapsed from dashboard.js to update the time elapsed in the focus session since focus session is terrible practice
 
 Change manifest.json
 
@@ -117,7 +105,7 @@ Maybe add a way to have To-Doz only load 50 panes at the maximum and load rest w
 
 Add a way to have a progress bar for each pane
 
-Copy notion
+"Copy" notion (lol)
 
 Compress images if user uploads images (It takes SO Long to load!!!)
 
@@ -126,7 +114,16 @@ Compress images if user uploads images (It takes SO Long to load!!!)
 - ❗Allow user to change break amount of time in settings
 - ❗Allow user to change focus session to progress bar
 - ❗Added option to start from last section
-- ❗Security: Don't store sensitive data in local storage, use cookies instead
+- ❗Security: Don't store sensitive data in local storage, use indexeddb instead
 - ❗Add long term and short term panes
 - ❗Sub-sections
 - ❗Add panes that are automatically added every x amount of
+
+- Low power mode check if device is low power mode or add a setting
+to save energy and on low performant devices!
+
+- Consider changing folder strucutre in components (really bad.)
+
+- Add a go to bottom button on ALL pages (because say in the sections.js,
+if you have like 20 sections you have to press add section and then go
+all the way down)

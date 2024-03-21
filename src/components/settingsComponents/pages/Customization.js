@@ -7,7 +7,8 @@ function Customization() {
             <div>
                 <h2>Sidebar</h2>
                 {/* localValue: the "name" for localstorage */}
-                <Checkbox localValue={'sidebarIsAlwaysOpen'}/>
+                <p>NOTE: must reload to have this take effect.</p>
+                <Checkbox localValue={'sidebarIsAlwaysOpen'} labelValue={'Permanently open sidebar?'}/>
             </div>
         </div>
     );

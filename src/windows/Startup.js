@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import ChangeLog from '../components/pageComponents/startupComponents/changeLog';
-import WelcomeScreen from '../components/pageComponents/startupComponents/welcomeScreen';
-import Tutorial from '../components/pageComponents/startupComponents/tutorial';
-import Themes from '../components/pageComponents/startupComponents/themes';
-import Notifications from '../components/pageComponents/startupComponents/notifications';
-import Unsupported from '../components/pageComponents/startupComponents/unsupported';
+import ChangeLog from '../components/startupComponents/changeLog';
+import WelcomeScreen from '../components/startupComponents/welcomeScreen';
+import Tutorial from '../components/startupComponents/tutorial';
+import Themes from '../components/startupComponents/themes';
+import Notifications from '../components/startupComponents/notifications';
+import Unsupported from '../components/startupComponents/unsupported';
 
 // MDN: https://developer.mozilla.org/en-US/docs/Web/API/Notification
 function notifyMe() {

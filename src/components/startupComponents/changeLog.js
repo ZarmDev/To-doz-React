@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import MarkdownComponent from "../../otherComponents/MarkdownComponent";
+import MarkdownComponent from "../MarkdownComponent";
 
 function ChangeLog() {
     const [readme, setReadMe] = useState('');

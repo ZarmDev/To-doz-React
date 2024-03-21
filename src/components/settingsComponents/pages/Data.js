@@ -9,9 +9,9 @@ class Data extends React.Component {
         return (
             <div id="settingsContent">
             <h1>Data</h1>
-            <div>
-            <input type="color"></input>
-            </div>
+                <div>
+                    <p>Still working on this...</p>
+                </div>
             </div>
         )
     }

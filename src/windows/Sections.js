@@ -1,5 +1,5 @@
 import React from 'react';
-import Section from '../components/pageComponents/sectionComponents/Section'
+import Section from '../components/Section'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -8,7 +8,7 @@ function undoSectionEdit(oldName, index) {
   sectionElements[index].getElementsByTagName('p')[0].innerText = oldName;
 }
 
-class SectionComp extends React.Component {
+class Sections extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -107,10 +107,14 @@ class SectionComp extends React.Component {
   }
   goToSection(value) {
     window.currentSection = value;
-    // I have no idea how this works... lol
+    // I'm not sure, but I think it's a try and catch because when Sections.js is in the sidebar in Main.js
+    // The parent of Sections.js is Main.js, so the props.parentCallback will return an error since it doesn't exist
     try {
+      // This runs the parentCallback, which just goes to a section normally.
+      // It passes false to change the component on the screen from Sections.js to Main.js
       this.props.parentCallback(false)
     } catch {
+      // this is called reset because it literally resets the Main.js
       this.props.reset()
     }
   }
@@ -121,15 +125,6 @@ class SectionComp extends React.Component {
       return <Section unique={count} key={count} goToSectionProp={this.goToSection} deleteSectionProp={() => { this.onDelete(item) }} editSectionProp={(value) => { this.onEdit(value, item) }} section={item}></Section>
     })
     count = -1
-    /*
-    Doesn't really work, need to find pin item from all sections
-    if (this.state.pinned != '') {
-      var pinnedItems = this.state.pinned[window.currentSection].split('·').map((item) => {
-        count++
-        return <PinTitle key={count} item={item}></PinTitle>
-      })
-    }
-    */
     let obj = JSON.parse(localStorage.getItem('localItems'));
     let objKeys = Object.keys(obj)
     // let objValues = Object.values(obj)
@@ -164,21 +159,9 @@ class SectionComp extends React.Component {
             {elementItems}
           </ul>
         </div>
-        {/* <ToastContainer
-          position="bottom-right"
-          autoClose={2500}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="dark"
-        /> */}
       </div>
     );
   }
 }
 
-export default SectionComp;
+export default Sections;

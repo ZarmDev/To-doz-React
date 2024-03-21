@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import ReactMarkdown from 'react-markdown'
-import rehypeRaw from 'rehype-raw'
 import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
@@ -34,20 +32,17 @@ const modules = {
             }
         }
     },
-    keyboard: {
-        bindings: {
-            tab: false,
-            custom: {
-                key: 13,
-                shiftKey: true,
-                handler: function () { /** do nothing */ }
-            },
-            handleEnter: {
-                key: 13,
-                handler: function () { /** do nothing */ }
-            }
-        }
-    },
+    // pretty cool custom key bindings
+    // keyboard: {
+    //     bindings: {
+    //         tab: false,
+    //         custom: {
+    //             key: 13,
+    //             shiftKey: true,
+    //             handler: function () {  }
+    //         }
+    //     }
+    // },
 };
 
 /*
@@ -121,37 +116,45 @@ const formats = [
     'link', 'image', 'background', 'color', 'emoji'
 ];
 
+const introValue = 'This is a pane. You can edit it by clicking on the title or description. You can also pin it to the toolbar by clicking the pin button. NOTE: Although you CAN add images, do know that adding lots of images significantly impacts the performance.'           
+
 function Pane(props) {
     const [editing, setEditing] = useState(false);
-    const [pinned, setPinned] = useState(false);
+    const pinned = props.pinned;
     var items = props.items.split('·');
-    const [title, setTitle] = useState(items[0].split('|')[0]);
-    const [description, setDescription] = useState(items[0].split('|')[1]);
+    // to save memory/runtime
+    var splitup = items[0].split('|');
+    var title = splitup[0];
+    const [description, setDescription] = useState(splitup[1]);
+    var attributes = splitup[2];
 
-    // Will run every time props.items is updated
     useEffect(() => {
-        if (items[0].split('|')[0] == '' && items[0].split('|')[1] == '') {
-            setEditing(true)
-        }
-    }, [props.items]);
+        // may be inefficent/bad practice: set the description to whatever it finds in the state, when the state updates
+        setDescription(splitup[1])
+    }, [splitup[1]])
 
-    function onEdit(event) {
+    // useEffect(() => {
+    //     setPinned(props.pinned)
+    // }, [pinned])
+
+    function onEdit() {
         setEditing(true)
         props.saveContentCallback(true);
-        // props.editPaneProp(props.unique)
+        props.editPaneProp(props.unique, pinned, description)
     }
-    function onPin(event) {
-        setPinned(true)
-        // props.pinProp(props.unique)
+    function onPin() {
+        // setPinned(true)
+        props.pinProp(props.unique)
     }
-    function unPin(event) {
-        setPinned(false)
-        // props.unPinProp(props.unique)
+    function unPin() {
+        // setPinned(false)
+        props.unPinProp(props.unique)
     }
     // Button for changing text
     function onSubmit() {
         props.saveContentCallback(false);
-        props.editPaneProp(props.unique, pinned, [title, description])
+        // it's [null, description] because it used to have title
+        props.editPaneProp(props.unique, pinned, description)
         setEditing(false)
     }
     function onDelete() {
@@ -159,11 +162,10 @@ function Pane(props) {
     }
 
     return (
-        <div className={`${items[0].split('|')[2]}`}>
+        <div className={attributes}>
             {editing ? <div className="paneToolbar">
                 <button className="themedButton popInEffect" onClick={onSubmit}>✅</button>
-            </div> : <div data-intro={`This is a pane. You can edit it by clicking on the title or description. You can also pin it to the toolbar by clicking the pin button.`}>
-                {/* <button className="themedButton" onClick={onEdit}>✏️</button> */}
+                </div> : <div {...(props.unique === 0 ? { 'data-intro': introValue } : {})} >
                 {pinned ? <div id="pin">
                     <button className="themedButtonClicked" onClick={unPin}>📌</button>
                 </div> : <div id="pin">
@@ -174,7 +176,7 @@ function Pane(props) {
             {editing ?
                 <div>
                     <div className='title'>
-                        <p onInput={(event) => { console.log('test'); setTitle(event.target.innerHTML) }} contentEditable="true" suppressContentEditableWarning={true} dangerouslySetInnerHTML={{ __html: title }}></p>
+                        <p contentEditable="true" suppressContentEditableWarning={true} dangerouslySetInnerHTML={{ __html: title }}></p>
                         {/* <ReactQuill modules={modules} formats={formats} value={title} theme="snow" /> */}
                     </div>
                     <div className='description'>
@@ -183,7 +185,10 @@ function Pane(props) {
                     {/* <h1 contentEditable="true" suppressContentEditableWarning={true} className="title newp" dangerouslySetInnerHTML={{ __html: title }}></h1>
                     <p contentEditable="true" suppressContentEditableWarning={true} className="description newp" dangerouslySetInnerHTML={{ __html: description }}></p> */}
                 </div> : <div onClick={(event) => { onEdit(event) }}>
-                    <ReactMarkdown className="title" rehypePlugins={[rehypeRaw]} children={title}></ReactMarkdown><ReactMarkdown className="description" rehypePlugins={[rehypeRaw]} children={description}></ReactMarkdown>
+                    <p className='title' dangerouslySetInnerHTML={{__html: title}}></p>
+                    <p className='description' dangerouslySetInnerHTML={{__html: description}}></p>
+                    {/* <ReactMarkdown className="title" rehypePlugins={[rehypeRaw]} children={title}></ReactMarkdown>
+                    <ReactMarkdown className="description" rehypePlugins={[rehypeRaw]} children={description}></ReactMarkdown> */}
                 </div>}
         </div >
     )

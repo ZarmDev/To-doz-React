@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import Timer from '../components/pageComponents/focusComponents/Timer.js';
-
+import React, { useState } from 'react';
+import Timer from '../components/Timer.js';
 
 async function fetchWebApi(endpoint, method, body, token) {
   let res = null;
@@ -99,7 +98,7 @@ function FocusSession(props) {
   }
 
   return (
-    <div id="focusSession" className={sideBarToggled ? "focusSideBarOn toolNoEffects" : "focusSideBarOff toolNoEffects"}>
+    <div id="focusSession" className={sideBarToggled ? "focusSideBarOn toolNoEffects tool" : "focusSideBarOff toolNoEffects tool"}>
       <button className="themedButton" id="startFocus" onClick={toggleSideBar}>{sideBarToggled ? '<' : ">"}</button>
       <button className="themedButton exitToolButton" onClick={exitTool}>❌</button>
       <div id="focusPart">

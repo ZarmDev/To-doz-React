@@ -13,10 +13,11 @@ class Features extends React.Component {
             <h1>Features</h1>
             <div>
                 <h2>Toolbar</h2>
+                <h3>Still working on this... (The buttons don't work)</h3>
                 <label for="blurEnabled">Focus Session</label>
-                <input id="blurEnabled" type="checkbox"></input><br></br>
+                <input disabled={true} id="blurEnabled" type="checkbox"></input><br></br>
                 <label for="blurEnabled">Enable Blur?</label>
-                <input id="blurEnabled" type="checkbox"></input><br></br>
+                <input disabled={true} id="blurEnabled" type="checkbox"></input><br></br>
             </div>
             </div>
         )
