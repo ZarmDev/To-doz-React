@@ -51,6 +51,10 @@
     width: 25vw;
     height: 100vh;
   }
+
+  #changeLogWindow {
+    grid-gap: 1px !important;
+  }
 }
 
 /* Mobile screen (PORTRAIT MODE) */
@@ -696,6 +700,7 @@ AI Generated code. Might use later.
   background-size: cover;
   border-radius: 10px;
   backdrop-filter: blur(10px);
+  /* background-color: #191919a6; */
   position: fixed;
   z-index: 3;
   padding-left: 15px;
