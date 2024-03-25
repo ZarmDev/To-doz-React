@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
+const defaultFontValue = '20px';
+
 // thanks to https://stackoverflow.com/users/5551593/andrew in https://stackoverflow.com/questions/38623716/how-to-add-custom-font-sizes-to-quilljs-editor
 const fontSizeArr = ['8px', '9px', '10px', '12px', '14px', '16px', '20px', '24px', '32px', '42px', '54px', '68px', '84px', '98px'];
 var Size = Quill.import('attributors/style/size');
@@ -51,13 +53,6 @@ run props.editPaneProp(props.unique, pinned)
 which will run the editPane function in the Main component.
 */
 
-// var quillEditor = new Quill('#editor-container', {
-//     modules: {
-//         toolbar: tools
-//     },
-//     theme: 'snow'
-// });
-
 // customize the color tool handler
 // quillEditor.getModule('toolbar').addHandler('color', (value) => {
 
@@ -89,26 +84,6 @@ which will run the editPane function in the Main component.
 //         matchVisual: false,
 //     },
 // }
-/*
- * Quill editor formats
- * See https://quilljs.com/docs/formats/
- */
-// const formats = [
-//     'header',
-//     'font',
-//     'size',
-//     'bold',
-//     'italic',
-//     'underline',
-//     'strike',
-//     'blockquote',
-//     'list',
-//     'bullet',
-//     'indent',
-//     'link',
-//     'image',
-//     'video',
-// ]
 const formats = [
     'header', 'font', 'size',
     'bold', 'italic', 'underline', 'strike', 'blockquote',
@@ -180,13 +155,15 @@ function Pane(props) {
                         {/* <ReactQuill modules={modules} formats={formats} value={title} theme="snow" /> */}
                     </div>
                     <div className='description'>
-                        <ReactQuill onChange={setDescription} modules={modules} formats={formats} value={description} theme="snow" />
+                        {/* THE ONLY WAY REACT QUILL GETS A DEFAULT FONT-SIZE IS WITH THIS STYLE TRICK */}
+                        <ReactQuill style={{fontSize: defaultFontValue}} onChange={setDescription} modules={modules} formats={formats} value={description} theme="snow" />
                     </div>
                     {/* <h1 contentEditable="true" suppressContentEditableWarning={true} className="title newp" dangerouslySetInnerHTML={{ __html: title }}></h1>
                     <p contentEditable="true" suppressContentEditableWarning={true} className="description newp" dangerouslySetInnerHTML={{ __html: description }}></p> */}
                 </div> : <div onClick={(event) => { onEdit(event) }}>
                     <p className='title' dangerouslySetInnerHTML={{__html: title}}></p>
-                    <p className='description' dangerouslySetInnerHTML={{__html: description}}></p>
+                    {/* THE ONLY WAY REACT QUILL GETS A DEFAULT FONT-SIZE IS WITH THIS STYLE TRICK */}
+                    <p className='description' style={{fontSize: defaultFontValue}} dangerouslySetInnerHTML={{__html: description}}></p>
                     {/* <ReactMarkdown className="title" rehypePlugins={[rehypeRaw]} children={title}></ReactMarkdown>
                     <ReactMarkdown className="description" rehypePlugins={[rehypeRaw]} children={description}></ReactMarkdown> */}
                 </div>}
