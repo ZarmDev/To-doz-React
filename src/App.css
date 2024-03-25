@@ -648,6 +648,7 @@ AI Generated code. Might use later.
 }
 
 .ql-editor>* {
+  font-size: 20px !important;
   padding: 10px !important;
   padding-bottom: 0 !important;
   padding-top: 0 !important;

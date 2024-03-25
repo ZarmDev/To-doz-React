@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
+// remember to change .ql-editor>* if you change this value
 const defaultFontValue = '20px';
 
 // thanks to https://stackoverflow.com/users/5551593/andrew in https://stackoverflow.com/questions/38623716/how-to-add-custom-font-sizes-to-quilljs-editor
