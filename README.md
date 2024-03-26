@@ -5,8 +5,10 @@ I'm considering using indexed-db instead of localstorage: https://github.com/jak
 
 A to-do list site that helps you get things done.
 # Who is this for?
-People who want to start a routine mostly, but you can also use it for projects.
-If you have ever used duolingo, this site has a similar streak system.
+People who want to start a routine mostly, but you can also use it for projects and saves.
+Here is how I have been organizing it (I have been using it for 2 years of my
+academic career)
+
 # Contributing
 Contributions are welcome! Just send a pull request.
 # First time users
@@ -18,7 +20,11 @@ Contributions are welcome! Just send a pull request.
 
 4.Open up the terminal
 
+5.Run Commands
+
 Enter ``npm install``
-5.Enter ``npm run start``
+
+Enter ``npm run start``
+
 
 6.It will be launched on localhost (in your browser)
