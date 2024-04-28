@@ -100,7 +100,7 @@ function FocusSession(props) {
   function toggleMiniWindow() {
     // maybe use react routes to get it to go to the focus session
     localStorage.setItem('goTo', `focusSession|${window.currentSection}`)
-    var w = window.open("http://localhost:3000/To-doz-React", "", "width=100,height=100");
+    var w = window.open("https://zarmdev.github.io/To-doz-React/", "", "width=100,height=100");
     const width = window.innerWidth * 0.2;  // x% of the viewport width
     const height = window.innerHeight * 0.45;  // x% of the viewport height
     w.resizeTo(width, height);
