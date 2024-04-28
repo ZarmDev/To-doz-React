@@ -97,15 +97,25 @@ function FocusSession(props) {
     setToken(document.getElementsByName('token')[0].value);
   }
 
+  function toggleMiniWindow() {
+    // maybe use react routes to get it to go to the focus session
+    localStorage.setItem('goTo', `focusSession|${window.currentSection}`)
+    var w = window.open("http://localhost:3000/To-doz-React", "", "width=100,height=100");
+    const width = window.innerWidth * 0.2;  // x% of the viewport width
+    const height = window.innerHeight * 0.45;  // x% of the viewport height
+    w.resizeTo(width, height);
+  }
+
   return (
     <div id="focusSession" className={sideBarToggled ? "focusSideBarOn toolNoEffects tool" : "focusSideBarOff toolNoEffects tool"}>
-      <button className="themedButton" id="startFocus" onClick={toggleSideBar}>{sideBarToggled ? '<' : ">"}</button>
+      <button className="themedButton" id="toggleFocusSidebar" onClick={toggleSideBar}>{sideBarToggled ? '<' : ">"}</button>
+      <button className="themedButton" id="toggleMiniWindow" onClick={toggleMiniWindow}>{sideBarToggled ? '*' : "*"}</button>
       <button className="themedButton exitToolButton" onClick={exitTool}>❌</button>
       <div id="focusPart">
-        <h1>Focus Session</h1>
+        <h1 id="focusHeader">Focus Session</h1>
         <Timer></Timer>
       </div>
-      {!sideBarToggled ? <div id="spotifyPart">
+      <div id="spotifyPart" style={{visibility: sideBarToggled ? "hidden" : "visible", position: sideBarToggled ? "absolute" : ""}}>
         <h1>Spotify Integration</h1>
         <label htmlFor='token'>Spotify Token (get from <a href="https://developer.spotify.com" target='_blank'>https://developer.spotify.com/)</a></label>
         <input name="token" type="text" onChange={updateToken} placeholder='something like BWFJEaKDJkWFI'></input> <br></br>
@@ -128,7 +138,7 @@ function FocusSession(props) {
           />
         }
         <br></br><br></br><br></br>
-      </div> : <></>}
+      </div>
     </div>
   )
 }

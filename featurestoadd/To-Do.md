@@ -127,3 +127,5 @@ to save energy and on low performant devices!
 - Add a go to bottom button on ALL pages (because say in the sections.js,
 if you have like 20 sections you have to press add section and then go
 all the way down)
+
+- No pause indication in the focus session (especialyl in minimized window)

@@ -114,6 +114,20 @@ function changeHue(condition, elem) {
   }, 100)
 }
 
+// mini focus session window
+var miniFocusSession = false;
+
+// if goTo was given an assignment and it's the focusSession value
+// then set a timeout to click the startSession in Main.js
+if (localStorage.getItem('goTo') != undefined && localStorage.getItem('goTo').split('|')[0] == 'focusSession') {
+  window.currentSection = localStorage.getItem('goTo').split('|')[1]
+  localStorage.removeItem('goTo')
+  miniFocusSession = true;
+  setTimeout(() => {
+    document.getElementById('startSession').click()
+  }, 100)
+}
+
 function App() {
   // used to determine whether sections.js or main.js is shown (true or false)
   const [loading, setLoading] = useState(true);
@@ -139,7 +153,14 @@ function App() {
     <Provider store={store}>
       {(window.shouldPresentFirstStartUp["all"] == true || isOldUser) ? <Startup oldUser={isOldUser && !window.shouldPresentFirstStartUp["all"] == true} parentCallback={startTutorial}></Startup> : <></>}
       {/* annoyingly, to make sections work, I need to use a empty function as a prop */}
-      {loading ? <Sections reset={function () { }} parentCallback={setLoading} /> : <Main saveContentCallback={setContent} parentCallback={setLoading}></Main>}
+      {
+        !miniFocusSession
+          ? (loading || miniFocusSession
+            ? <Sections reset={() => { }} parentCallback={setLoading} />
+            : <Main saveContentCallback={setContent} parentCallback={setLoading} />
+          )
+          : <Main saveContentCallback={setContent} parentCallback={setLoading} />
+      }
       <ToastContainer
         position="bottom-right"
         autoClose={2000}

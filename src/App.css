@@ -95,6 +95,69 @@
   }
 }
 
+/* For minimized window */
+@media screen and (max-width: 300px) {
+  #focusPart {
+    width: 100vw !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  /* wierd trick to remove the first h1 and show the h1 in #focusTimer */
+  #focusPart h1 {
+    display: none;
+  }
+  #focusTimer h1 {
+    display: block;
+    margin: 0px !important;
+    /* font-size: 6ch; */
+  }
+  #focusPart label {
+    display: none;
+    margin: 20px;
+  }
+  #focusSession input {
+    display: none;
+  }
+  #focusPart p {
+    display: none;
+  }
+  #focusPart span {
+    display: block;
+    width: 80vw;
+    margin: auto;
+  }
+  #focusSession h1 {
+    display: none;
+  }
+  #focusSession button {
+    display: none;
+  }
+  /* only show buttons in Timer.js */
+  #focusSessionControls {
+    display: flex !important;
+    justify-content: center;
+    width: 100vw;
+    height: 10vh;
+    margin-top: 30px !important;
+    margin-bottom: 40px !important;
+    text-align: center;
+  }
+  #focusSessionControls > * {
+    display: flex !important;
+  }
+  #spotifyPart {
+    visibility: hidden !important;
+  }
+  #focusProgressBar {
+    margin-top: 10px !important;
+    display: block !important;
+  }
+}
+
 .themedButton {
   color: white;
   font-size: var(--button-font-size);
@@ -356,6 +419,12 @@ img {
   transition: 0s;
 }
 
+#focusProgressBar {
+  width: 15ch;
+  height: 15ch;
+  margin: auto;
+}
+
 /* focusSideBarOn is in a media query */
 .focusSideBarOn {
   left: 90vw;
@@ -365,10 +434,6 @@ img {
   display: flex !important;
   justify-content: center;
   transition: 0.5s !important;
-}
-
-.focusSideBarOn #startFocus {
-  position: absolute;
 }
 
 .focusSideBarOn:hover {
@@ -813,7 +878,7 @@ AI Generated code. Might use later.
   background-repeat: no-repeat;
 } */
 
-#startFocus {
+#toggleFocusSidebar {
   position: relative;
   text-align: center;
   border-radius: 10px;
@@ -823,8 +888,18 @@ AI Generated code. Might use later.
   margin-top: 2vw;
 }
 
+#toggleMiniWindow {
+  position: relative;
+  text-align: center;
+  border-radius: 10px;
+  font-size: 2.8ch;
+  width: 38px;
+  left: 6vw;
+  margin-top: 2vw;
+}
+
 /* unneccesary effect */
-/* #startFocus:hover {
+/* #toggleFocusSidebar:hover {
   box-shadow: 5px 5px 2px rgb(14, 14, 28);
 } */
 
