@@ -46,9 +46,6 @@ class Timer extends React.Component {
             checked: false,
             // for clearing timer
             timerId: null,
-            // if minimized
-            minimizedFocusSession: false,
-            isFocusHeaderShown: false
         }
 
         this.startTimer = this.startTimer.bind(this);
@@ -59,22 +56,13 @@ class Timer extends React.Component {
     }
     componentDidMount() {
         // you can just check if the window is minimized
-        if (localStorage.getItem('lastFocusAmount') != null) {
+        if (window.miniFocusSession) {
             const lastFocusAmount = Number(localStorage.getItem('lastFocusAmount'));
             this.setState({
-                time: lastFocusAmount,
-                minimizedFocusSession: true
+                time: lastFocusAmount
             })
             localStorage.removeItem('lastFocusAmount')
         }
-        const focusHeader = document.getElementById('focusHeader');
-        const style = window.getComputedStyle(focusHeader);
-        const isFocusHeaderVisible = style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0';
-        console.log(isFocusHeaderVisible)
-        this.setState({
-            // if focusHeader is displayed on the screen
-            isFocusHeaderShown: isFocusHeaderVisible
-        })
     }
     // Clears the interval if component is removed
     componentWillUnmount() {
@@ -174,7 +162,7 @@ class Timer extends React.Component {
         }
         document.title = timeInString;
         var percentage = null;
-        if (this.state.minimizedFocusSession) {
+        if (window.miniFocusSession) {
             // If timePassed is null just use 0 otherwise put timePassed
             const timeInPercentage = (this.state.timePassed == null ? 1 : this.state.timePassed / this.state.time)
             // round to hundreth and multiply by 100
@@ -183,11 +171,11 @@ class Timer extends React.Component {
         // this is just bad practice. coulda used the value of this as the state (minimizedFocusSession)
         return (
             <div id="focusTimer">
-                {this.state.isFocusHeaderShown == false && percentage == null ?
+                {window.miniFocusSession && this.state.time == 0 ?
                 <span>To make the minimized window work, you need to first input
                      some minutes in the original window and then press the *
                       button.</span> : <></>}
-                {this.state.minimizedFocusSession ? <div id="focusProgressBar">
+                {window.miniFocusSession ? <div id="focusProgressBar">
                     <CircularProgressbar
                     value={percentage}
                     text={`${percentage}%`}
