@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/To-doz-React/static/css/main.d26ed8c9.css",
-    "main.js": "/To-doz-React/static/js/main.634b87e2.js",
+    "main.js": "/To-doz-React/static/js/main.60f678b4.js",
     "index.html": "/To-doz-React/index.html",
     "main.d26ed8c9.css.map": "/To-doz-React/static/css/main.d26ed8c9.css.map",
-    "main.634b87e2.js.map": "/To-doz-React/static/js/main.634b87e2.js.map"
+    "main.60f678b4.js.map": "/To-doz-React/static/js/main.60f678b4.js.map"
   },
   "entrypoints": [
     "static/css/main.d26ed8c9.css",
-    "static/js/main.634b87e2.js"
+    "static/js/main.60f678b4.js"
   ]
 }
