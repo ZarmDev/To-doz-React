@@ -8,9 +8,11 @@ import Dashboard from '../tools/Dashboard';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import introJs from 'intro.js';
+import { uploadDataToDB } from 'src/utils/databaseFuncs';
 
 var mobile = window.matchMedia("(max-width: 800px)").matches;
 var toolbarOffset = 0;
+var lastRender = 0;
 const defaultPaneValue = '...||pane paneStyle';
 
 const Undo = ({ onUndo, closeToast }) => {
@@ -28,7 +30,8 @@ const Undo = ({ onUndo, closeToast }) => {
     );
 };
 
-function getDataFromSource() {
+// specifically made for Main.js
+export function getDataFromLocalStorageForMainJS() {
     let itemsFromStorage = JSON.parse(localStorage.getItem('localItems'))[window.currentSection].split('·');
     let pinnedItemsFromStorage = JSON.parse(localStorage.getItem('localPinnedItems'))[window.currentSection].split('·');
     // wait a second, if itemsFromStorage is empty that's a suspicous bug.. why am I filtering it then.
@@ -45,7 +48,7 @@ function getDataFromSource() {
 class Main extends React.Component {
     constructor(props) {
         super(props)
-        const [itemsFromStorage, pinnedItemsFromStorage] = getDataFromSource();
+        const [itemsFromStorage, pinnedItemsFromStorage] = getDataFromLocalStorageForMainJS('localstorage');
         // [itemsFromStorage, pinnedItemsFromStorage]
         this.state = {
             items: itemsFromStorage,
@@ -213,7 +216,7 @@ class Main extends React.Component {
     }
     // To rerender all the items, pinned and the sidebar when user changes section from sidebar
     reset() {
-        const [itemsFromStorage, pinnedItemsFromStorage] = getDataFromSource();
+        const [itemsFromStorage, pinnedItemsFromStorage] = getDataFromLocalStorageForMainJS();
         // [itemsFromStorage, pinnedItemsFromStorage]
         this.setState({
             items: itemsFromStorage,
@@ -337,6 +340,8 @@ class Main extends React.Component {
         }
     }
     render() {
+        // set lastRender to zero - it's used to check if everything was saved or not
+        window.lastRender = 0;
         let count = -1
         if (this.state.pinned.length != 0) {
             var pinnedItems = this.state.pinned.map((item) => {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import MarkdownComponent from "../MarkdownComponent";
 
-function ChangeLog() {
+function ChangeLog(props) {
     const [readme, setReadMe] = useState('');
     const [changelog, setChangeLog] = useState('');
 
@@ -31,8 +31,11 @@ function ChangeLog() {
 
     return (
         <div id="changeLogWindow">
-            <MarkdownComponent data={readme} fileName="README.md" />
+            {props.show.includes('README.md') ? 
+            <MarkdownComponent data={readme} fileName="README.md" /> : <></>}
+            {props.show.includes('CHANGELOG.md') ? 
             <MarkdownComponent data={changelog} fileName="CHANGELOG.md" />
+            : <></>}
         </div>
     )
 }

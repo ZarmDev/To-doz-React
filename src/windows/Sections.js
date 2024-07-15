@@ -2,6 +2,7 @@ import React from 'react';
 import Section from '../components/Section'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { getDataFromLocalStorage, getDataFromSource, uploadDataToDB, uploadDataToSource } from 'src/utils/databaseFuncs';
 
 function undoSectionEdit(oldName, index) {
   let sectionElements = document.getElementsByClassName('section');
@@ -12,9 +13,7 @@ class Sections extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      shown: false,
-      sections: Object.keys(JSON.parse(localStorage.getItem('localItems'))),
-      pinnedSections: Object.keys(JSON.parse(localStorage.getItem('localPinnedItems'))),
+      shown: false
       // pinned: JSON.parse(localStorage.getItem('localPinnedItems'))
     };
     this.goToSection = this.goToSection.bind(this)
@@ -22,9 +21,52 @@ class Sections extends React.Component {
     this.onEdit = this.onEdit.bind(this)
     this.onDelete = this.onDelete.bind(this)
   }
+
+  async componentDidMount() {
+    // const databaseConnection = localStorage.getItem('dbType');
+    const [localItems, localPinnedItems] = await getDataFromLocalStorage();
+    // console.log(localItems, localPinnedItems)
+    let sections = Object.keys(localItems)
+    let pinnedSections = Object.keys(localPinnedItems)
+    this.setState(
+      {
+        sections: sections,
+        pinnedSections: pinnedSections
+      }
+    );
+  }
+  async componentDidUpdate() {
+    // ## Comparing the previous sections with new sections and putting in placeholders for each new key ##
+    let [localItems, localPinnedItems] = await getDataFromLocalStorage();
+    // localItems = JSON.parse(localItems);
+    // localPinnedItems = JSON.parse(localPinnedItems)
+    let objKeys = Object.keys(localItems)
+    // let objValues = Object.values(obj)
+    let newObj = {};
+    let sectionsState = this.state.sections
+    let sectionsState2 = this.state.pinnedSections
+    // For pinned
+    let newObj2 = {};
+    for (var i = 0; i < sectionsState.length; i++) {
+      // IF the object keys (ex: Unnamed Section) is not found in the localstorage, update it on the localstorage
+      // console.log('loop', objKeys[i], sectionsState[i])
+      if (objKeys.indexOf(sectionsState[i]) != -1) {
+        // console.log(newObj[sectionsState[i]], obj[sectionsState[i]]);
+        newObj[sectionsState[i]] = localItems[sectionsState[i]];
+        // console.log(newObj2[sectionsState[i]], obj2[sectionsState[i]]);
+        newObj2[sectionsState2[i]] = localPinnedItems[sectionsState[i]];
+      } else {
+        newObj[sectionsState[i]] = 'Unnamed pane|Description|pane paneStyle';
+        newObj2[sectionsState2[i]] = '';
+      }
+    }
+    localStorage.setItem('localItems', JSON.stringify(newObj))
+    localStorage.setItem('localPinnedItems', JSON.stringify(newObj2))
+  }
+
   add() {
     let sectionName = `Unnamed Section${Math.floor(Math.random() * 20)}`;
-
+    // console.log(this.state.sections, this.state.pinnedSections);
     this.setState({
       sections: this.state.sections.concat(sectionName),
       pinnedSections: this.state.pinnedSections.concat(sectionName)
@@ -119,36 +161,15 @@ class Sections extends React.Component {
     }
   }
   render() {
-    let count = -1
-    var elementItems = this.state.sections.map((item) => {
-      count++
-      return <Section unique={count} key={count} goToSectionProp={this.goToSection} deleteSectionProp={() => { this.onDelete(item) }} editSectionProp={(value) => { this.onEdit(value, item) }} section={item}></Section>
-    })
-    count = -1
-    let obj = JSON.parse(localStorage.getItem('localItems'));
-    let objKeys = Object.keys(obj)
-    // let objValues = Object.values(obj)
-    let newObj = {};
-    let sectionsState = this.state.sections
-    let sectionsState2 = this.state.pinnedSections
-    // For pinned
-    let obj2 = JSON.parse(localStorage.getItem('localPinnedItems'));
-    let newObj2 = {};
-    for (var i = 0; i < sectionsState.length; i++) {
-      // IF the object keys (ex: Unnamed Section) is not found in the localstorage, update it on the localstorage
-      // console.log('loop', objKeys[i], sectionsState[i])
-      if (objKeys.indexOf(sectionsState[i]) != -1) {
-        // console.log(newObj[sectionsState[i]], obj[sectionsState[i]]);
-        newObj[sectionsState[i]] = obj[sectionsState[i]];
-        // console.log(newObj2[sectionsState[i]], obj2[sectionsState[i]]);
-        newObj2[sectionsState2[i]] = obj2[sectionsState[i]];
-      } else {
-        newObj[sectionsState[i]] = 'Unnamed pane|Description|pane paneStyle';
-        newObj2[sectionsState2[i]] = '';
-      }
+    var elementItems = null
+    if (this.state.sections != null) {
+      let count = -1
+      elementItems = this.state.sections.map((item) => {
+        count++
+        return <Section unique={count} key={count} goToSectionProp={this.goToSection} deleteSectionProp={() => { this.onDelete(item) }} editSectionProp={(value) => { this.onEdit(value, item) }} section={item}></Section>
+      })
+      count = -1
     }
-    localStorage.setItem('localItems', JSON.stringify(newObj))
-    localStorage.setItem('localPinnedItems', JSON.stringify(newObj2))
     return (
       <div>
         <div id="sectionToolbar">

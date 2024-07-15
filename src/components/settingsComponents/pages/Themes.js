@@ -1,5 +1,5 @@
 import React from 'react';
-import SettingsDropdown from '../SettingsDropdown.js';
+import SettingsDropdown from '../components/SettingsDropdown.js';
 
 const theme = ["Use system default?·radio", "Dynamic Theme Enabled?·radio", "Spotlight Mode·radio"]
 

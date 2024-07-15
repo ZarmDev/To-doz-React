@@ -4,7 +4,6 @@ import WelcomeScreen from '../components/startupComponents/welcomeScreen';
 import Tutorial from '../components/startupComponents/tutorial';
 import Themes from '../components/startupComponents/themes';
 import Notifications from '../components/startupComponents/notifications';
-import Unsupported from '../components/startupComponents/unsupported';
 
 // MDN: https://developer.mozilla.org/en-US/docs/Web/API/Notification
 function notifyMe() {
@@ -32,7 +31,7 @@ function notifyMe() {
     // want to be respectful there is no need to bother them anymore.
 }
 
-const orderConfig = ['welcomeScreen', 'tutorial', 'themes', 'notifications', 'unsupported', 'changelog'];
+const orderConfig = ['welcomeScreen', 'tutorial', 'themes', 'notifications', 'changelog'];
 
 function Startup(props) {
     const [order, setOrder] = useState(0);
@@ -73,9 +72,7 @@ function Startup(props) {
     var currentWindow;
     const currentOrder = orderConfig[order];
     console.log(currentOrder);
-    if (props.oldUser) {
-        currentWindow = <ChangeLog></ChangeLog>
-    } else if (currentOrder == 'welcomeScreen') {
+    if (currentOrder == 'welcomeScreen') {
         currentWindow = <WelcomeScreen allowCookies={next}></WelcomeScreen>
     } else if (currentOrder == 'tutorial') {
         currentWindow = <Tutorial></Tutorial>
@@ -83,10 +80,8 @@ function Startup(props) {
         currentWindow = <Themes selectedTheme={selectedTheme}></Themes>
     } else if (currentOrder == 'notifications') {
         currentWindow = <Notifications allowNotifications={allowNotifications}></Notifications>
-    } else if (currentOrder == 'unsupported') {
-        currentWindow = <Unsupported></Unsupported>
     } else if (currentOrder == 'changelog') {
-        currentWindow = <ChangeLog></ChangeLog>
+        currentWindow = <ChangeLog show={["README.md", "CHANGELOG.md"]}></ChangeLog>
     }
     return (
         <div id="firstStartUpWindow">

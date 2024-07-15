@@ -221,6 +221,8 @@
   box-shadow: 0px 2px 0px 0px rgb(46, 44, 46);
 }
 
+/* I think I got this from somewhere online or I modifed something...? */
+
 @keyframes conicBorderEffect {
   0% {
     border-top-color: var(--big-button-border-effect)
@@ -320,6 +322,20 @@ body {
   overflow-x: hidden;
 }
 
+h1 {
+  color: white;
+}
+
+h2 {
+  color: white;
+}
+
+ul {color: white;}
+
+span {
+  color: white;
+}
+
 #splashscreen {
   position: absolute;
   width: 100vw;
@@ -369,6 +385,13 @@ img {
   /* top | left and right | bottom */
   margin-left: 10px;
   margin-top: 10px;
+}
+
+#toolbar img {
+  width: 3ch;
+  height: 3ch;
+  background-color: white;
+  border-radius: 10px;
 }
 
 #topHeader>* {
@@ -712,13 +735,6 @@ AI Generated code. Might use later.
   margin: 0 !important;
 }
 
-.ql-editor>* {
-  font-size: 20px !important;
-  padding: 10px !important;
-  padding-bottom: 0 !important;
-  padding-top: 0 !important;
-}
-
 .paneStyle {
   width: fit-content;
   min-width: 150px;
@@ -770,7 +786,7 @@ AI Generated code. Might use later.
   position: fixed;
   z-index: 3;
   padding-left: 15px;
-  width: 100vw;
+  width: 95vw;
   height: 100vh;
   word-wrap: break-word;
   text-align: center;
@@ -818,7 +834,7 @@ AI Generated code. Might use later.
 }
 
 #changeLogWindow {
-  width: 100vw;
+  width: 95vw;
   height: 100vh;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -977,6 +993,9 @@ AI Generated code. Might use later.
   position: fixed;
   left: 30vw;
   transition: 0.5s;
+  overflow-y: auto;
+  height: 80vh;
+  overflow-x: hidden;
 }
 
 #settingsContent h1 {
@@ -987,6 +1006,19 @@ AI Generated code. Might use later.
 
 #settingsContent div {
   margin: 30px;
+}
+
+#settingsContent p {
+  white-space: pre-wrap;
+}
+
+#dbForm {
+  margin: 1ch !important;
+}
+
+#dbForm > * {
+  margin: 1vw;
+  margin-left: 0;
 }
 
 #settingsSidebar ul {
@@ -1105,6 +1137,13 @@ AI Generated code. Might use later.
   color: white;
 }
 
+.ql-editor>* {
+  font-size: 20px !important;
+  padding: 10px !important;
+  padding-bottom: 0 !important;
+  padding-top: 0 !important;
+}
+
 .ql-toolbar {
   background-color: white;
 }
@@ -1140,4 +1179,23 @@ AI Generated code. Might use later.
 }
 .ql-color .ql-picker-options [data-value=custom-color]:hover {
   border-color: transparent !important;
+}
+
+#backupModal {
+  animation-name: fadeInEffect;
+  animation-duration: 2s;
+}
+
+#backupModal button {
+  margin: 2vw;
+}
+
+#backupData {
+  background-color: rgb(37, 188, 125);
+  color: rgb(255, 255, 255);
+}
+
+#XbackupData {
+  background-color: rgb(188, 37, 37);
+  color: rgb(54, 12, 12);
 }

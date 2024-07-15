@@ -7,7 +7,33 @@ import introJs from 'intro.js';
 import 'intro.js/introjs.css';
 import { Provider } from 'react-redux';
 import store from './redux/store';
-import { ToastContainer } from 'react-toastify';
+import BackupScreen from './modals/backupScreen'
+import { changeHue } from './utils/cosmetics';
+import { getDataFromLocalStorage, getDataFromSource, uploadDataToDB, uploadDataToSource } from './utils/databaseFuncs';
+import { ToastContainer, toast } from 'react-toastify';
+
+const databaseConnection = localStorage.getItem('dbType');
+if (databaseConnection === 'usingonekey') {
+  var data = await getDataFromSource(databaseConnection);
+  console.log(data)
+  if (Array.isArray(data) && data[0] == false) {
+    setTimeout(() => {toast(`You are now in offline mode. Remember to not leave the site unless you get a notification saying your data was saved. `, {
+      autoClose: 10000
+    });}, 500)
+    setTimeout(() => {toast(`The error from your database says: ${data[1]}`, {
+      autoClose: 10000
+    });}, 500)
+    const [localItems, localPinnedItems] = getDataFromLocalStorage()
+    localStorage.setItem('localItems', JSON.stringify(localItems))
+    localStorage.setItem('localPinnedItems', JSON.stringify(localPinnedItems))
+  } else {
+    const [localItems, localPinnedItems] = data;
+    console.log(localItems, localPinnedItems)
+    localStorage.setItem('localItems', JSON.stringify(localItems))
+    localStorage.setItem('localPinnedItems', JSON.stringify(localPinnedItems))
+  }
+}
+
 
 // Present startup with first users
 window.shouldPresentFirstStartUp = {
@@ -32,6 +58,7 @@ async function getCommits() {
 
 var currVersion = await getCommits();
 const dataDoesntExist = localStorage.getItem('localItems') == undefined || Object.values(JSON.parse(localStorage.getItem('localItems')))[0] == ''
+var shouldShowBackup = false;
 
 // if the user has seen this version before, don't show new version startup
 if (localStorage.getItem('version') == currVersion) {
@@ -45,14 +72,11 @@ if (localStorage.getItem('version') == currVersion) {
   // changelog because they have never used the site
   if (!dataDoesntExist) {
     // it would be good to backup user data before trying to use the new version
-    let backup = prompt('Want to backup your data? (y/n) Just in case, you should backup your data before using the new version.')
-    if (backup == 'y') {
-      localStorage.setItem('backup', localStorage.getItem('localItems'))
-      localStorage.setItem('backupPinned', localStorage.getItem('localPinnedItems'))
-      alert("Your data was backed up! In case this version breaks, your data is in the 'backup' key in the localstorage. You can also type localStorage.getItem('backup') in your console. Your pinned items is in the 'backupPinned' key.")
-    }
+    shouldShowBackup = true;
   }
 }
+
+console.log(localStorage.getItem('dbType'))
 
 if (dataDoesntExist) {
   // Create a object that has all the data of items (placeholder)
@@ -60,6 +84,7 @@ if (dataDoesntExist) {
     'Unnamed section': 'Unnamed pane|Do homework|pane paneStyle',
   }
   localStorage.setItem('localItems', JSON.stringify(data))
+  localStorage.setItem('dbType', 'localstorage')
   window.currentSection = Object.keys(JSON.parse(localStorage.getItem('localItems')))[0];
   // Set all the values to true
   window.shouldPresentFirstStartUp = {
@@ -76,7 +101,7 @@ if (dataDoesntExist) {
 if (localStorage.getItem('localPinnedItems') == undefined) {
   // Unnamed pane|Do homework|pinnedPane
   var data = {
-    'Unnamed section': '',
+    'Unnamed section': "",
   }
   localStorage.setItem('localPinnedItems', JSON.stringify(data))
 }
@@ -86,32 +111,6 @@ function startTutorial(shouldStart) {
   if (shouldStart) {
     introJs().start()
   }
-}
-
-function changeHue(condition, elem) {
-  let hue = Math.floor(Math.random() * 360);
-  const rateOfChange = 5;
-  elem.style.filter = `hue-rotate(${hue}deg)`;
-  let state = 0
-  var hueChange = setInterval(function () {
-    console.log(condition == true);
-    if (condition == true) {
-      clearInterval(hueChange)
-    }
-    if (state == 0) {
-      hue += rateOfChange
-      if (hue > 150) {
-        state = 1
-      }
-    } else if (state == 1) {
-      hue -= rateOfChange
-      if (hue < -150) {
-        state = 0
-      }
-    }
-    console.log(hue);
-    elem.style.filter = `hue-rotate(${hue}deg)`;
-  }, 100)
 }
 
 // if goTo was given an assignment and it's the focusSession value
@@ -125,16 +124,49 @@ if (window.miniFocusSession) {
   }, 100)
 }
 
+var wasOffline = false;
+var lastSave = 0;
+
+setInterval(async () => {
+  if (localStorage.getItem('dbType') === 'usingonekey') {
+    lastSave = 0;
+    const newData = {
+      localItems: localStorage.getItem('localItems'),
+      localPinnedItems: localStorage.getItem('localPinnedItems')
+    }
+    let attempt = await uploadDataToDB(newData)
+    // if it tried to connect but didn't work, set wasOffline = true
+    // this was just made to make sure it notifys one time if you are suddenly offline
+    console.log(attempt, wasOffline)
+    if (attempt == false && wasOffline == false) {
+      wasOffline = true;
+      toast("Your database has disconnected.")
+      // if the user wasOffline and if the connection was successful, tell user
+    } else if (attempt == true && wasOffline == true) {
+      wasOffline = false;
+      toast("Reconnected to the server! Your data was saved!")
+    }
+  }
+}, 2000)
+
+window.lastRender = 0;
+
+setInterval(() => {
+    window.lastRender++;
+    lastSave++;
+}, 1000)
+
 function App() {
   // used to determine whether sections.js or main.js is shown (true or false)
   const [loading, setLoading] = useState(true);
   const [unsavedContent, setContent] = useState(false);
+  const [showBackupData, setBackupData] = useState(shouldShowBackup);
 
   useEffect(() => {
     if (window.shouldPresentFirstStartUp["all"] == true) {
       changeHue(() => document.getElementById('firstStartUpWindow').style.display == 'none', document.getElementById('themes'))
     }
-  })
+  }, [])
 
   // TODO: Use to check dark mode
   // const isDark = window.matchMedia("(prefers-color-scheme:dark)").matches;
@@ -144,20 +176,33 @@ function App() {
       event.preventDefault();
       event.returnValue = 'You have unsaved panes';
     }
+    // if lastSave is greater than window.lastRender then
+    // the user put something and it wasn't saved
+    if (lastSave > window.lastRender) {
+      event.preventDefault();
+      event.returnValue = 'Not everything has been saved to the DB';
+    }
   };
 
   return (
     <Provider store={store}>
-      {(window.shouldPresentFirstStartUp["all"] == true || isOldUser) ? <Startup oldUser={isOldUser && !window.shouldPresentFirstStartUp["all"] == true} parentCallback={startTutorial}></Startup> : <></>}
-      {/* annoyingly, to make sections work, I need to use a empty function as a prop */}
-      {
-        !window.miniFocusSession
-          ? (loading || window.miniFocusSession
-            ? <Sections reset={() => { }} parentCallback={setLoading} />
-            : <Main saveContentCallback={setContent} parentCallback={setLoading} />
-          )
-          : <Main saveContentCallback={setContent} parentCallback={setLoading} />
-      }
+      {showBackupData ? (
+        <BackupScreen parentCallback={() => { setBackupData(false) }} />
+      ) : (
+        <>
+          {/* {(window.shouldPresentFirstStartUp["all"] == true || isOldUser) ? <Startup oldUser={isOldUser && !window.shouldPresentFirstStartUp["all"] == true} parentCallback={startTutorial}></Startup> : <></>} */}
+          {(window.shouldPresentFirstStartUp["all"] == true) ? <Startup oldUser={isOldUser && !window.shouldPresentFirstStartUp["all"] == true} parentCallback={startTutorial}></Startup> : <></>}
+          {/* annoyingly, to make sections work, I need to use a empty function as a prop */}
+          {
+            !window.miniFocusSession
+              ? (loading || window.miniFocusSession
+                ? <Sections reset={() => { }} parentCallback={setLoading} />
+                : <Main saveContentCallback={setContent} parentCallback={setLoading} />
+              )
+              : null
+          }
+        </>
+      )}
       <ToastContainer
         position="bottom-right"
         autoClose={2000}

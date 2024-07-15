@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { toggleSidebar } from '../../redux/store';
+import { toggleSidebar } from '../../../redux/store';
 
 function Checkbox(props) {
     const dispatch = useDispatch();

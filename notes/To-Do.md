@@ -129,3 +129,7 @@ if you have like 20 sections you have to press add section and then go
 all the way down)
 
 - No pause indication in the focus session (especialyl in minimized window)
+
+- Unfortunately, if someone manipulates the localstorage through cross-site scripting or can get it or something like that, then that
+will let them make requests to their server or take the user's items
+To prevent that, either use indexeddb or cookies

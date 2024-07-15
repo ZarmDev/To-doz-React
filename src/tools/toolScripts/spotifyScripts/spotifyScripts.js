@@ -1,4 +1,3 @@
-const clientId = // no leaking :(
 const redirectUri = "http://localhost:3000/To-doz-React"
 const url = new URL("https://accounts.spotify.com/authorize")
 const RESPONSE_TYPE = "token"
