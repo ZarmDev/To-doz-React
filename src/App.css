@@ -336,6 +336,10 @@ span {
   color: white;
 }
 
+a {
+  color: rgb(167, 167, 248);
+}
+
 #splashscreen {
   position: absolute;
   width: 100vw;
@@ -773,7 +777,7 @@ AI Generated code. Might use later.
   padding: 0;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 95vw;
   height: 100vh;
   opacity: 0.4;
 }
@@ -831,6 +835,7 @@ AI Generated code. Might use later.
   color: rgb(255, 255, 255);
   position: relative;
   z-index: 1;
+  font-size: 1.4ch;
 }
 
 #changeLogWindow {
@@ -1016,9 +1021,13 @@ AI Generated code. Might use later.
   margin: 1ch !important;
 }
 
-#dbForm > * {
-  margin: 1vw;
+#dbForm input, #dbForm select {
+  margin: 3vw;
+  margin-top: 0;
   margin-left: 0;
+}
+#dbForm label {
+  color: rgb(118, 118, 118);
 }
 
 #settingsSidebar ul {
@@ -1135,6 +1144,9 @@ AI Generated code. Might use later.
 
 #firstStartUpWindow {
   color: white;
+  position: fixed;
+  z-index: 4;
+  width: 95vw;
 }
 
 .ql-editor>* {

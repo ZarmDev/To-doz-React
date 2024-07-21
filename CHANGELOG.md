@@ -1,9 +1,12 @@
 - Significantly improved rate-limiting
+- Made the database more efficient (actually uses one key now, not the extra username/password)
 - Added ability to connect to a database
 - Added notifications for when your in offline mode
 - Added an alert if you leave without the data being uploaded
 - Added new backup screen
 - Fixed scrolling down bug in #settingsContent (settings)
+- Fixed sizing issues on mobile
+- Updated link colors
 
 Steps:
 - make sure to test it with data and configurations preloaded...
@@ -24,3 +27,5 @@ Future Update:
 - Add a time tracker for focus sessions (that you can see in the dashboard)
 - Address issues tab in microsoft dev tools
 - Compress localstorage to save space (and also encrypt it?)
+- Key rotations?
+- Save spotify token

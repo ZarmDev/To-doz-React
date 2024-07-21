@@ -78,26 +78,25 @@ function Data() {
                 </p>
                 <div id="dbForm">
                     <label for="connection">Your database site: </label>
-                    <input id="databaseConnectionString" name="connection" type="text" placeholder="Enter a URL."></input>
-                    <br></br><label>Are you using:</label>
-                    <select>
-                        <option>Normal configuration</option>
+                    <input id="databaseConnectionString" name="connection" type="text" placeholder="Enter a URL." required></input>
+                    <br></br><label>Are you using: </label>
+                    <select required>
+                        <option>Normal configuration (one key configuration)</option>
                         <option disabled>JWT Tokens</option>
                     </select>
-                    <br></br><label>Would you like to encrypt the database? (Unavailable)</label>
-                    <br></br><button disabled>Yes</button><button disabled>No</button>
+                    <br></br><label>Would you like to encrypt the database? (Unavailable) </label> <input type='checkbox' disabled></input>
                     <br></br>
-                    <label name="usernameForDB">What's your username for encrypting the database? (User is required, but isn't used for encrypting the database. It's just there because of legacy code.)</label>
-                    <input for="usernameForDB" id="usernameForDB"></input>
+                    <label name="usernameForDB">What's your username (only for JWT tokens) </label>
+                    <input for="usernameForDB" id="usernameForDB" disabled></input>
                     {/* Only if encrypt checked */}
                     {/* TODO: Can't encrypt using passwords yet... */}
-                    <br></br><label>What's your password for encrypting the database? (Password is required, but isn't used for encrypting the database. It's just there because of legacy code.)</label>
-                    <input id="passwordForEncryptingDB"></input>
+                    <br></br><label>What's your password (only for JWT tokens) </label>
+                    <input id="passwordForEncryptingDB" disabled></input>
                     {/* Only if one key checked */}
-                    <br></br><label>What's your SUPER_SECRET_KEY? (In the .env file)</label>
+                    <br></br><label>What's your SUPER_SECRET_KEY? (only for one key configuration) </label>
                     <input id="superSecretKeyForDB"></input>
                 </div>
-                <br></br><button onClick={addDatabaseConnection}>Connect! (Be careful, you can not go back!)</button>
+                <button onClick={addDatabaseConnection}>Connect! (Be careful, you can not go back!)</button>
                 <h2>Import/Export JSON (coming soon)</h2>
             </div>
         </div>

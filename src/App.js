@@ -20,9 +20,6 @@ if (databaseConnection === 'usingonekey') {
     setTimeout(() => {toast(`You are now in offline mode. Remember to not leave the site unless you get a notification saying your data was saved. `, {
       autoClose: 10000
     });}, 500)
-    setTimeout(() => {toast(`The error from your database says: ${data[1]}`, {
-      autoClose: 10000
-    });}, 500)
     const [localItems, localPinnedItems] = getDataFromLocalStorage()
     localStorage.setItem('localItems', JSON.stringify(localItems))
     localStorage.setItem('localPinnedItems', JSON.stringify(localPinnedItems))
