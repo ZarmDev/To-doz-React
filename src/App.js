@@ -121,38 +121,6 @@ if (window.miniFocusSession) {
   }, 100)
 }
 
-var wasOffline = false;
-var lastSave = 0;
-
-setInterval(async () => {
-  if (localStorage.getItem('dbType') === 'usingonekey') {
-    lastSave = 0;
-    const newData = {
-      localItems: localStorage.getItem('localItems'),
-      localPinnedItems: localStorage.getItem('localPinnedItems')
-    }
-    let attempt = await uploadDataToDB(newData)
-    // if it tried to connect but didn't work, set wasOffline = true
-    // this was just made to make sure it notifys one time if you are suddenly offline
-    console.log(attempt, wasOffline)
-    if (attempt == false && wasOffline == false) {
-      wasOffline = true;
-      toast("Your database has disconnected.")
-      // if the user wasOffline and if the connection was successful, tell user
-    } else if (attempt == true && wasOffline == true) {
-      wasOffline = false;
-      toast("Reconnected to the server! Your data was saved!")
-    }
-  }
-}, 2000)
-
-window.lastRender = 0;
-
-setInterval(() => {
-    window.lastRender++;
-    lastSave++;
-}, 1000)
-
 function App() {
   // used to determine whether sections.js or main.js is shown (true or false)
   const [loading, setLoading] = useState(true);
@@ -175,7 +143,7 @@ function App() {
     }
     // if lastSave is greater than window.lastRender then
     // the user put something and it wasn't saved
-    if (lastSave > window.lastRender) {
+    if (window.paneNotSaved) {
       event.preventDefault();
       event.returnValue = 'Not everything has been saved to the DB';
     }

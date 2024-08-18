@@ -61,10 +61,10 @@ export async function getDataFromSource(dbType) {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${super_secret_key}`,
                 },
-                body: JSON.stringify({
-                    username: user,
-                    password: password
-                }),
+                // body: JSON.stringify({
+                //     username: user,
+                //     password: password
+                // }),
             });
             var data = await res.json();
             data = data["data"]
@@ -83,95 +83,9 @@ export async function getDataFromSource(dbType) {
     }
 }
 
-// useDatabase: true or false
-// async function getDataFromSource(dbType) {
-//     if (dbType === "localstorage" || dbType == null) {
-//         let itemsFromStorage = JSON.parse(localStorage.getItem('localItems'))[window.currentSection].split('·');
-//         let pinnedItemsFromStorage = JSON.parse(localStorage.getItem('localPinnedItems'));
-//         // // wait a second, if itemsFromStorage is empty that's a suspicous bug.. why am I filtering it then.
-//         // if (itemsFromStorage[0] == '') {
-//         //   itemsFromStorage = []
-//         // }
-//         // // this makes sense, if the pinned split is just an empty array, there are no pinned panes.
-//         // if (pinnedItemsFromStorage[0] == '') {
-//         //   pinnedItemsFromStorage = []
-//         // }
-//         var pinnedItems = null;
-//         console.log(pinnedItemsFromStorage)
-//         if (pinnedItemsFromStorage[window.currentSection] != null) {
-//             pinnedItems = pinnedItemsFromStorage[window.currentSection].split('·')
-//         }
-//         return [itemsFromStorage, pinnedItems]
-//     } else if (dbType === "usingjwt") {
-//         const connectionString = localStorage.getItem('databaseConnection')
-//         const [user, password] = JSON.parse(localStorage.getItem('databaseUser'))
-//         const response = await fetch(`${connectionString}/signin`, {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//             },
-//             body: JSON.stringify({
-//                 username: user,
-//                 password: password
-//             }),
-//         });
-
-//         if (!response.ok) {
-//             alert("Failed to fetch database, using localstorage instead.")
-//             getDataFromSource(false)
-//         } else {
-//             const super_secret_key = localStorage.getItem('SUPER_SECRET_KEY')
-//             const connectionString = localStorage.getItem('databaseConnection')
-//             const response2 = await fetch(`${connectionString}/api/getdata`, {
-//                 method: 'POST',
-//                 headers: {
-//                     'Content-Type': 'application/json',
-//                     'Authorization': `Bearer ${super_secret_key}`,
-//                 },
-//                 body: JSON.stringify({
-//                     username: user,
-//                     password: password
-//                 }),
-//             });
-//             var data = await response2.json()
-//             data = data["data"]
-//             var pinnedItems = null;
-//             if (data["localPinnedItems"][window.currentSection] != null) {
-//                 pinnedItems = data["localPinnedItems"][window.currentSection].split('·')
-//             }
-//             return [data["localItems"][window.currentSection].split('·'), pinnedItems]
-//         }
-//     } else if (dbType === "usingonekey") {
-//         const connectionString = localStorage.getItem('databaseConnection')
-//         const [user, password] = JSON.parse(localStorage.getItem('databaseUser'))
-//         const super_secret_key = localStorage.getItem('SUPER_SECRET_KEY')
-//         const response2 = await fetch(`${connectionString}/api/getdata`, {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//                 'Authorization': `Bearer ${super_secret_key}`,
-//             },
-//             body: JSON.stringify({
-//                 username: user,
-//                 password: password
-//             }),
-//         });
-//         var data = await response2.json()
-//         data = data["data"]
-//         var pinnedItems = null;
-//         if (data["localPinnedItems"][window.currentSection] != null) {
-//             pinnedItems = data["localPinnedItems"][window.currentSection].split('·')
-//         }
-//         var localItems = JSON.parse(data["localItems"])
-//         console.log(localItems)
-//         return [localItems[window.currentSection].split('·'), pinnedItems]
-//     }
-// }
-
 export async function uploadDataToDB(newData) {
     const databaseConnection = localStorage.getItem('databaseConnection');
     const SUPER_SECRET_KEY = localStorage.getItem('SUPER_SECRET_KEY');
-    const [user, password] = JSON.parse(localStorage.getItem('databaseUser'));
     // console.log(`${databaseConnection}/api/updatedata`)
     try {
         const response2 = await fetch(`${databaseConnection}/api/updatedata`, {
@@ -181,8 +95,6 @@ export async function uploadDataToDB(newData) {
                 'Authorization': `Bearer ${SUPER_SECRET_KEY}`,
             },
             body: JSON.stringify({
-                username: user,
-                password: password,
                 data: newData
             }),
         });
