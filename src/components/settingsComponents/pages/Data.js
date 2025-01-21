@@ -29,12 +29,11 @@ function Data() {
             } else {
                 var JWT = await response.json()
                 JWT = JWT.token
-                console.log(JWT);
                 const newData = {
                     localItems: localStorage.getItem('localItems'),
                     localPinnedItems: localStorage.getItem('localPinnedItems')
                 }
-                const response2 = await fetch(`${connectionString}/api/updatedata`, {
+                await fetch(`${connectionString}/api/updatedata`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -63,6 +62,90 @@ function Data() {
             await uploadDataToDB(newData)
         }
     }
+
+    function exportDataFile() {
+        // USAGE OF AI + Me
+
+        // Data you want to write to the file
+        const localItems = localStorage.getItem('localItems');
+        const localPinnedItems = localStorage.getItem('localPinnedItems');
+        const data = localItems.length + "|" + localPinnedItems.length + "|" + localItems + localPinnedItems;
+
+        // Create a new Blob object using the data
+        const blob = new Blob([data], { type: 'text/plain' });
+
+        // Create a link element
+        const link = document.createElement("a");
+
+        // Set the href attribute of the link to the blob URL
+        link.href = URL.createObjectURL(blob);
+
+        // Set the download attribute of the link to the desired file name
+        link.download = "data.txt";
+
+        // Programmatically click the link to trigger the download
+        link.click();
+
+        // Clean up by revoking the object URL
+        URL.revokeObjectURL(link.href);
+    }
+
+    function exportBackupData() {
+        // USAGE OF AI + Me
+
+        // Data you want to write to the file
+        const localItems = localStorage.getItem('backup');
+        const localPinnedItems = localStorage.getItem('backupPinned');
+        const data = localItems.length + "|" + localPinnedItems.length + "|" + localItems + localPinnedItems;
+
+        // Create a new Blob object using the data
+        const blob = new Blob([data], { type: 'text/plain' });
+
+        // Create a link element
+        const link = document.createElement("a");
+
+        // Set the href attribute of the link to the blob URL
+        link.href = URL.createObjectURL(blob);
+
+        // Set the download attribute of the link to the desired file name
+        link.download = "backup.txt";
+
+        // Programmatically click the link to trigger the download
+        link.click();
+
+        // Clean up by revoking the object URL
+        URL.revokeObjectURL(link.href);
+    }
+
+    function importDataFile(file) {
+        if (file) {
+            const reader = new FileReader();
+            // Set up the onload callback
+            reader.onload = function (e) {
+                let result = e.target.result;
+                let localItemsLength = parseInt(result.slice(0, result.indexOf('|')));
+                // console.log(localItemsLength);
+                // Remove that substring of the string
+                result = result.slice(result.indexOf("|") + 1, result.length);
+                let localPinnedItemsLength = parseInt(result.slice(0, result.indexOf('|')));
+                // console.log(localPinnedItemsLength);
+                // Remove that substring of the string
+                result = result.slice(result.indexOf("|") + 1, result.length);
+                let localItems = result.slice(0, localItemsLength);
+                result = result.slice(localItemsLength, result.length);
+                let localPinnedItems = result.slice(0, localPinnedItemsLength);
+                // console.log(localItems);
+                // console.log(localPinnedItems);
+                localStorage.setItem('localItems', localItems);
+                localStorage.setItem('localPinnedItems', localPinnedItems);
+                // Force reload so user gets updated ata
+                window.location.reload();
+            };
+            // Read the file as text
+            reader.readAsText(file);
+        }
+    }
+
     return (
         <div id="settingsContent">
             <h1>Data</h1>
@@ -97,7 +180,16 @@ function Data() {
                     <input id="superSecretKeyForDB"></input>
                 </div>
                 <button onClick={addDatabaseConnection}>Connect! (Be careful, you can not go back!)</button>
-                <h2>Import/Export JSON (coming soon)</h2>
+                <h2>Import/Export Data (note: your settings are not in the data)</h2>
+                <label for="file">Import file (OVERRIDES CURRENT DATA)</label>
+                <br></br>
+                <input type="file" id="file" name="file" onChange={(e) => { importDataFile(e.target.files[0]) }} />
+                <br></br>
+                <br></br>
+                <button onClick={exportDataFile}>Export data to file</button>
+                <br></br>
+                <br></br>
+                <button onClick={exportBackupData}>Export backup data (incase you lost your data or had issues)</button>
             </div>
         </div>
     )

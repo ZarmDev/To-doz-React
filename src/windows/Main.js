@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Pane from '../components/Pane';
 import Sections from '../windows/Sections';
 import FocusSession from '../tools/FocusSession';
@@ -50,6 +50,7 @@ function Main(props) {
     const [pinned, setPinned] = useState(pinnedItemsFromStorage);
     // Which tool (window) is open ex: focussession, settings, grades
     const [toolOpen, setToolOpen] = useState(false)
+    const [showSidebar, setShowSidebar] = useState(localStorage.getItem('sidebarIsAlwaysOpen') == 'true');
 
     // TODO: maybe use a window object from the localstorage?
     // TODO: when you finished deciding, find all showSidebar and replace it in file
@@ -57,13 +58,7 @@ function Main(props) {
 
     // if we need a scrollbar (too much buttons)
     var toolbarScroll = false;
-    // const [toolbarScroll, setToolbarScroll] = useState(false);
-    // is for the scroll (carousel) effect on the toolbar
-    var highestPointOfScroll = 0;
-    // const [highestPointOfScroll, setHighestPointOfScroll] = useState(0)
-    // keep track of the last pane that was deleted
     var lastDeletedPane = '';
-    // const [lastDeletedPane, setLastDeletedPane] = useState('')
 
     useEffect(() => {
         // Present the tutorial for Main.js
@@ -185,13 +180,9 @@ function Main(props) {
     }
     function toggleSidebar() {
         if (showSidebar == true) {
-            setState({
-                showSidebar: false
-            })
+            setShowSidebar(false);
         } else {
-            setState({
-                showSidebar: true
-            })
+            setShowSidebar(true);
         }
     }
     // To rerender all the items, pinned and the sidebar when user changes section from sidebar
@@ -201,9 +192,7 @@ function Main(props) {
         setItems(itemsFromStorage)
         setPinned(pinnedItemsFromStorage)
 
-        setState({
-            showSidebar: true
-        })
+        setShowSidebar(true);
     }
     function closeTool() {
         setToolOpen('')
@@ -324,25 +313,23 @@ function Main(props) {
     }
     count = -1
     if (items.length != 0) {
-        var elementItems = useMemo(() => {
-            items.map((item) => {
-                count++
-                return (
-                    <Pane
-                        key={count}
-                        saveContentCallback={props.saveContentCallback}
-                        pinned={false}
-                        pinProp={(unique) => { pinProp(unique) }}
-                        unPinProp={(unique) => { unPinProp(unique) }}
-                        editPaneProp={(unique, pinned, description) => { editPane(unique, pinned, description) }}
-                        deletePaneProp={(unique, pinned) => { deletePane(unique, pinned) }}
-                        undoDelete={(unique) => { undoDelete(unique) }}
-                        items={item}
-                        unique={count}
-                    ></Pane>
-                )
-            })
-        }, []);
+        var elementItems = items.map((item) => {
+            count++
+            return (
+                <Pane
+                    key={count}
+                    saveContentCallback={props.saveContentCallback}
+                    pinned={false}
+                    pinProp={(unique) => { pinProp(unique) }}
+                    unPinProp={(unique) => { unPinProp(unique) }}
+                    editPaneProp={(unique, pinned, description) => { editPane(unique, pinned, description) }}
+                    deletePaneProp={(unique, pinned) => { deletePane(unique, pinned) }}
+                    undoDelete={(unique) => { undoDelete(unique) }}
+                    items={item}
+                    unique={count}
+                ></Pane>
+            )
+        })
     }
     let obj = JSON.parse(localStorage.getItem('localItems'));
     // should be joined or split? not sure
@@ -365,7 +352,6 @@ function Main(props) {
     } else if (toolOpen == 'dashboard') {
         currentToolOpen = <Dashboard exitTool={() => { closeTool('dashboard') }}></Dashboard>
     }
-    let sidebarIsAlwaysOpen = localStorage.getItem('sidebarIsAlwaysOpen');
 
     var wasOffline = false;
 
@@ -392,7 +378,7 @@ function Main(props) {
             {/* Which "tool" or "window" is open */}
             {currentToolOpen}
             {/* If the sidebar should be always open */}
-            {sidebarIsAlwaysOpen == 'true' ? <div>
+            {localStorage.getItem('alwaysShowSidebar') ? <div>
                 <div id="sidebar">
                     <Sections reset={reset}></Sections>
                 </div></div> : <div><button onClick={toggleSidebar} className={showSidebar ? 'sidebarOnToggle' : 'sidebarOffToggle'} id="toggleSidebar">{showSidebar ? '>' : '<'}</button>

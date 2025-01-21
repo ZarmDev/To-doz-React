@@ -5,8 +5,6 @@ import Main from './windows/Main.js'
 import Startup from './windows/Startup.js'
 import introJs from 'intro.js';
 import 'intro.js/introjs.css';
-import { Provider } from 'react-redux';
-import store from './redux/store';
 import BackupScreen from './modals/backupScreen'
 import { changeHue } from './utils/cosmetics';
 import { getDataFromLocalStorage, getDataFromSource, uploadDataToDB, uploadDataToSource } from './utils/databaseFuncs';
@@ -17,9 +15,11 @@ if (databaseConnection === 'usingonekey') {
   var data = await getDataFromSource(databaseConnection);
   console.log(data)
   if (Array.isArray(data) && data[0] == false) {
-    setTimeout(() => {toast(`You are now in offline mode. Remember to not leave the site unless you get a notification saying your data was saved. `, {
-      autoClose: 10000
-    });}, 500)
+    setTimeout(() => {
+      toast(`You are now in offline mode. Remember to not leave the site unless you get a notification saying your data was saved. `, {
+        autoClose: 10000
+      });
+    }, 500)
     const [localItems, localPinnedItems] = getDataFromLocalStorage()
     localStorage.setItem('localItems', JSON.stringify(localItems))
     localStorage.setItem('localPinnedItems', JSON.stringify(localPinnedItems))
@@ -72,8 +72,6 @@ if (localStorage.getItem('version') == currVersion) {
     shouldShowBackup = true;
   }
 }
-
-console.log(localStorage.getItem('dbType'))
 
 if (dataDoesntExist) {
   // Create a object that has all the data of items (placeholder)
@@ -150,7 +148,7 @@ function App() {
   };
 
   return (
-    <Provider store={store}>
+    <div>
       {showBackupData ? (
         <BackupScreen parentCallback={() => { setBackupData(false) }} />
       ) : (
@@ -179,7 +177,7 @@ function App() {
         pauseOnHover
         theme="dark"
       />
-    </Provider>
+    </div>
   );
 }
 
