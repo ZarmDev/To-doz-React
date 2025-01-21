@@ -1,6 +1,4 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { toggleSidebar } from '../../../redux/store';
 
 class Features extends React.Component {
     constructor(props) {

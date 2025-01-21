@@ -5,8 +5,6 @@ import Main from './windows/Main.js'
 import Startup from './windows/Startup.js'
 import introJs from 'intro.js';
 import 'intro.js/introjs.css';
-import { Provider } from 'react-redux';
-import store from './redux/store';
 import BackupScreen from './modals/backupScreen'
 import { changeHue } from './utils/cosmetics';
 import { getDataFromLocalStorage, getDataFromSource, uploadDataToDB, uploadDataToSource } from './utils/databaseFuncs';
@@ -17,9 +15,11 @@ if (databaseConnection === 'usingonekey') {
   var data = await getDataFromSource(databaseConnection);
   console.log(data)
   if (Array.isArray(data) && data[0] == false) {
-    setTimeout(() => {toast(`You are now in offline mode. Remember to not leave the site unless you get a notification saying your data was saved. `, {
-      autoClose: 10000
-    });}, 500)
+    setTimeout(() => {
+      toast(`You are now in offline mode. Remember to not leave the site unless you get a notification saying your data was saved. `, {
+        autoClose: 10000
+      });
+    }, 500)
     const [localItems, localPinnedItems] = getDataFromLocalStorage()
     localStorage.setItem('localItems', JSON.stringify(localItems))
     localStorage.setItem('localPinnedItems', JSON.stringify(localPinnedItems))
@@ -73,8 +73,6 @@ if (localStorage.getItem('version') == currVersion) {
   }
 }
 
-console.log(localStorage.getItem('dbType'))
-
 if (dataDoesntExist) {
   // Create a object that has all the data of items (placeholder)
   let data = {
@@ -121,38 +119,6 @@ if (window.miniFocusSession) {
   }, 100)
 }
 
-var wasOffline = false;
-var lastSave = 0;
-
-setInterval(async () => {
-  if (localStorage.getItem('dbType') === 'usingonekey') {
-    lastSave = 0;
-    const newData = {
-      localItems: localStorage.getItem('localItems'),
-      localPinnedItems: localStorage.getItem('localPinnedItems')
-    }
-    let attempt = await uploadDataToDB(newData)
-    // if it tried to connect but didn't work, set wasOffline = true
-    // this was just made to make sure it notifys one time if you are suddenly offline
-    console.log(attempt, wasOffline)
-    if (attempt == false && wasOffline == false) {
-      wasOffline = true;
-      toast("Your database has disconnected.")
-      // if the user wasOffline and if the connection was successful, tell user
-    } else if (attempt == true && wasOffline == true) {
-      wasOffline = false;
-      toast("Reconnected to the server! Your data was saved!")
-    }
-  }
-}, 2000)
-
-window.lastRender = 0;
-
-setInterval(() => {
-    window.lastRender++;
-    lastSave++;
-}, 1000)
-
 function App() {
   // used to determine whether sections.js or main.js is shown (true or false)
   const [loading, setLoading] = useState(true);
@@ -175,14 +141,14 @@ function App() {
     }
     // if lastSave is greater than window.lastRender then
     // the user put something and it wasn't saved
-    if (lastSave > window.lastRender) {
+    if (window.paneNotSaved) {
       event.preventDefault();
       event.returnValue = 'Not everything has been saved to the DB';
     }
   };
 
   return (
-    <Provider store={store}>
+    <div>
       {showBackupData ? (
         <BackupScreen parentCallback={() => { setBackupData(false) }} />
       ) : (
@@ -211,7 +177,7 @@ function App() {
         pauseOnHover
         theme="dark"
       />
-    </Provider>
+    </div>
   );
 }
 

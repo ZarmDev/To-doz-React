@@ -29,4 +29,4 @@ Enter ``npm run start``
 
 6.It will be launched on localhost (in your browser)
 # Future
-To-Doz-React might become an electron app (native file storage) and I said I would rewrite the React components using modern React which has been done in some components.
+To-Doz-React is probably going to use IndexedDB for better performance and better security

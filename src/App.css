@@ -460,13 +460,14 @@ img {
   backdrop-filter: none !important;
   display: flex !important;
   justify-content: center;
-  transition: 0.5s !important;
+  transition: 0s !important;
 }
 
 .focusSideBarOn:hover {
   left: 65vw;
   width: 40vw;
   height: 100vh;
+  transition: 0.4s !important;
 }
 
 #main {
@@ -1106,6 +1107,7 @@ AI Generated code. Might use later.
   position: fixed;
   z-index: 3;
   color: white;
+  transition: 0s !important;
 }
 
 #showLess {
@@ -1157,7 +1159,18 @@ AI Generated code. Might use later.
 }
 
 .ql-toolbar {
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  left: 0;
   background-color: white;
+}
+.ql-toolbar * {
+  color: rgb(52, 52, 52);
+}
+
+.ql-toolbar.ql-snow + .ql-container.ql-snow {
+  border-top: 1px solid #ccc !important;
 }
 
 .ql-snow {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
@@ -172,4 +172,4 @@ function Pane(props) {
     )
 }
 
-export default Pane
+export default memo(Pane)

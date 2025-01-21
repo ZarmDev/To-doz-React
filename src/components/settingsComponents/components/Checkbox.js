@@ -1,17 +1,11 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { toggleSidebar } from '../../../redux/store';
+import { useState } from "react";
 
 function Checkbox(props) {
-    const dispatch = useDispatch();
-    // Goes into the store and checks if it's checked
-    const checked = useSelector((state) => {
-        // console.log(props.localValue, state.sidebar);
-        return state.sidebar[props.localValue]
-    });
+    const [checked, setChecked] = useState(localStorage.getItem(props.localValue) == "true");
 
     const handleChange = (event) => {
+        setChecked(event.target.checked);
         localStorage.setItem(props.localValue, event.target.checked);
-        dispatch(toggleSidebar(event.target.checked));
     };
 
     return (
