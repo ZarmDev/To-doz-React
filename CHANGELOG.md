@@ -1,5 +1,3 @@
-- Changed animations
-- Added toolbar at the top
-- Completely removed redux to improve performance and size of app
-- Fix sidebar bug
-- Added import and export data
+- Refreshed pane icons
+- Improved performance by not using IntroJS and data-intro unless it's the first startup
+- Disabled mobile zooming

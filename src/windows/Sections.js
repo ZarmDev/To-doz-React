@@ -2,7 +2,7 @@ import React from 'react';
 import Section from '../components/Section'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { getDataFromLocalStorage, getDataFromSource, uploadDataToDB, uploadDataToSource } from 'src/utils/databaseFuncs';
+import { getDataFromLocalStorage } from 'src/utils/databaseFuncs';
 
 function undoSectionEdit(oldName, index) {
   let sectionElements = document.getElementsByClassName('section');

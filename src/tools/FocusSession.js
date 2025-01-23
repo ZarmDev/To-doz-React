@@ -121,7 +121,7 @@ function FocusSession(props) {
         <input name="token" type="text" onChange={updateToken} placeholder='something like BWFJEaKDJkWFI'></input> <br></br>
         <label htmlFor='amountofsongs'>Amount of songs</label>
         <input name="amountofsongs" type="text" placeholder='5'></input> <br></br>
-        <button className="themedButton" onClick={sub}>Get recommend songs</button> <br></br>
+        <button className="bigThemedButton" onClick={sub}>Get recommend songs</button> <br></br>
         <p><b>Remember to click don't save on spotify (Unless you really like the playlist!)</b></p>
         <p>Also, if nothing happens, most likely your token expired, you need to get a new one...</p>
         {/* <button onClick={deleteCurrPlaylist}>Delete Playlist</button> */}
