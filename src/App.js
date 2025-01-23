@@ -7,7 +7,7 @@ import introJs from 'intro.js';
 import 'intro.js/introjs.css';
 import BackupScreen from './modals/backupScreen'
 import { changeHue } from './utils/cosmetics';
-import { getDataFromLocalStorage, getDataFromSource, uploadDataToDB, uploadDataToSource } from './utils/databaseFuncs';
+import { getDataFromLocalStorage, getDataFromSource } from './utils/databaseFuncs';
 import { ToastContainer, toast } from 'react-toastify';
 
 const databaseConnection = localStorage.getItem('dbType');
@@ -101,10 +101,43 @@ if (localStorage.getItem('localPinnedItems') == undefined) {
   localStorage.setItem('localPinnedItems', JSON.stringify(data))
 }
 
+function addElemHint(id, message) {
+  const elem = document.getElementById(id);
+  elem.setAttribute('data-intro', message);
+}
+
+function waitForMainToLoad(intro) {
+  var addHint = setInterval(() => {
+    // Just check any element in Main.js
+    const elem = document.getElementById('startSession');
+    if (elem != null) {
+      addElemHint('startSession', "Here, you can start a focus session with any amount of minutes and you can use the spotify integration. Note that the focus session WILL work even when the computer is asleep (it checks the difference between dates and doesn't just subtract it every second)")
+      addElemHint('settings', "Here, you can customize the features, colors, themes, etc. If you click it, you will see a full tour of the settings.")
+      addElemHint('checkGrades', "Here, you can see the time elapsed since you opened To-Doz. In the future, you will be able to see the amount you focused on that day, a graph of your progress, your streak, etc.")
+      const panes = document.getElementsByClassName('pane');
+      if (panes.length != 0) {
+        panes[0].setAttribute('data-intro', "This is a pane. You can edit it by clicking on the title or description. You can also pin it to the toolbar by clicking the pin button. NOTE: Although you CAN add images, do know that adding lots of images significantly impacts the performance.")
+      }
+      intro.addHints();
+      intro.start();
+      clearInterval(addHint);
+    }
+  }, 500)
+}
+
+function addHintsToPage(intro) {
+  const firstSection = document.getElementsByClassName('section')[0];
+  firstSection.setAttribute('data-intro', "This is section, you can edit it by clicking on the text and you can delete it by clicking the X. Each section contains panes, which we will get to in a moment. Also, please note that the edit (pencil) button does nothing. In the future, you will be able to customize the section.")
+  intro.addHints();
+  intro.start();
+  waitForMainToLoad(intro);
+}
+
 function startTutorial(shouldStart) {
+  const intro = introJs();
   // shouldStart is provided from startup
   if (shouldStart) {
-    introJs().start()
+    addHintsToPage(intro);
   }
 }
 

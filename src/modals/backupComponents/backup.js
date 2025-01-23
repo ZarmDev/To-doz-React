@@ -13,8 +13,8 @@ function BackupModal(props) {
         <div id="backupModal">
             <h1>A new version has arrived!</h1>
             <h2>Would you like to:</h2>
-            <button id="backupData" className="themedButton" onClick={() => {props.parentCallback(true)}}>Backup your data</button>
-            <button id="XbackupData" className="themedButton" onClick={() => {props.parentCallback(false)}}>Not backup your data</button>
+            <button id="backupData" className="bigThemedButton" onClick={() => {props.parentCallback(true)}}>Backup your data</button>
+            <button id="XbackupData" className="bigThemedButton" onClick={() => {props.parentCallback(false)}}>Not backup your data</button>
             <p><b>How is it backed up?</b> <br></br>
                 The data is backed up in a seperate key in your localstorage.
                 Generally, I backup my data every update, but, it depends on

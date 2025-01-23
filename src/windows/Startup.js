@@ -71,7 +71,6 @@ function Startup(props) {
 
     var currentWindow;
     const currentOrder = orderConfig[order];
-    console.log(currentOrder);
     if (currentOrder == 'welcomeScreen') {
         currentWindow = <WelcomeScreen allowCookies={next}></WelcomeScreen>
     } else if (currentOrder == 'tutorial') {

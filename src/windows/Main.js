@@ -23,7 +23,7 @@ const Undo = ({ onUndo, closeToast }) => {
     return (
         <div>
             <h3>
-                Pane deleted <button className="themedButton" onClick={() => { handleClick() }}>UNDO</button>
+                Pane deleted <button className="mediumThemedButton" onClick={() => { handleClick() }}>UNDO</button>
             </h3>
         </div>
     );
@@ -392,9 +392,9 @@ function Main(props) {
                         <h1>{window.currentSection}</h1>
                         {toolbarScroll ? <button id="showLess" className="simpleThemedButton" onClick={showLessEffect}>{'<'}</button> : <></>}
                         <div id="toolbar">
-                            <button className="bigThemedButton" onClick={() => { openTool('focussession') }} id="startSession" data-intro="Here, you can start a focus session with any amount of minutes and you can use the spotify integration. Note that the focus session WILL work even when the computer is asleep (it checks the difference between dates and doesn't just subtract it every second)">Start a focus session</button>
-                            <button className="bigThemedButton" onClick={() => { openTool('settings') }} id="settings" data-intro="Here, you can customize the features, colors, themes, etc. If you click it, you will see a full tour of the settings.">Settings</button>
-                            <button className="bigThemedButton" onClick={() => { openTool('dashboard') }} id="checkGrades" data-intro="Here, you can see the time elapsed since you opened To-Doz. In the future, you will be able to see the amount you focused on that day, a graph of your progress, your streak, etc.">Dashboard</button>
+                            <button className="bigThemedButton" onClick={() => { openTool('focussession') }} id="startSession">Start a focus session</button>
+                            <button className="bigThemedButton" onClick={() => { openTool('settings') }} id="settings">Settings</button>
+                            <button className="bigThemedButton" onClick={() => { openTool('dashboard') }} id="checkGrades">Dashboard</button>
                             {/* <button className="bigThemedButton" onClick={() => { openTool('grades')}} id="checkGrades">Grades</button>
                                 <button className='bigThemedButton' onClick={() => { openTool('templates')}} id="findTemplates">Templates</button>
                                 <button className="bigThemedButton" onClick={() => { openTool('grades')}} id="checkGrades">Plugins</button> */}

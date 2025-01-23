@@ -164,7 +164,7 @@ function Data() {
                     <input id="databaseConnectionString" name="connection" type="text" placeholder="Enter a URL." required></input>
                     <br></br><label>Are you using: </label>
                     <select required>
-                        <option>Normal configuration (one key configuration)</option>
+                        <option>Default configuration</option>
                         <option disabled>JWT Tokens</option>
                     </select>
                     <br></br><label>Would you like to encrypt the database? (Unavailable) </label> <input type='checkbox' disabled></input>
