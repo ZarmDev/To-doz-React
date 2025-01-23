@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Section from '../components/Section'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -9,42 +9,41 @@ function undoSectionEdit(oldName, index) {
   sectionElements[index].getElementsByTagName('p')[0].innerText = oldName;
 }
 
-class Sections extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      shown: false
-      // pinned: JSON.parse(localStorage.getItem('localPinnedItems'))
-    };
-    this.goToSection = this.goToSection.bind(this)
-    this.add = this.add.bind(this)
-    this.onEdit = this.onEdit.bind(this)
-    this.onDelete = this.onDelete.bind(this)
-  }
+function PencilIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" /><path d="m15 5 4 4" /></svg>
+  )
+}
 
-  async componentDidMount() {
-    // const databaseConnection = localStorage.getItem('dbType');
-    const [localItems, localPinnedItems] = await getDataFromLocalStorage();
-    // console.log(localItems, localPinnedItems)
+function Sections(props) {
+  const [editing, setEditing] = useState(false);
+  const [sections, setSections] = useState(null);
+  const [pinnedSections, setPinnedSections] = useState(null);
+  const [firstRender, setFirstRender] = useState(false);
+
+  useEffect(() => {
+    const [localItems, localPinnedItems] = getDataFromLocalStorage();
     let sections = Object.keys(localItems)
     let pinnedSections = Object.keys(localPinnedItems)
-    this.setState(
-      {
-        sections: sections,
-        pinnedSections: pinnedSections
-      }
-    );
-  }
-  async componentDidUpdate() {
+    setSections(sections)
+    setPinnedSections(pinnedSections)
+    setFirstRender(true)
+  }, [])
+
+  function updateLocalstorage() {
+    // Make sure this only runs on rerenders, not the first time
+    if (!firstRender) {
+      return;
+    }
     // ## Comparing the previous sections with new sections and putting in placeholders for each new key ##
-    let [localItems, localPinnedItems] = await getDataFromLocalStorage();
+    let [localItems, localPinnedItems] = getDataFromLocalStorage();
     // localItems = JSON.parse(localItems);
     // localPinnedItems = JSON.parse(localPinnedItems)
     let objKeys = Object.keys(localItems)
     // let objValues = Object.values(obj)
     let newObj = {};
-    let sectionsState = this.state.sections
-    let sectionsState2 = this.state.pinnedSections
+    let sectionsState = sections;
+    let sectionsState2 = pinnedSections;
     // For pinned
     let newObj2 = {};
     for (var i = 0; i < sectionsState.length; i++) {
@@ -64,15 +63,12 @@ class Sections extends React.Component {
     localStorage.setItem('localPinnedItems', JSON.stringify(newObj2))
   }
 
-  add() {
+  function add() {
     let sectionName = `Unnamed Section${Math.floor(Math.random() * 20)}`;
-    // console.log(this.state.sections, this.state.pinnedSections);
-    this.setState({
-      sections: this.state.sections.concat(sectionName),
-      pinnedSections: this.state.pinnedSections.concat(sectionName)
-    })
+    setSections(sections.concat(sectionName))
+    setPinnedSections(pinnedSections.concat(sectionName))
   }
-  onEdit(index, oldSectionName) {
+  function onEdit(index, oldSectionName) {
     // First, make sure that the name isn't too long
     // Also, in the future "sanitize" the name just in case...
     let sectionElements = document.getElementsByClassName('section');
@@ -93,27 +89,23 @@ class Sections extends React.Component {
       undoSectionEdit(oldSectionName, index)
       return false
     } else if (newSectionName == oldSectionName) {
-      // toast("It's the same name...")
       // return false to prevent the data transfer for no reason
       return false
     }
     /**
      * Transfer data for the localItems
      */
-    let sections = this.state.sections;
     let obj = JSON.parse(localStorage.getItem('localItems'));
     // Data transfer
     sections.splice(index, 1)
     sections.splice(index, 0, newSectionName)
-    this.setState({
-      sections: sections
-    })
+    setSections(sections)
     // transfer
     obj[newSectionName] = obj[oldSectionName];
     window.currentSection = newSectionName;
     localStorage.setItem('localItems', JSON.stringify(obj))
 
-    let sections2 = this.state.pinnedSections;
+    let sections2 = pinnedSections;
     let obj2 = JSON.parse(localStorage.getItem('localPinnedItems'));
     /**
      * Transfer data for the localPinnedItems
@@ -121,68 +113,66 @@ class Sections extends React.Component {
     // Data transfer
     sections2.splice(index, 1)
     sections2.splice(index, 0, newSectionName)
-    this.setState({
-      pinnedSections: sections2
-    })
+    setPinnedSections(sections2)
     // transfer
     obj2[newSectionName] = obj2[oldSectionName];
     localStorage.setItem('localPinnedItems', JSON.stringify(obj2))
-    this.props.reset()
+    updateLocalstorage();
   }
-  onDelete(value) {
+  function onDelete(value) {
     // I don't trust this code
     const accident = prompt(`Are you sure you want to delete ${value}? (y/n)`)
-    if (accident != 'y') {
+    if (accident != 'y' && accident != 'Y') {
       return false
     }
-    var obj = this.state.sections;
-    obj.splice(obj.indexOf(value), 1)
-    this.setState({
-      sections: obj
-    })
+    
+    let newSections = [...sections];
+    newSections.splice(newSections.indexOf(value), 1)
+    setSections(newSections)
 
-    var obj = this.state.pinnedSections;
-    obj.splice(obj.indexOf(value), 1)
-    this.setState({
-      pinnedSections: obj
+    let newPinnedSections = pinnedSections;
+    newPinnedSections.splice(newPinnedSections.indexOf(value), 1)
+    setPinnedSections(newPinnedSections);
+
+    updateLocalstorage();
+  }
+  function goToSection(value) {
+    window.currentSection = value;
+    props.reloadMain(false)
+  }
+
+  function editSections() {
+    if (editing == true) {
+      setEditing(false)
+    } else {
+      setEditing(true)
+    }
+  }
+
+  var elementItems = null
+  if (sections != null) {
+    let count = -1
+    console.log(sections);
+    elementItems = sections.map((item) => {
+      count++
+      return <Section unique={count} key={count} editing={editing} goToSectionProp={goToSection} deleteSectionProp={() => { onDelete(item) }} editSectionProp={(value) => { onEdit(value, item) }} section={item}></Section>
     })
   }
-  goToSection(value) {
-    window.currentSection = value;
-    // I'm not sure, but I think it's a try and catch because when Sections.js is in the sidebar in Main.js
-    // The parent of Sections.js is Main.js, so the props.parentCallback will return an error since it doesn't exist
-    try {
-      // This runs the parentCallback, which just goes to a section normally.
-      // It passes false to change the component on the screen from Sections.js to Main.js
-      this.props.parentCallback(false)
-    } catch {
-      // this is called reset because it literally resets the Main.js
-      this.props.reset()
-    }
-  }
-  render() {
-    var elementItems = null
-    if (this.state.sections != null) {
-      let count = -1
-      elementItems = this.state.sections.map((item) => {
-        count++
-        return <Section unique={count} key={count} goToSectionProp={this.goToSection} deleteSectionProp={() => { this.onDelete(item) }} editSectionProp={(value) => { this.onEdit(value, item) }} section={item}></Section>
-      })
-      count = -1
-    }
-    return (
-      <div>
-        <div id="sectionToolbar">
-          <button id="add" className="themedButton" onClick={this.add}>+</button>
-        </div>
-        <div id="sections">
-          <ul id="sectionsItems">
-            {elementItems}
-          </ul>
-        </div>
+
+  const pencilEmphasis = editing ? "solid red 1px" : "";
+  return (
+    <div>
+      <div id="sectionToolbar">
+        <button id="add" className="themedButton" onClick={add}>+</button>
+        <div style={{ border: pencilEmphasis }} id="editSections" className="themedButton" onClick={editSections}><PencilIcon /></div>
       </div>
-    );
-  }
-}
+      <div id="sections">
+        <ul id="sectionsItems">
+          {elementItems}
+        </ul>
+      </div>
+    </div>
+  );
+};
 
 export default Sections;

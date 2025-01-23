@@ -114,15 +114,6 @@ function Pane(props) {
     const [description, setDescription] = useState(splitup[1]);
     var attributes = splitup[2];
 
-    useEffect(() => {
-        // may be inefficent/bad practice: set the description to whatever it finds in the state, when the state updates
-        setDescription(splitup[1])
-    }, [splitup[1]])
-
-    // useEffect(() => {
-    //     setPinned(props.pinned)
-    // }, [pinned])
-
     function onEdit() {
         setEditing(true)
         props.saveContentCallback(true);
@@ -152,18 +143,14 @@ function Pane(props) {
             {editing ? <div className="paneToolbar">
                 <button className="themedButton popInEffect" onClick={onSubmit}>✅</button>
             </div> : <div className="paneToolbar">
-                <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    {pinned ? <div className="themedButtonClicked pinButton" onClick={unPin}><Pin>📌</Pin></div> :
-                        <div className="themedButton pinButton" onClick={onPin}><Pin>📌</Pin></div>}
-                    <div className="themedButton x-Button" onClick={onDelete}><Trash></Trash></div>
-                </div>
+                {pinned ? <div className="themedButtonClicked pinButton" onClick={unPin}><Pin>📌</Pin></div> :
+                    <div className="themedButton pinButton" onClick={onPin}><Pin>📌</Pin></div>}
+                <div className="themedButton x-Button" onClick={onDelete}><Trash></Trash></div>
             </div>}
             {editing ?
                 <div>
-                    <div className='title'>
-                        <p contentEditable="true" suppressContentEditableWarning={true} dangerouslySetInnerHTML={{ __html: title }}></p>
-                        {/* <ReactQuill modules={modules} formats={formats} value={title} theme="snow" /> */}
-                    </div>
+                    <p className="title" contentEditable="true" suppressContentEditableWarning={true} dangerouslySetInnerHTML={{ __html: title }}></p>
+                    {/* <ReactQuill modules={modules} formats={formats} value={title} theme="snow" /> */}
                     <div className='description'>
                         {/* THE ONLY WAY REACT QUILL GETS A DEFAULT FONT-SIZE IS WITH THIS STYLE TRICK */}
                         <ReactQuill style={{ fontSize: defaultFontValue }} onChange={setDescription} modules={modules} formats={formats} value={description} theme="snow" />
@@ -181,4 +168,4 @@ function Pane(props) {
     )
 }
 
-export default memo(Pane)
+export default memo(Pane);

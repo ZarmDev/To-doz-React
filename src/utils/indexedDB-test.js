@@ -86,11 +86,3 @@ export function deleteItem(store, id) {
     };
   });
 }
-
-async function test() {
-  const db = await openDB();
-  const { store } = getTransaction(db, 'readwrite');
-  var all = await getAllItems(store);
-  console.log(all);
-  await addItem(store, {tesT: "test"});
-}

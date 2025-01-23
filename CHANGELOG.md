@@ -1,3 +1,10 @@
-- Refreshed pane icons
-- Improved performance by not using IntroJS and data-intro unless it's the first startup
-- Disabled mobile zooming
+- Fixed themedButtons CSS
+- Fixed pane performance issues
+- Fixed section performance issues by adding an edit button
+- Improved mobile experience
+- Improved performance of section rendering
+- Improved code quality in Sections.js
+- Fixed bug when deleting section
+
+Known issues:
+- You can't have a section with the same name

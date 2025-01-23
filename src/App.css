@@ -29,14 +29,10 @@
 }
 
 /* Media query for computers */
-@media screen and (min-width: 768px) {}
+/* @media screen and (min-width: 768px) {} */
 
 /* Generally smaller screens */
 @media screen and (max-width: 1000px) {
-  /* body {
-    overflow: scroll;
-  } */
-
   #panesElements {
     left: 0 !important;
     width: auto !important;
@@ -165,6 +161,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #111929ed;
+  overflow-x: hidden;
 }
 
 code {
@@ -187,6 +185,7 @@ code {
 }
 
 .themedButton svg {
+  vertical-align: middle;
   vertical-align: -webkit-baseline-middle;
 }
 
@@ -365,14 +364,6 @@ code {
   /* Would have used display but animation doesn't work */
   visibility: hidden;
   position: absolute;
-}
-
-body {
-  /* background-image: url('../assets/blur.png'); */
-  background-color: #111929ed;
-  /* Bad practice */
-  /* color: white; */
-  overflow-x: hidden;
 }
 
 h1 {
@@ -599,7 +590,6 @@ AI Generated code. Might use later.
 }
 
 #sidebar .section button {
-  font-size: 125%;
   margin: 0;
   padding: 0;
   position: absolute;
@@ -680,21 +670,9 @@ AI Generated code. Might use later.
   position: relative;
   justify-content: center;
   align-items: center;
-}
-
-#sectionToolbar #add {
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.2s;
-  border: none;
-  border-radius: 10px;
   margin: 1ch;
-  color: white;
   margin-top: 2ch;
-}
-
-#sectionToolbar #add:hover {
-  padding: 0.7vw;
+  gap: 5%;
 }
 
 /* #pin {

@@ -186,7 +186,7 @@ function Main(props) {
         }
     }
     // To rerender all the items, pinned and the sidebar when user changes section from sidebar
-    function reset() {
+    function reRender() {
         const [itemsFromStorage, pinnedItemsFromStorage] = getDataFromLocalStorageForMainJS();
         // [itemsFromStorage, pinnedItemsFromStorage]
         setItems(itemsFromStorage)
@@ -380,10 +380,10 @@ function Main(props) {
             {/* If the sidebar should be always open */}
             {localStorage.getItem('alwaysShowSidebar') ? <div>
                 <div id="sidebar">
-                    <Sections reset={reset}></Sections>
+                    <Sections reloadMain={reRender}></Sections>
                 </div></div> : <div><button onClick={toggleSidebar} className={showSidebar ? 'sidebarOnToggle' : 'sidebarOffToggle'} id="toggleSidebar">{showSidebar ? '>' : '<'}</button>
                 {showSidebar ? <div id="sidebar">
-                    <Sections reset={reset}></Sections>
+                    <Sections reloadMain={reRender}></Sections>
                 </div> : <></>}</div>}
             {/* Where all the pane stuff is */}
             <div id="main">

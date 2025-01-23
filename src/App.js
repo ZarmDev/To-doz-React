@@ -9,6 +9,7 @@ import BackupScreen from './modals/backupScreen'
 import { changeHue } from './utils/cosmetics';
 import { getDataFromLocalStorage, getDataFromSource } from './utils/databaseFuncs';
 import { ToastContainer, toast } from 'react-toastify';
+// import { addItem, getAllItems, getTransaction, openDB } from './utils/indexedDB-test';
 
 const databaseConnection = localStorage.getItem('dbType');
 if (databaseConnection === 'usingonekey') {
@@ -152,6 +153,17 @@ if (window.miniFocusSession) {
   }, 100)
 }
 
+
+// async function test() {
+//   const db = await openDB();
+//   const { store } = getTransaction(db, 'readwrite');
+//   var all = await getAllItems(store);
+//   console.log(all);
+//   await addItem(store, {tesT: "test"});
+// }
+
+// test();
+
 function App() {
   // used to determine whether sections.js or main.js is shown (true or false)
   const [loading, setLoading] = useState(true);
@@ -186,13 +198,12 @@ function App() {
         <BackupScreen parentCallback={() => { setBackupData(false) }} />
       ) : (
         <>
-          {/* {(window.shouldPresentFirstStartUp["all"] == true || isOldUser) ? <Startup oldUser={isOldUser && !window.shouldPresentFirstStartUp["all"] == true} parentCallback={startTutorial}></Startup> : <></>} */}
           {(window.shouldPresentFirstStartUp["all"] == true) ? <Startup oldUser={isOldUser && !window.shouldPresentFirstStartUp["all"] == true} parentCallback={startTutorial}></Startup> : <></>}
           {/* annoyingly, to make sections work, I need to use a empty function as a prop */}
           {
             !window.miniFocusSession
               ? (loading || window.miniFocusSession
-                ? <Sections reset={() => { }} parentCallback={setLoading} />
+                ? <Sections reloadMain={setLoading} />
                 : <Main saveContentCallback={setContent} parentCallback={setLoading} />
               )
               : null
