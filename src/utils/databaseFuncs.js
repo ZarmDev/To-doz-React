@@ -111,7 +111,7 @@ export async function uploadDataToDB(newData) {
 }
 
 export async function uploadDataToSource(newData, dbType) {
-    if (dbType === 'localStorage') {
+    if (dbType === 'localstorage') {
         localStorage.setItem('localItems', newData["localItems"])
         localStorage.setItem('localPinnedItems', newData["localPinnedItems"])
     } else if (dbType === 'usingonekey') {

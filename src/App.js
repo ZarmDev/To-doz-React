@@ -35,7 +35,6 @@ if (databaseConnection === 'usingonekey') {
   }
 }
 
-
 // Present startup with first users
 window.shouldPresentFirstStartUp = {
   "all": false
@@ -78,7 +77,6 @@ if (localStorage.getItem('version') == currVersion) {
 }
 
 if (dataDoesntExist) {
-  console.log("WTF???")
   // Create a object that has all the data of items (placeholder)
   let data = {
     'Unnamed section': 'Unnamed pane|Do homework|pane paneStyle',

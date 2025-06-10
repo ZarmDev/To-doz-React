@@ -1,6 +1,5 @@
-- Fixed undo delete
-- Added storage breakdown
+- Fixed editing sections
 
 Known issues:
 - You can't have a section with the same name
-- Performance issues because of use of | in the object data, will change in the next update (so no need to filter everytime editPane is called)
+- Editing a section changes it's order when reloading the page

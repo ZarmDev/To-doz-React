@@ -30,44 +30,45 @@ function Sections(props) {
     setFirstRender(true)
   }, [])
 
-  async function updateData() {
-    // Make sure this only runs on rerenders, not the first time
-    if (!firstRender) {
-      return;
-    }
-    // ## Comparing the previous sections with new sections and putting in placeholders for each new key ##
-    let [localItems, localPinnedItems] = getDataFromLocalStorage();
-    // localItems = JSON.parse(localItems);
-    // localPinnedItems = JSON.parse(localPinnedItems)
-    let objKeys = Object.keys(localItems)
-    // let objValues = Object.values(obj)
-    let newObj = {};
-    let sectionsState = sections;
-    let sectionsState2 = pinnedSections;
-    // For pinned
-    let newObj2 = {};
-    for (var i = 0; i < sectionsState.length; i++) {
-      // IF the object keys (ex: Unnamed Section) is not found in the localstorage, update it on the localstorage
-      // console.log('loop', objKeys[i], sectionsState[i])
-      if (objKeys.indexOf(sectionsState[i]) != -1) {
-        // console.log(newObj[sectionsState[i]], obj[sectionsState[i]]);
-        newObj[sectionsState[i]] = localItems[sectionsState[i]];
-        // console.log(newObj2[sectionsState[i]], obj2[sectionsState[i]]);
-        newObj2[sectionsState2[i]] = localPinnedItems[sectionsState[i]];
-      } else {
-        newObj[sectionsState[i]] = 'Unnamed pane|Description|pane paneStyle';
-        newObj2[sectionsState2[i]] = '';
-      }
-    }
-    await uploadDataToSource({localItems: JSON.stringify(newObj), localPinnedItems:JSON.stringify(newObj2)}, localStorage.getItem('dbType'))
-  }
+  // async function updateData() {
+  //   // Make sure this only runs on rerenders, not the first time
+  //   if (!firstRender) {
+  //     return;
+  //   }
+  //   // ## Comparing the previous sections with new sections and putting in placeholders for each new key ##
+  //   let [localItems, localPinnedItems] = getDataFromLocalStorage();
+  //   // localItems = JSON.parse(localItems);
+  //   // localPinnedItems = JSON.parse(localPinnedItems)
+  //   let objKeys = Object.keys(localItems)
+  //   // let objValues = Object.values(obj)
+  //   let newObj = {};
+  //   let sectionsState = sections;
+  //   let sectionsState2 = pinnedSections;
+  //   // For pinned
+  //   let newObj2 = {};
+  //   for (var i = 0; i < sectionsState.length; i++) {
+  //     // IF the object keys (ex: Unnamed Section) is not found in the localstorage, update it on the localstorage
+  //     // console.log('loop', objKeys[i], sectionsState[i])
+  //     if (objKeys.indexOf(sectionsState[i]) != -1) {
+  //       // console.log(newObj[sectionsState[i]], obj[sectionsState[i]]);
+  //       newObj[sectionsState[i]] = localItems[sectionsState[i]];
+  //       // console.log(newObj2[sectionsState[i]], obj2[sectionsState[i]]);
+  //       newObj2[sectionsState2[i]] = localPinnedItems[sectionsState[i]];
+  //     } else {
+  //       newObj[sectionsState[i]] = 'Unnamed pane|Description|pane paneStyle';
+  //       newObj2[sectionsState2[i]] = '';
+  //     }
+  //   }
+  //   await uploadDataToSource({localItems: JSON.stringify(newObj), localPinnedItems:JSON.stringify(newObj2)}, localStorage.getItem('dbType'))
+  // }
 
   function add() {
     let sectionName = `Unnamed Section${Math.floor(Math.random() * 20)}`;
     setSections(sections.concat(sectionName))
     setPinnedSections(pinnedSections.concat(sectionName))
   }
-  function onEdit(index, oldSectionName) {
+
+  async function onEdit(index, oldSectionName) {
     // First, make sure that the name isn't too long
     // Also, in the future "sanitize" the name just in case...
     let sectionElements = document.getElementsByClassName('section');
@@ -91,50 +92,63 @@ function Sections(props) {
       // return false to prevent the data transfer for no reason
       return false
     }
-    /**
-     * Transfer data for the localItems
-     */
+  
     let obj = JSON.parse(localStorage.getItem('localItems'));
-    // Data transfer
+    let obj2 = JSON.parse(localStorage.getItem('localPinnedItems'));
+    obj[newSectionName] = obj[oldSectionName];
+    delete obj[oldSectionName];
+    obj2[newSectionName] = obj2[oldSectionName];
+    delete obj2[oldSectionName];
+    console.log(obj, obj2);
+
     sections.splice(index, 1)
     sections.splice(index, 0, newSectionName)
-    setSections(sections)
-    // transfer
-    obj[newSectionName] = obj[oldSectionName];
-    window.currentSection = newSectionName;
-    localStorage.setItem('localItems', JSON.stringify(obj))
 
-    let sections2 = pinnedSections;
-    let obj2 = JSON.parse(localStorage.getItem('localPinnedItems'));
-    /**
-     * Transfer data for the localPinnedItems
-     */
-    // Data transfer
-    sections2.splice(index, 1)
-    sections2.splice(index, 0, newSectionName)
-    setPinnedSections(sections2)
-    // transfer
-    obj2[newSectionName] = obj2[oldSectionName];
-    localStorage.setItem('localPinnedItems', JSON.stringify(obj2))
-    updateData();
+    // Update state arrays
+    let newSections = [...sections];
+    let newPinnedSections = [...pinnedSections];
+    newSections[index] = newSectionName;
+    newPinnedSections[index] = newSectionName;
+    
+    setSections(newSections);
+    setPinnedSections(newPinnedSections);
+    
+    window.currentSection = newSectionName;
+
+    await uploadDataToSource({localItems: JSON.stringify(obj), localPinnedItems:JSON.stringify(obj2)}, localStorage.getItem('dbType'))
   }
-  function onDelete(value) {
-    // I don't trust this code
+
+  async function onDelete(value) {
     const accident = prompt(`Are you sure you want to delete ${value}? (y/n)`)
     if (accident != 'y' && accident != 'Y') {
       return false
     }
-    
-    let newSections = [...sections];
-    newSections.splice(newSections.indexOf(value), 1)
-    setSections(newSections)
+  
+    const sectionIdx = localStorage.key(value)
 
-    let newPinnedSections = pinnedSections;
+    // Get the current data from localStorage
+    let obj = JSON.parse(localStorage.getItem('localItems'));
+    let obj2 = JSON.parse(localStorage.getItem('localPinnedItems'));
+
+    // Sections arrays to be modified
+    let newSections = [...sections];
+    let newPinnedSections = [...pinnedSections];
+
+    // Delete the section by name (TODO: indexof may be different for the sections array and the localstorage object)
+    delete obj[value];
+    delete obj2[value];
+    
+    // Remove the section locally in the items array, not localstorage
+    newSections.splice(newSections.indexOf(value), 1)
     newPinnedSections.splice(newPinnedSections.indexOf(value), 1)
+
+    setSections(newSections)
     setPinnedSections(newPinnedSections);
 
-    updateData();
+    console.log(localStorage.getItem('dbType'))
+    await uploadDataToSource({localItems: JSON.stringify(obj), localPinnedItems:JSON.stringify(obj2)}, localStorage.getItem('dbType'))
   }
+
   function goToSection(value) {
     window.currentSection = value;
     props.reloadMain(false)
