@@ -1,4 +1,4 @@
-import React, { useEffect, useState, memo } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
@@ -107,12 +107,16 @@ function Trash() {
 function Pane(props) {
     const [editing, setEditing] = useState(false);
     const pinned = props.pinned;
-    var items = props.items.split('·');
-    // to save memory/runtime
-    var splitup = items[0].split('|');
+    var splitup = props.items.split('|');
     var title = splitup[0];
     const [description, setDescription] = useState(splitup[1]);
     var attributes = splitup[2];
+
+    // Ensure description will get updated every rerender
+    useEffect(() => {
+        // may be inefficent/bad practice: set the description to whatever it finds in the state, when the state updates
+        setDescription(splitup[1])
+    }, [props.items])
 
     function onEdit() {
         setEditing(true)
@@ -137,7 +141,7 @@ function Pane(props) {
     function onDelete() {
         props.deletePaneProp(props.unique, pinned);
     }
-
+    
     return (
         <div className={attributes}>
             {editing ? <div className="paneToolbar">
@@ -168,4 +172,4 @@ function Pane(props) {
     )
 }
 
-export default memo(Pane);
+export default Pane;

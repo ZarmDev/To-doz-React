@@ -102,36 +102,45 @@
     align-items: center;
     flex-direction: column;
   }
+
   /* wierd trick to remove the first h1 and show the h1 in #focusTimer */
   #focusPart h1 {
     display: none;
   }
+
   #focusTimer h1 {
     display: block;
     margin: 0px !important;
     /* font-size: 6ch; */
   }
+
   #focusPart label {
     display: none;
     margin: 20px;
   }
+
   #focusSession input {
     display: none;
   }
+
   #focusPart p {
     display: none;
   }
+
   #focusPart span {
     display: block;
     width: 80vw;
     margin: auto;
   }
+
   #focusSession h1 {
     display: none;
   }
+
   #focusSession button {
     display: none;
   }
+
   /* only show buttons in Timer.js */
   #focusSessionControls {
     display: flex !important;
@@ -142,12 +151,15 @@
     margin-bottom: 40px !important;
     text-align: center;
   }
-  #focusSessionControls > * {
+
+  #focusSessionControls>* {
     display: flex !important;
   }
+
   #spotifyPart {
     visibility: hidden !important;
   }
+
   #focusProgressBar {
     margin-top: 10px !important;
     display: block !important;
@@ -374,7 +386,9 @@ h2 {
   color: white;
 }
 
-ul {color: white;}
+ul {
+  color: white;
+}
 
 span {
   color: white;
@@ -521,11 +535,6 @@ img {
   left: 0 !important;
 }
 
-/* For the toggle sidebar */
-.sidebarOffToggle {
-  content: '>' !important;
-}
-
 #sidebar {
   padding: 0;
   font-size: 2.2ch;
@@ -545,6 +554,7 @@ img {
   animation-iteration-count: 1;
   overflow-x: hidden;
 }
+
 /* 
 AI Generated code. Might use later.
 #sidebar::-webkit-scrollbar {
@@ -609,9 +619,14 @@ AI Generated code. Might use later.
   margin: 0;
   position: fixed;
   z-index: 2;
-  background-color: rgba(0, 0, 0, 0);
+  background-color: rgba(255, 255, 255, 0);
   border: none;
   color: whitesmoke;
+  transition: 0.5s;
+}
+
+.sidebarOnToggle {
+  transform: rotateY(180deg);
 }
 
 #panes>.pane {
@@ -1060,7 +1075,8 @@ AI Generated code. Might use later.
   margin: 1ch !important;
 }
 
-#dbForm input, #dbForm select {
+#dbForm input,
+#dbForm select {
   margin: 3vw;
   margin-top: 0;
   margin-left: 0;
@@ -1197,12 +1213,14 @@ AI Generated code. Might use later.
   width: 100vw;
   left: 0;
   background-color: white;
+  z-index: 100;
 }
+
 .ql-toolbar * {
   color: rgb(52, 52, 52);
 }
 
-.ql-toolbar.ql-snow + .ql-container.ql-snow {
+.ql-toolbar.ql-snow+.ql-container.ql-snow {
   border-top: 1px solid #ccc !important;
 }
 
@@ -1227,14 +1245,17 @@ AI Generated code. Might use later.
   height: 20px !important;
   text-align: center;
 }
+
 /* https://stackoverflow.com/questions/43728080/how-to-add-font-types-on-quill-js-with-toolbar-options */
 .ql-snow .ql-picker.ql-font .ql-picker-label[data-value]::before,
 .ql-snow .ql-picker.ql-font .ql-picker-item[data-value]::before {
   content: attr(data-value) !important;
 }
+
 .ql-color .ql-picker-options [data-value=custom-color]:before {
   content: 'Custom Color';
 }
+
 .ql-color .ql-picker-options [data-value=custom-color]:hover {
   border-color: transparent !important;
 }

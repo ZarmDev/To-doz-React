@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Section from '../components/Section'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { getDataFromLocalStorage } from 'src/utils/databaseFuncs';
+import { getDataFromLocalStorage, uploadDataToSource } from 'src/utils/databaseFuncs';
 
 function undoSectionEdit(oldName, index) {
   let sectionElements = document.getElementsByClassName('section');
@@ -30,7 +30,7 @@ function Sections(props) {
     setFirstRender(true)
   }, [])
 
-  function updateLocalstorage() {
+  async function updateData() {
     // Make sure this only runs on rerenders, not the first time
     if (!firstRender) {
       return;
@@ -59,8 +59,7 @@ function Sections(props) {
         newObj2[sectionsState2[i]] = '';
       }
     }
-    localStorage.setItem('localItems', JSON.stringify(newObj))
-    localStorage.setItem('localPinnedItems', JSON.stringify(newObj2))
+    await uploadDataToSource({localItems: JSON.stringify(newObj), localPinnedItems:JSON.stringify(newObj2)}, localStorage.getItem('dbType'))
   }
 
   function add() {
@@ -117,7 +116,7 @@ function Sections(props) {
     // transfer
     obj2[newSectionName] = obj2[oldSectionName];
     localStorage.setItem('localPinnedItems', JSON.stringify(obj2))
-    updateLocalstorage();
+    updateData();
   }
   function onDelete(value) {
     // I don't trust this code
@@ -134,7 +133,7 @@ function Sections(props) {
     newPinnedSections.splice(newPinnedSections.indexOf(value), 1)
     setPinnedSections(newPinnedSections);
 
-    updateLocalstorage();
+    updateData();
   }
   function goToSection(value) {
     window.currentSection = value;
@@ -152,7 +151,6 @@ function Sections(props) {
   var elementItems = null
   if (sections != null) {
     let count = -1
-    console.log(sections);
     elementItems = sections.map((item) => {
       count++
       return <Section unique={count} key={count} editing={editing} goToSectionProp={goToSection} deleteSectionProp={() => { onDelete(item) }} editSectionProp={(value) => { onEdit(value, item) }} section={item}></Section>

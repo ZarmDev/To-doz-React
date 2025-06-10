@@ -115,7 +115,6 @@ export async function uploadDataToSource(newData, dbType) {
         localStorage.setItem('localItems', newData["localItems"])
         localStorage.setItem('localPinnedItems', newData["localPinnedItems"])
     } else if (dbType === 'usingonekey') {
-        // console.log(newData, 'test')
         uploadDataToDB(newData)
     }
 }

@@ -11,10 +11,13 @@ import { getDataFromLocalStorage, getDataFromSource } from './utils/databaseFunc
 import { ToastContainer, toast } from 'react-toastify';
 // import { addItem, getAllItems, getTransaction, openDB } from './utils/indexedDB-test';
 
+// ## CHECK THE TYPE OF DATABASE CONNECTION AND BASED ON THAT SET THE LOCALSTORAGE ##
 const databaseConnection = localStorage.getItem('dbType');
 if (databaseConnection === 'usingonekey') {
   var data = await getDataFromSource(databaseConnection);
   console.log(data)
+  // data[0] == false -> This is checking if the function was unable to connect to the database
+  // Array.isArray(data) -> Just to check if data[0] can be accessed. However, it's redundant
   if (Array.isArray(data) && data[0] == false) {
     setTimeout(() => {
       toast(`You are now in offline mode. Remember to not leave the site unless you get a notification saying your data was saved. `, {
@@ -26,7 +29,7 @@ if (databaseConnection === 'usingonekey') {
     localStorage.setItem('localPinnedItems', JSON.stringify(localPinnedItems))
   } else {
     const [localItems, localPinnedItems] = data;
-    console.log(localItems, localPinnedItems)
+    // console.log(localItems, localPinnedItems)
     localStorage.setItem('localItems', JSON.stringify(localItems))
     localStorage.setItem('localPinnedItems', JSON.stringify(localPinnedItems))
   }
@@ -75,6 +78,7 @@ if (localStorage.getItem('version') == currVersion) {
 }
 
 if (dataDoesntExist) {
+  console.log("WTF???")
   // Create a object that has all the data of items (placeholder)
   let data = {
     'Unnamed section': 'Unnamed pane|Do homework|pane paneStyle',
@@ -153,17 +157,6 @@ if (window.miniFocusSession) {
   }, 100)
 }
 
-
-// async function test() {
-//   const db = await openDB();
-//   const { store } = getTransaction(db, 'readwrite');
-//   var all = await getAllItems(store);
-//   console.log(all);
-//   await addItem(store, {tesT: "test"});
-// }
-
-// test();
-
 function App() {
   // used to determine whether sections.js or main.js is shown (true or false)
   const [loading, setLoading] = useState(true);
@@ -199,7 +192,6 @@ function App() {
       ) : (
         <>
           {(window.shouldPresentFirstStartUp["all"] == true) ? <Startup oldUser={isOldUser && !window.shouldPresentFirstStartUp["all"] == true} parentCallback={startTutorial}></Startup> : <></>}
-          {/* annoyingly, to make sections work, I need to use a empty function as a prop */}
           {
             !window.miniFocusSession
               ? (loading || window.miniFocusSession

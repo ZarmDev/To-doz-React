@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Pane from '../components/Pane';
 import Sections from '../windows/Sections';
 import FocusSession from '../tools/FocusSession';
@@ -14,10 +14,9 @@ var mobile = window.matchMedia("(max-width: 800px)").matches;
 var toolbarOffset = 0;
 const defaultPaneValue = '...||pane paneStyle';
 
-const Undo = ({ onUndo, closeToast }) => {
-    const handleClick = () => {
+const Undo = ({ onUndo }) => {
+    function handleClick() {
         onUndo();
-        closeToast();
     };
 
     return (
@@ -29,8 +28,14 @@ const Undo = ({ onUndo, closeToast }) => {
     );
 };
 
+function SidebarIcon() {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-panel-right-close-icon lucide-panel-right-close"><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M15 3v18" /><path d="m8 9 3 3-3 3" /></svg>
+    );
+}
+
 // specifically made for Main.js
-export function getDataFromLocalStorageForMainJS() {
+function getDataFromLocalStorageForMainJS() {
     let itemsFromStorage = JSON.parse(localStorage.getItem('localItems'))[window.currentSection].split('·');
     let pinnedItemsFromStorage = JSON.parse(localStorage.getItem('localPinnedItems'))[window.currentSection].split('·');
     // wait a second, if itemsFromStorage is empty that's a suspicous bug.. why am I filtering it then.
@@ -45,9 +50,20 @@ export function getDataFromLocalStorageForMainJS() {
 }
 
 function Main(props) {
-    const [itemsFromStorage, pinnedItemsFromStorage] = getDataFromLocalStorageForMainJS('localstorage');
-    const [items, setItems] = useState(itemsFromStorage);
-    const [pinned, setPinned] = useState(pinnedItemsFromStorage);
+    // ## Variable declarations ##
+    // if we need a scrollbar (too much buttons)
+    const toolbarScroll = useRef(false);
+    // the last deleted pane
+    const lastDeletedPane = useRef('');
+
+    // These have useState hooks, it will rerender every time the variable is updated
+    // This code only runs once because useMemo runs every time a specific dependency updates and here no dependency is provided
+    const [initialItems, initialPinned] = React.useMemo(
+        () => getDataFromLocalStorageForMainJS('localstorage'),
+        []
+    );
+    const [items, setItems] = useState(initialItems);
+    const [pinned, setPinned] = useState(initialPinned);
     // Which tool (window) is open ex: focussession, settings, grades
     const [toolOpen, setToolOpen] = useState(false)
     const [showSidebar, setShowSidebar] = useState(localStorage.getItem('sidebarIsAlwaysOpen') == 'true');
@@ -55,10 +71,6 @@ function Main(props) {
     // TODO: maybe use a window object from the localstorage?
     // TODO: when you finished deciding, find all showSidebar and replace it in file
     //showSidebar: (localStorage.getItem('sidebarIsAlwaysOpen') == 'true') ? true : false,
-
-    // if we need a scrollbar (too much buttons)
-    var toolbarScroll = false;
-    var lastDeletedPane = '';
 
     useEffect(() => {
         // Present the tutorial for Main.js
@@ -68,7 +80,7 @@ function Main(props) {
         }
         // Add toolbar scroll if more than 7 children or the user is on mobile
         if (document.getElementById('toolbar').children.length > 4 || mobile) {
-            toolbarScroll = true;
+            toolbarScroll.current = true;
             toolbarOffset = document.getElementById('toolbar').offsetWidth
         }
     }, [])
@@ -149,20 +161,40 @@ function Main(props) {
             }
         }
     }
+
+    function undoDelete(originalIndex, wasPinned, itemToRestore) {
+        if (wasPinned) {
+            // Copy pinned array and insert item to restore
+            setPinned(prev => {
+                const arr = [...prev];
+                arr.splice(originalIndex, 0, itemToRestore);
+                return arr;
+            });
+        } else {
+            // Copy items array and insert item to restore
+            setItems(prev => {
+                const arr = [...prev];
+                arr.splice(originalIndex, 0, itemToRestore);
+                return arr;
+            });
+        }
+    }
+
     function deletePane(unique, isPinned) {
-        // Note: Removed fadeOutPane because it's inefficient
         // If the pane is not pinned and there is only one pane, don't delete it
         if (!isPinned && items.length == 1) {
             return false
         }
         if (isPinned == false) {
             var tempItems = Array.from(items)
+            // Don't delete if item length is zero
             if (tempItems.length == 0) {
                 return false
             }
+            // Remove the index (unique)
             let removedItem = tempItems.splice(unique, 1);
             setItems(tempItems)
-            lastDeletedPane = removedItem[0]
+            lastDeletedPane.current = removedItem[0]
         } else {
             var tempItems = Array.from(pinned)
             if (tempItems.length == 0) {
@@ -170,12 +202,18 @@ function Main(props) {
             }
             let removedItem = tempItems.splice(unique, 1);
             setPinned(tempItems)
-            lastDeletedPane = removedItem[0]
+            lastDeletedPane.current = removedItem[0]
         }
-        toast(<Undo onUndo={() => { undoDelete(unique, isPinned) }} />, {
-            // hook will be called whent the component unmount
-            // onClose: () => console.log('test')
-        });
+
+        // Store the data to prevent it from having outdated information (just like when you bind values to a function)
+        const deletedIndex = unique;
+        const wasPinned = isPinned;
+        const deletedItem = lastDeletedPane.current;
+
+        toast(() => (
+            <Undo onUndo={() => undoDelete(deletedIndex, wasPinned, deletedItem)} />
+        ), {});
+
         return true
     }
     function toggleSidebar() {
@@ -235,19 +273,7 @@ function Main(props) {
         setPinned(tempPinnedItems)
         setItems(items.concat(`${item[0]}|${item[1]}|pane paneStyle`))
     }
-    function undoDelete(unique, pinned) {
-        if (pinned) {
-            let tempPinnedItems = Array.from(pinned);
-            tempPinnedItems.splice(unique, 0, lastDeletedPane);
-            setPinned(tempPinnedItems)
-            lastDeletedPane = ''
-        } else if (!pinned) {
-            var tempItems = Array.from(items);
-            tempItems.splice(unique, 0, lastDeletedPane);
-            setItems(tempItems)
-            lastDeletedPane = ''
-        }
-    }
+
     function showLessEffect() {
         const MIN_MARGIN_LEFT = 50; // set minimum unique to 10 pixels
 
@@ -291,42 +317,36 @@ function Main(props) {
             firstButton.marginLeft = prevMarginLeft;
         }
     }
-    let count = -1
     if (pinned.length != 0) {
-        var pinnedItems = pinned.map((item) => {
-            count++
+        var pinnedItems = pinned.map((item, idx) => {
             return (
                 <Pane
-                    key={count}
+                    key={idx}
                     saveContentCallback={props.saveContentCallback}
                     pinned={true}
                     pinProp={(unique) => { pinProp(unique) }}
                     unPinProp={(unique) => { unPinProp(unique) }}
                     editPaneProp={(unique, pinned, description) => { editPane(unique, pinned, description) }}
                     deletePaneProp={(unique, pinned) => { deletePane(unique, pinned) }}
-                    undoDelete={(unique, pinned) => { undoDelete(unique, pinned) }}
                     items={item}
-                    unique={count}
+                    unique={idx}
                 ></Pane>
             )
         })
     }
-    count = -1
     if (items.length != 0) {
-        var elementItems = items.map((item) => {
-            count++
+        var elementItems = items.map((item, idx) => {
             return (
                 <Pane
-                    key={count}
+                    key={idx}
                     saveContentCallback={props.saveContentCallback}
                     pinned={false}
                     pinProp={(unique) => { pinProp(unique) }}
                     unPinProp={(unique) => { unPinProp(unique) }}
                     editPaneProp={(unique, pinned, description) => { editPane(unique, pinned, description) }}
                     deletePaneProp={(unique, pinned) => { deletePane(unique, pinned) }}
-                    undoDelete={(unique) => { undoDelete(unique) }}
                     items={item}
-                    unique={count}
+                    unique={idx}
                 ></Pane>
             )
         })
@@ -381,7 +401,7 @@ function Main(props) {
             {localStorage.getItem('alwaysShowSidebar') ? <div>
                 <div id="sidebar">
                     <Sections reloadMain={reRender}></Sections>
-                </div></div> : <div><button onClick={toggleSidebar} className={showSidebar ? 'sidebarOnToggle' : 'sidebarOffToggle'} id="toggleSidebar">{showSidebar ? '>' : '<'}</button>
+                </div></div> : <div><button onClick={toggleSidebar} className={showSidebar ? 'sidebarOnToggle' : 'sidebarOffToggle'} id="toggleSidebar"><SidebarIcon></SidebarIcon></button>
                 {showSidebar ? <div id="sidebar">
                     <Sections reloadMain={reRender}></Sections>
                 </div> : <></>}</div>}
@@ -390,7 +410,7 @@ function Main(props) {
                 <div id="topbar" className={showSidebar ? 'sidebarOn' : 'sidebarOff'}>
                     <div id="topHeader">
                         <h1>{window.currentSection}</h1>
-                        {toolbarScroll ? <button id="showLess" className="simpleThemedButton" onClick={showLessEffect}>{'<'}</button> : <></>}
+                        {toolbarScroll.current ? <button id="showLess" className="simpleThemedButton" onClick={showLessEffect}>{'<'}</button> : <></>}
                         <div id="toolbar">
                             <button className="bigThemedButton" onClick={() => { openTool('focussession') }} id="startSession">Start a focus session</button>
                             <button className="bigThemedButton" onClick={() => { openTool('settings') }} id="settings">Settings</button>
@@ -399,7 +419,7 @@ function Main(props) {
                                 <button className='bigThemedButton' onClick={() => { openTool('templates')}} id="findTemplates">Templates</button>
                                 <button className="bigThemedButton" onClick={() => { openTool('grades')}} id="checkGrades">Plugins</button> */}
                         </div>
-                        {toolbarScroll ? <button id="showMore" className="simpleThemedButton" onClick={showMoreEffect}>{'>'}</button> : <></>}
+                        {toolbarScroll.current ? <button id="showMore" className="simpleThemedButton" onClick={showMoreEffect}>{'>'}</button> : <></>}
                     </div>
                 </div>
                 <div id="panesElements" className={showSidebar ? 'sidebarOn' : 'sidebarOff'}>

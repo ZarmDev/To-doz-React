@@ -1,10 +1,6 @@
-- Fixed themedButtons CSS
-- Fixed pane performance issues
-- Fixed section performance issues by adding an edit button
-- Improved mobile experience
-- Improved performance of section rendering
-- Improved code quality in Sections.js
-- Fixed bug when deleting section
+- Fixed undo delete
+- Added storage breakdown
 
 Known issues:
 - You can't have a section with the same name
+- Performance issues because of use of | in the object data, will change in the next update (so no need to filter everytime editPane is called)
