@@ -61,13 +61,14 @@ async function getCommits() {
 
 var currVersion = await getCommits();
 const localItems = localStorage.getItem('localItems');
-const parsedLocalItems = JSON.parse(localItems);
-const localItemsVals = Object.values(parsedLocalItems);
-const localItemsKeys = Object.keys(parsedLocalItems);
-const dataDoesntExist = localItems == undefined || localItemsVals[0] == ''
+var parsedLocalItems = null;
 const localPinnedItems = localStorage.getItem('localPinnedItems');
-const parsedPinnedItems = JSON.parse(localPinnedItems);
+var parsedPinnedItems = null;
 var shouldShowBackup = false;
+// const dataDoesntExist = localItems == undefined || localItemsVals[0] == ''
+const dataDoesntExist = localItems == undefined;
+var localItemsVals = null;
+var localItemsKeys = null;
 
 // if the user has seen this version before, don't show new version startup
 if (localStorage.getItem('version') == currVersion) {
@@ -102,6 +103,9 @@ if (dataDoesntExist) {
     "settingstour": true,
   };
 } else {
+  parsedLocalItems = JSON.parse(localItems);
+  localItemsVals = Object.values(parsedLocalItems);
+  localItemsKeys = Object.keys(parsedLocalItems);
   // Set to first section
   window.currentSection = localItemsKeys[0];
 }
@@ -113,6 +117,8 @@ if (localPinnedItems == undefined) {
   }
   localStorage.setItem('localPinnedItems', JSON.stringify(data))
   parsedPinnedItems = data;
+} else {
+  parsedPinnedItems = JSON.parse(localPinnedItems);
 }
 
 function addElemHint(id, message) {
