@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Timer from '../components/Timer.js';
+import { Exit } from 'src/components/SvgIcons.js';
 
 async function fetchWebApi(endpoint, method, body, token) {
   let res = null;
@@ -41,19 +42,20 @@ async function createPlaylist(tracksUri, token) {
   return playlist;
 }
 
-async function getTopTracks(token) {
+async function getTopTracks(token, amountofsongs) {
   // Endpoint reference : https://developer.spotify.com/documentation/web-api/reference/get-users-top-artists-and-tracks
   let topTracks = (await fetchWebApi(
-    'v1/me/top/tracks?time_range=long_term&limit=5', 'GET', null, token
+    `v1/me/top/tracks?time_range=long_term&limit=${amountofsongs}`, 'GET', null, token
   )).items;
   topTracks = topTracks.map(track => track.id);
   console.log(topTracks);
-  let recommendedTracks = (await fetchWebApi(
-    `v1/recommendations?limit=5&seed_tracks=${topTracks.join(',')}`, 'GET', null, token
-  )).tracks;
-  console.log('rec', recommendedTracks)
-  recommendedTracks = recommendedTracks.map(track => track.id);
-  const tracksUri = recommendedTracks.map(track => `spotify:track:${track}`);
+  /** Seems like they removed recommended tracks */
+  // let recommendedTracks = (await fetchWebApi(
+  //   `v1/recommendations?limit=5&seed_tracks=${topTracks.join(',')}`, 'GET', null, token
+  // )).tracks;
+  // recommendedTracks = recommendedTracks.map(track => track.id);
+  // const tracksUri = recommendedTracks.map(track => `spotify:track:${track}`);
+  const tracksUri = topTracks.map(track => `spotify:track:${track}`);
   console.log(tracksUri);
   const createdPlaylist = await createPlaylist(tracksUri, token);
   console.log(createdPlaylist.name, createdPlaylist.id);
@@ -65,7 +67,7 @@ function FocusSession(props) {
   const [playlistId, setPlaylistId] = useState("");
   const [tracksUri, setTrackUris] = useState([]);
   const [snapshot_id, setSnapshotId] = useState("");
-  const [token, setToken] = useState("");
+  const [amountOfSongs, updateAmountOfSongs] = useState(5);
   const [sideBarToggled, setSideBarToggled] = useState(false);
 
   function toggleSideBar() {
@@ -82,20 +84,17 @@ function FocusSession(props) {
 
   async function sub(event) {
     event.preventDefault();
-    const topTracks = await getTopTracks(token);
+    const topTracks = await getTopTracks(document.getElementsByName('token')[0].value, document.getElementsByName('amountofsongs')[0].value);
     // console.log('created playlist id: ', topTracks[0].id)
     setPlaylistId(topTracks[0].id)
     setSnapshotId(topTracks[0].snapshot_id)
     setTrackUris(topTracks[1])
   }
 
-  async function deleteCurrPlaylist() {
-    await fetchWebApi(`v1/playlists/${playlistId}/tracks`, 'DELETE', { "tracks": [{ "uri": tracksUri[0] }], "snapshot_id": snapshot_id }, token)
-  }
-
-  function updateToken() {
-    setToken(document.getElementsByName('token')[0].value);
-  }
+  // Doesn't seem to work.
+  // async function deleteCurrPlaylist() {
+  //   await fetchWebApi(`v1/playlists/${playlistId}/tracks`, 'DELETE', { "tracks": [{ "uri": tracksUri[0] }], "snapshot_id": snapshot_id }, token)
+  // }
 
   function toggleMiniWindow() {
     // maybe use react routes to get it to go to the focus session
@@ -110,7 +109,7 @@ function FocusSession(props) {
     <div id="focusSession" className={sideBarToggled ? "focusSideBarOn toolNoEffects tool" : "focusSideBarOff toolNoEffects tool"}>
       <button className="themedButton" id="toggleFocusSidebar" onClick={toggleSideBar}>{sideBarToggled ? '<' : ">"}</button>
       <button className="themedButton" id="toggleMiniWindow" onClick={toggleMiniWindow}>{sideBarToggled ? '*' : "*"}</button>
-      <button className="themedButton exitToolButton" onClick={exitTool}>❌</button>
+      <button className="themedButton exitToolButton" onClick={exitTool}><Exit></Exit></button>
       <div id="focusPart">
         <h1 id="focusHeader">Focus Session</h1>
         <Timer></Timer>
@@ -118,7 +117,7 @@ function FocusSession(props) {
       <div id="spotifyPart" style={{visibility: sideBarToggled ? "hidden" : "visible", position: sideBarToggled ? "absolute" : ""}}>
         <h1>Spotify Integration</h1>
         <label htmlFor='token'>Spotify Token (get from <a href="https://developer.spotify.com" target='_blank'>https://developer.spotify.com/)</a></label>
-        <input name="token" type="text" onChange={updateToken} placeholder='something like BWFJEaKDJkWFI'></input> <br></br>
+        <input name="token" type="text" placeholder='something like BWFJEaKDJkWFI'></input> <br></br>
         <label htmlFor='amountofsongs'>Amount of songs</label>
         <input name="amountofsongs" type="text" placeholder='5'></input> <br></br>
         <button className="bigThemedButton" onClick={sub}>Get recommend songs</button> <br></br>

@@ -1,33 +1,36 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Section from '../components/Section'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getDataFromLocalStorage, uploadDataToSource } from 'src/utils/databaseFuncs';
+import { PencilIcon } from 'src/components/SvgIcons';
 
 function undoSectionEdit(oldName, index) {
   let sectionElements = document.getElementsByClassName('section');
   sectionElements[index].getElementsByTagName('p')[0].innerText = oldName;
 }
 
-function PencilIcon() {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" /><path d="m15 5 4 4" /></svg>
-  )
-}
-
 function Sections(props) {
   const [editing, setEditing] = useState(false);
   const [sections, setSections] = useState(null);
   const [pinnedSections, setPinnedSections] = useState(null);
-  const [firstRender, setFirstRender] = useState(false);
+  // I don't know why this is here... I'll just keep it as comments for now...
+  // const [firstRender, setFirstRender] = useState(false);
+  const [didEdit, setDidEdit] = useState(false);
+  const [styles, setStyles] = useState([
+    { left: window.isMobile ? "25%" : (props.inMain ? "10%" : "40%") },
+    { left: window.isMobile ? "60%" : (props.inMain ? "17%" : "55%") }
+  ]);
 
   useEffect(() => {
-    const [localItems, localPinnedItems] = getDataFromLocalStorage();
+    // const [localItems, localPinnedItems] = getDataFromLocalStorage();
+    const localItems = props.passLocalItems;
+    const localPinnedItems = props.passPinnedItems;
     let sections = Object.keys(localItems)
     let pinnedSections = Object.keys(localPinnedItems)
     setSections(sections)
     setPinnedSections(pinnedSections)
-    setFirstRender(true)
+    // setFirstRender(true)
   }, [])
 
   // async function updateData() {
@@ -62,10 +65,24 @@ function Sections(props) {
   //   await uploadDataToSource({localItems: JSON.stringify(newObj), localPinnedItems:JSON.stringify(newObj2)}, localStorage.getItem('dbType'))
   // }
 
-  function add() {
+  async function add() {
     let sectionName = `Unnamed Section${Math.floor(Math.random() * 20)}`;
     setSections(sections.concat(sectionName))
     setPinnedSections(pinnedSections.concat(sectionName))
+
+    let obj = JSON.parse(localStorage.getItem('localItems'));
+    let obj2 = JSON.parse(localStorage.getItem('localPinnedItems'));
+
+    obj[sectionName] = "Unnamed pane|Do homework|pane paneStyle";
+    obj2[sectionName] = "";
+
+    await uploadDataToSource({ localItems: JSON.stringify(obj), localPinnedItems: JSON.stringify(obj2) }, localStorage.getItem('dbType'))
+  }
+
+  function forceUpdate(index, oldSectionName) {
+    const sectionElement = document.getElementsByClassName('section')[index];
+    const pElement = sectionElement.getElementsByTagName('p')[0];
+    pElement.innerText = oldSectionName;
   }
 
   async function onEdit(index, oldSectionName) {
@@ -76,23 +93,37 @@ function Sections(props) {
     // Just in case you HAD a long section name before the update, it will change it for you
     if (oldSectionName.length > 50) {
       // Synthetically change the new section name
-      newSectionName = 'Unnamed section';
+      // newSectionName = 'Unnamed section';
       toast("Your section name was reseted because it was too long")
+      // Rerender sections to put it to the previous state
+      forceUpdate(index, oldSectionName);
+      return false;
     }
     else if (newSectionName.length > 50) {
       toast("Section name is too long!");
       // Undo the edit
       undoSectionEdit(oldSectionName, index)
+      // Rerender sections to put it to the previous state
+      forceUpdate(index, oldSectionName);
       return false
     } else if (newSectionName == '') {
       toast("You can't have an empty section name!");
       undoSectionEdit(oldSectionName, index)
+      // Rerender sections to put it to the previous state
+      forceUpdate(index, oldSectionName);
       return false
     } else if (newSectionName == oldSectionName) {
       // return false to prevent the data transfer for no reason
+      // Rerender sections to put it to the previous state
+      forceUpdate(index, oldSectionName);
       return false
+    } else if (sections.includes(newSectionName)) {
+      // Rerender sections to put it to the previous state
+      forceUpdate(index, oldSectionName);
+      toast("This section already exists!");
+      return false;
     }
-  
+
     let obj = JSON.parse(localStorage.getItem('localItems'));
     let obj2 = JSON.parse(localStorage.getItem('localPinnedItems'));
     obj[newSectionName] = obj[oldSectionName];
@@ -109,13 +140,17 @@ function Sections(props) {
     let newPinnedSections = [...pinnedSections];
     newSections[index] = newSectionName;
     newPinnedSections[index] = newSectionName;
-    
+
     setSections(newSections);
     setPinnedSections(newPinnedSections);
-    
-    window.currentSection = newSectionName;
 
-    await uploadDataToSource({localItems: JSON.stringify(obj), localPinnedItems:JSON.stringify(obj2)}, localStorage.getItem('dbType'))
+    window.currentSection = newSectionName;
+    if (props.inMain) {
+      props.reloadMain();
+    }
+
+    await uploadDataToSource({ localItems: JSON.stringify(obj), localPinnedItems: JSON.stringify(obj2) }, localStorage.getItem('dbType'))
+    setDidEdit(true);
   }
 
   async function onDelete(value) {
@@ -123,8 +158,6 @@ function Sections(props) {
     if (accident != 'y' && accident != 'Y') {
       return false
     }
-  
-    const sectionIdx = localStorage.key(value)
 
     // Get the current data from localStorage
     let obj = JSON.parse(localStorage.getItem('localItems'));
@@ -137,21 +170,30 @@ function Sections(props) {
     // Delete the section by name (TODO: indexof may be different for the sections array and the localstorage object)
     delete obj[value];
     delete obj2[value];
-    
+
     // Remove the section locally in the items array, not localstorage
-    newSections.splice(newSections.indexOf(value), 1)
+    const idxToRemove = newSections.indexOf(value);
+    newSections.splice(idxToRemove, 0);
+    window.currentSection = newSections.at(idxToRemove);
     newPinnedSections.splice(newPinnedSections.indexOf(value), 1)
 
     setSections(newSections)
     setPinnedSections(newPinnedSections);
 
-    console.log(localStorage.getItem('dbType'))
-    await uploadDataToSource({localItems: JSON.stringify(obj), localPinnedItems:JSON.stringify(obj2)}, localStorage.getItem('dbType'))
+    await uploadDataToSource({ localItems: JSON.stringify(obj), localPinnedItems: JSON.stringify(obj2) }, localStorage.getItem('dbType'))
+    setDidEdit(true);
+
+    // To ensure you aren't still using a old section
+    if (props.inMain) {
+      props.reloadMain();
+    }
   }
 
   function goToSection(value) {
     window.currentSection = value;
-    props.reloadMain(false)
+    props.reloadMain(false);
+    // So, since App.js already got the localstorage values, if we didn't edit anything we can just reuse those values in Main.js
+    props.shouldReuseLocalStorage(!didEdit);
   }
 
   function editSections() {
@@ -171,12 +213,12 @@ function Sections(props) {
     })
   }
 
-  const pencilEmphasis = editing ? "solid red 1px" : "";
+  const pencilStyle = editing ? "themedButton pencilEmphasis" : "themedButton";
   return (
     <div>
       <div id="sectionToolbar">
-        <button id="add" className="themedButton" onClick={add}>+</button>
-        <div style={{ border: pencilEmphasis }} id="editSections" className="themedButton" onClick={editSections}><PencilIcon /></div>
+        <button style={styles[0]} className="themedButton" onClick={add}>+</button>
+        <div style={styles[1]} className={pencilStyle} onClick={editSections}><PencilIcon /></div>
       </div>
       <div id="sections">
         <ul id="sectionsItems">

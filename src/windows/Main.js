@@ -10,9 +10,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import introJs from 'intro.js';
 import { uploadDataToDB } from 'src/utils/databaseFuncs';
 
-var mobile = window.matchMedia("(max-width: 800px)").matches;
 var toolbarOffset = 0;
 const defaultPaneValue = '...||pane paneStyle';
+var wasOffline = false;
 
 const Undo = ({ onUndo }) => {
     function handleClick() {
@@ -35,9 +35,9 @@ function SidebarIcon() {
 }
 
 // specifically made for Main.js
-function getDataFromLocalStorageForMainJS() {
-    let itemsFromStorage = JSON.parse(localStorage.getItem('localItems'))[window.currentSection].split('·');
-    let pinnedItemsFromStorage = JSON.parse(localStorage.getItem('localPinnedItems'))[window.currentSection].split('·');
+function getDataFromLocalStorageForMainJS(localItems, localPinnedItems) {
+    let itemsFromStorage = localItems[window.currentSection].split('·');
+    let pinnedItemsFromStorage = localPinnedItems[window.currentSection].split('·');
     // wait a second, if itemsFromStorage is empty that's a suspicous bug.. why am I filtering it then.
     if (itemsFromStorage[0] == '') {
         itemsFromStorage = []
@@ -50,20 +50,35 @@ function getDataFromLocalStorageForMainJS() {
 }
 
 function Main(props) {
-    // ## Variable declarations ##
     // if we need a scrollbar (too much buttons)
     const toolbarScroll = useRef(false);
     // the last deleted pane
     const lastDeletedPane = useRef('');
 
-    // These have useState hooks, it will rerender every time the variable is updated
-    // This code only runs once because useMemo runs every time a specific dependency updates and here no dependency is provided
-    const [initialItems, initialPinned] = React.useMemo(
-        () => getDataFromLocalStorageForMainJS('localstorage'),
-        []
-    );
-    const [items, setItems] = useState(initialItems);
-    const [pinned, setPinned] = useState(initialPinned);
+    const [items, setItems] = useState(() => {
+        if (props.reuseLocalStorage != null) {
+            // If we are provided with already parsed localstorage, we can reuse it
+            return getDataFromLocalStorageForMainJS(props.reuseLocalStorage, props.reuseLocalPinnedStorage)[0];
+        } else {
+            return getDataFromLocalStorageForMainJS(
+                JSON.parse(localStorage.getItem('localItems')), 
+                JSON.parse(localStorage.getItem('localPinnedItems'))
+            )[0];
+        }
+    });
+
+    const [pinned, setPinned] = useState(() => {
+        if (props.reuseLocalStorage != null) {
+            // If we are provided with already parsed localstorage, we can reuse it
+            return getDataFromLocalStorageForMainJS(props.reuseLocalStorage, props.reuseLocalPinnedStorage)[1];
+        } else {
+            return getDataFromLocalStorageForMainJS(
+                JSON.parse(localStorage.getItem('localItems')), 
+                JSON.parse(localStorage.getItem('localPinnedItems'))
+            )[1];
+        }
+    });
+
     // Which tool (window) is open ex: focussession, settings, grades
     const [toolOpen, setToolOpen] = useState(false)
     const [showSidebar, setShowSidebar] = useState(localStorage.getItem('sidebarIsAlwaysOpen') == 'true');
@@ -79,7 +94,7 @@ function Main(props) {
             window.shouldPresentFirstStartUp["main"] = false;
         }
         // Add toolbar scroll if more than 7 children or the user is on mobile
-        if (document.getElementById('toolbar').children.length > 4 || mobile) {
+        if (document.getElementById('toolbar').children.length > 4 || window.isMobile) {
             toolbarScroll.current = true;
             toolbarOffset = document.getElementById('toolbar').offsetWidth
         }
@@ -225,8 +240,7 @@ function Main(props) {
     }
     // To rerender all the items, pinned and the sidebar when user changes section from sidebar
     function reRender() {
-        const [itemsFromStorage, pinnedItemsFromStorage] = getDataFromLocalStorageForMainJS();
-        // [itemsFromStorage, pinnedItemsFromStorage]
+        const [itemsFromStorage, pinnedItemsFromStorage] = getDataFromLocalStorageForMainJS(JSON.parse(localStorage.getItem('localItems')), JSON.parse(localStorage.getItem('localPinnedItems')));
         setItems(itemsFromStorage)
         setPinned(pinnedItemsFromStorage)
 
@@ -317,6 +331,7 @@ function Main(props) {
             firstButton.marginLeft = prevMarginLeft;
         }
     }
+
     if (pinned.length != 0) {
         var pinnedItems = pinned.map((item, idx) => {
             return (
@@ -351,29 +366,16 @@ function Main(props) {
             )
         })
     }
-    let obj = JSON.parse(localStorage.getItem('localItems'));
-    // should be joined or split? not sure
-    obj[window.currentSection] = items.join('·')
-    localStorage.setItem('localItems', JSON.stringify(obj))
-
-    let obj2 = JSON.parse(localStorage.getItem('localPinnedItems'));
-    obj2[window.currentSection] = pinned.join('·')
-    localStorage.setItem('localPinnedItems', JSON.stringify(obj2))
 
     document.title = window.currentSection;
 
-    let currentToolOpen = undefined;
-    if (toolOpen == 'focussession') {
-        currentToolOpen = <FocusSession exitTool={() => { closeTool('focussession') }}></FocusSession>
-    } else if (toolOpen == 'settings') {
-        currentToolOpen = <Settings exitTool={() => { closeTool('settings') }}></Settings>
-    } else if (toolOpen == 'grades') {
-        currentToolOpen = <Grades exitTool={() => { closeTool('grades') }}></Grades>
-    } else if (toolOpen == 'dashboard') {
-        currentToolOpen = <Dashboard exitTool={() => { closeTool('dashboard') }}></Dashboard>
-    }
+    let stateLocalItems = JSON.parse(localStorage.getItem('localItems'));
+    stateLocalItems[window.currentSection] = items.join('·')
+    localStorage.setItem('localItems', JSON.stringify(stateLocalItems))
 
-    var wasOffline = false;
+    let statePinnedItems = JSON.parse(localStorage.getItem('localPinnedItems'));
+    statePinnedItems[window.currentSection] = pinned.join('·')
+    localStorage.setItem('localPinnedItems', JSON.stringify(statePinnedItems))
 
     if (localStorage.getItem('dbType') === 'usingonekey') {
         const newData = {
@@ -393,6 +395,18 @@ function Main(props) {
             toast("Reconnected to the server! Your data was saved!")
         }
     }
+
+    let currentToolOpen = undefined;
+    if (toolOpen == 'focussession') {
+        currentToolOpen = <FocusSession exitTool={() => { closeTool('focussession') }}></FocusSession>
+    } else if (toolOpen == 'settings') {
+        currentToolOpen = <Settings exitTool={() => { closeTool('settings') }}></Settings>
+    } else if (toolOpen == 'grades') {
+        currentToolOpen = <Grades exitTool={() => { closeTool('grades') }}></Grades>
+    } else if (toolOpen == 'dashboard') {
+        currentToolOpen = <Dashboard exitTool={() => { closeTool('dashboard') }}></Dashboard>
+    }
+
     return (
         <div id="panes">
             {/* Which "tool" or "window" is open */}
@@ -400,10 +414,10 @@ function Main(props) {
             {/* If the sidebar should be always open */}
             {localStorage.getItem('alwaysShowSidebar') ? <div>
                 <div id="sidebar">
-                    <Sections reloadMain={reRender}></Sections>
+                    <Sections reloadMain={reRender} passLocalItems={stateLocalItems} passPinnedItems={statePinnedItems} shouldReuseLocalStorage={() => {}} inMain={true}></Sections>
                 </div></div> : <div><button onClick={toggleSidebar} className={showSidebar ? 'sidebarOnToggle' : 'sidebarOffToggle'} id="toggleSidebar"><SidebarIcon></SidebarIcon></button>
                 {showSidebar ? <div id="sidebar">
-                    <Sections reloadMain={reRender}></Sections>
+                    <Sections reloadMain={reRender} passLocalItems={stateLocalItems} passPinnedItems={statePinnedItems} shouldReuseLocalStorage={() => {}} inMain={true}></Sections>
                 </div> : <></>}</div>}
             {/* Where all the pane stuff is */}
             <div id="main">

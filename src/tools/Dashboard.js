@@ -1,7 +1,7 @@
 import React, { useState, useEffect, memo } from 'react';
-import Calendar from 'react-calendar';
+// import Calendar from 'react-calendar';
 import CustomPieChart from 'src/components/CustomPieChart';
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
+import { Exit } from 'src/components/SvgIcons';
 
 // HELP OF AI
 function getSizeOfAllLocalStorage() {
@@ -40,20 +40,27 @@ const StorageBreakdown = memo(function StorageBreakdown() {
     useEffect(() => {
         setSizeOfLocalStorage(getSizeOfAllLocalStorage());
     })
+
+    const itemSize = parseFloat(getSizeOfLocalStorageKey('localItems'));
+    const pinSize = parseFloat(getSizeOfLocalStorageKey('localPinnedItems'));
+    var otherSize = parseFloat(sizeOfLocalStorage) - itemSize - pinSize;
+    // If it's really small just let it be zero
+    otherSize = otherSize < 0.001 ? 0 : otherSize;
     
     const data = [
-        { name: 'Items', value: parseFloat(getSizeOfLocalStorageKey('localItems')), color: '#0088FE' },
-        { name: 'Pinned Items', value: parseFloat(getSizeOfLocalStorageKey('localPinnedItems')), color: '#00C49F' },
-        { name: 'Settings/Other Data', value: parseFloat(sizeOfLocalStorage) - parseFloat(getSizeOfLocalStorageKey('localItems')) - parseFloat(getSizeOfLocalStorageKey('localPinnedItems')), color: '#FF8042' }
+        { name: 'Items', value: itemSize, color: '#0088FE' },
+        { name: 'Pinned Items', value: pinSize, color: '#00C49F' },
+        { name: 'Settings/Other Data', value: otherSize, color: '#FF8042' }
     ];
 
     return (
         <div style={{ width: '100%', height: 300 }}>
             <CustomPieChart data={data}></CustomPieChart>
             {data.map((item, idx) => {
-                return <p key={idx} style={{color: item.color}}>{item.name}</p>;
+                return <p key={idx} style={{color: item.color}}>{item.name} ({item.value} MB)</p>;
             })}
-            <p>LocalStorage size: {sizeOfLocalStorage} MB</p>
+            <p>Total LocalStorage size: {sizeOfLocalStorage} MB</p>
+            <p>Note that "Other data" contains data from other sites hosted on my GitHub that use localstorage</p>
         </div>
     );
 });
@@ -62,12 +69,12 @@ function Dashboard(props) {
     const [elapsed, setElapsed] = useState(null);
     const [productivityStatus, setProductivityStatus] = useState({});
 
-    const handleDayClick = (date) => {
-        // Toggle productivity status for the selected date
-        const updatedStatus = { ...productivityStatus };
-        updatedStatus[date.toDateString()] = !updatedStatus[date.toDateString()];
-        setProductivityStatus(updatedStatus);
-    };
+    // const handleDayClick = (date) => {
+    //     // Toggle productivity status for the selected date
+    //     const updatedStatus = { ...productivityStatus };
+    //     updatedStatus[date.toDateString()] = !updatedStatus[date.toDateString()];
+    //     setProductivityStatus(updatedStatus);
+    // };
 
     // Initialization
     useEffect(() => {
@@ -89,7 +96,7 @@ function Dashboard(props) {
 
     return (
         <div id="dashboard" className='tool'>
-            <button className="themedButton exitToolButton" onClick={exitTool}>❌</button>
+            <button className="themedButton exitToolButton" onClick={exitTool}><Exit></Exit></button>
             <p>Elapsed time since you opened To-doz: {hours} hours, {minutes} minutes and {seconds} seconds</p>
             <StorageBreakdown></StorageBreakdown>
             {/* <h1 className='text-center'>Productivity Calendar</h1>

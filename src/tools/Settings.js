@@ -4,6 +4,7 @@ import Data from '../components/settingsComponents/pages/Data.js'
 import Features from '../components/settingsComponents/pages/Features.js'
 import Themes from '../components/settingsComponents/pages/Themes.js'
 import Scripts from '../components/settingsComponents/pages/Scripts.js'
+import { Exit } from 'src/components/SvgIcons.js';
 // import introJs from 'intro.js';
 
 const settingsList = ['Features', 'Customization', 'Themes', 'Scripts', 'Data']
@@ -35,7 +36,7 @@ function Settings(props) {
     })
     return (
         <div id="settingsWindow" className="tool">
-            <button className="themedButton exitToolButton" onClick={exitTool}>❌</button>
+            <button className="themedButton exitToolButton" onClick={exitTool}><Exit></Exit></button>
             <div id="settingsSidebar">
                 <ul>
                     <h1 id="settingsWindowTitle">Settings</h1>

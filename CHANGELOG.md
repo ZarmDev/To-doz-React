@@ -1,5 +1,11 @@
-- Fixed editing sections
+- Improved performance of loading sections by reusing parsed data
+- Fixed spotify integration (however, no more recommended tracks 😭)
+- Added # of song customization for spotify integration
+- Migrated Bun file
+- Refreshed icons
+- Improved start screen (Sections.js)
+- Changed CSS/scripts to work on mobile
+- Added checks for if section already exists
 
 Known issues:
-- You can't have a section with the same name
 - Editing a section changes it's order when reloading the page

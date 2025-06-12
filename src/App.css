@@ -652,6 +652,10 @@ AI Generated code. Might use later.
   padding-left: 5vw;
 }
 
+#sections {
+  margin-top: 10vh;
+}
+
 #sections ul {
   list-style-type: none;
 }
@@ -659,20 +663,12 @@ AI Generated code. Might use later.
 #sections ul div {
   display: flex;
   align-items: center;
-  /* word-wrap:break-word; */
   height: 6ch;
   padding-left: 1vw;
 }
 
 #sections ul p {
-  /* background-color: rgb(26, 25, 31); */
-  transition: 0.5s;
   width: 100%;
-}
-
-#sections ul p:hover {
-  background-color: rgb(0, 0, 0);
-  border-radius: 2px;
 }
 
 #sections ul button {
@@ -684,10 +680,11 @@ AI Generated code. Might use later.
   display: flex;
   position: relative;
   justify-content: center;
-  align-items: center;
-  margin: 1ch;
-  margin-top: 2ch;
-  gap: 5%;
+  margin-top: 2vh;
+}
+
+#sectionToolbar > * {
+  position: fixed;
 }
 
 /* #pin {
@@ -855,7 +852,7 @@ AI Generated code. Might use later.
 } */
 #themeContainerNext {
   position: absolute;
-  left: 85vw;
+  left: 80vw;
   top: 90vh;
   z-index: 3;
   background-color: rgb(46, 50, 58);
@@ -1277,4 +1274,8 @@ AI Generated code. Might use later.
 #XbackupData {
   background-color: rgb(188, 37, 37);
   color: rgb(54, 12, 12);
+}
+
+.pencilEmphasis {
+  border: solid red 2px;
 }

@@ -11,6 +11,9 @@ import { getDataFromLocalStorage, getDataFromSource } from './utils/databaseFunc
 import { ToastContainer, toast } from 'react-toastify';
 // import { addItem, getAllItems, getTransaction, openDB } from './utils/indexedDB-test';
 
+// Global variables
+window.isMobile = window.matchMedia("(max-width: 800px)").matches;
+
 // ## CHECK THE TYPE OF DATABASE CONNECTION AND BASED ON THAT SET THE LOCALSTORAGE ##
 const databaseConnection = localStorage.getItem('dbType');
 if (databaseConnection === 'usingonekey') {
@@ -57,7 +60,13 @@ async function getCommits() {
 }
 
 var currVersion = await getCommits();
-const dataDoesntExist = localStorage.getItem('localItems') == undefined || Object.values(JSON.parse(localStorage.getItem('localItems')))[0] == ''
+const localItems = localStorage.getItem('localItems');
+const parsedLocalItems = JSON.parse(localItems);
+const localItemsVals = Object.values(parsedLocalItems);
+const localItemsKeys = Object.keys(parsedLocalItems);
+const dataDoesntExist = localItems == undefined || localItemsVals[0] == ''
+const localPinnedItems = localStorage.getItem('localPinnedItems');
+const parsedPinnedItems = JSON.parse(localPinnedItems);
 var shouldShowBackup = false;
 
 // if the user has seen this version before, don't show new version startup
@@ -82,8 +91,9 @@ if (dataDoesntExist) {
     'Unnamed section': 'Unnamed pane|Do homework|pane paneStyle',
   }
   localStorage.setItem('localItems', JSON.stringify(data))
+  parsedLocalItems = data;
   localStorage.setItem('dbType', 'localstorage')
-  window.currentSection = Object.keys(JSON.parse(localStorage.getItem('localItems')))[0];
+  window.currentSection = 'Unnamed section';
   // Set all the values to true
   window.shouldPresentFirstStartUp = {
     "all": true,
@@ -93,15 +103,16 @@ if (dataDoesntExist) {
   };
 } else {
   // Set to first section
-  window.currentSection = Object.keys(JSON.parse(localStorage.getItem('localItems')))[0];
+  window.currentSection = localItemsKeys[0];
 }
 
-if (localStorage.getItem('localPinnedItems') == undefined) {
+if (localPinnedItems == undefined) {
   // Unnamed pane|Do homework|pinnedPane
   var data = {
     'Unnamed section': "",
   }
   localStorage.setItem('localPinnedItems', JSON.stringify(data))
+  parsedPinnedItems = data;
 }
 
 function addElemHint(id, message) {
@@ -158,17 +169,17 @@ if (window.miniFocusSession) {
 function App() {
   // used to determine whether sections.js or main.js is shown (true or false)
   const [loading, setLoading] = useState(true);
+  const [shouldReuseLocalStorage, setShouldReuseLocalStorage] = useState(false);
   const [unsavedContent, setContent] = useState(false);
   const [showBackupData, setBackupData] = useState(shouldShowBackup);
+  const [stateLocalItems, setStateLocalItems] = useState(parsedLocalItems);
+  const [statePinnedItems, setStatePinnedItems] = useState(parsedPinnedItems);
 
   useEffect(() => {
     if (window.shouldPresentFirstStartUp["all"] == true) {
       changeHue(() => document.getElementById('firstStartUpWindow').style.display == 'none', document.getElementById('themes'))
     }
   }, [])
-
-  // TODO: Use to check dark mode
-  // const isDark = window.matchMedia("(prefers-color-scheme:dark)").matches;
 
   window.onbeforeunload = (event) => {
     if (unsavedContent) {
@@ -193,8 +204,8 @@ function App() {
           {
             !window.miniFocusSession
               ? (loading || window.miniFocusSession
-                ? <Sections reloadMain={setLoading} />
-                : <Main saveContentCallback={setContent} parentCallback={setLoading} />
+                ? <Sections passLocalItems={stateLocalItems} passPinnedItems={statePinnedItems} reloadMain={setLoading} shouldReuseLocalStorage={setShouldReuseLocalStorage} inMain={false} />
+                : <Main saveContentCallback={setContent} parentCallback={setLoading} reuseLocalStorage={shouldReuseLocalStorage ? parsedLocalItems : null} reuseLocalPinnedStorage={shouldReuseLocalStorage ? parsedPinnedItems : null}/>
               )
               : null
           }
