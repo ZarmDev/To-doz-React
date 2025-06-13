@@ -17,10 +17,10 @@ function Sections(props) {
   // I don't know why this is here... I'll just keep it as comments for now...
   // const [firstRender, setFirstRender] = useState(false);
   const [didEdit, setDidEdit] = useState(false);
-  const [styles, setStyles] = useState([
-    { left: window.isMobile ? "25%" : (props.inMain ? "10%" : "40%") },
-    { left: window.isMobile ? "60%" : (props.inMain ? "17%" : "55%") }
-  ]);
+  // const [styles, setStyles] = useState([
+  //   { left: window.isMobile ? "25%" : (props.inMain ? "10%" : "40%") },
+  //   { left: window.isMobile ? "60%" : (props.inMain ? "17%" : "55%") }
+  // ]);
 
   useEffect(() => {
     // const [localItems, localPinnedItems] = getDataFromLocalStorage();
@@ -130,7 +130,6 @@ function Sections(props) {
     delete obj[oldSectionName];
     obj2[newSectionName] = obj2[oldSectionName];
     delete obj2[oldSectionName];
-    console.log(obj, obj2);
 
     sections.splice(index, 1)
     sections.splice(index, 0, newSectionName)
@@ -145,12 +144,13 @@ function Sections(props) {
     setPinnedSections(newPinnedSections);
 
     window.currentSection = newSectionName;
-    if (props.inMain) {
-      props.reloadMain();
-    }
 
     await uploadDataToSource({ localItems: JSON.stringify(obj), localPinnedItems: JSON.stringify(obj2) }, localStorage.getItem('dbType'))
     setDidEdit(true);
+
+    if (props.inMain) {
+      props.reloadMain();
+    }
   }
 
   async function onDelete(value) {
@@ -217,8 +217,8 @@ function Sections(props) {
   return (
     <div>
       <div id="sectionToolbar">
-        <button style={styles[0]} className="themedButton" onClick={add}>+</button>
-        <div style={styles[1]} className={pencilStyle} onClick={editSections}><PencilIcon /></div>
+        <button className="themedButton" onClick={add}>+</button>
+        <div className={pencilStyle} onClick={editSections}><PencilIcon /></div>
       </div>
       <div id="sections">
         <ul id="sectionsItems">

@@ -653,7 +653,7 @@ AI Generated code. Might use later.
 }
 
 #sections {
-  margin-top: 10vh;
+  margin-top: 5ch;
 }
 
 #sections ul {
@@ -678,13 +678,15 @@ AI Generated code. Might use later.
 
 #sectionToolbar {
   display: flex;
-  position: relative;
   justify-content: center;
+  gap: 5ch;
+  /* grid-template-columns: 1fr 1fr 1fr 1fr; */
+  position: relative;
   margin-top: 2vh;
 }
 
-#sectionToolbar > * {
-  position: fixed;
+#sectionToolbar:nth-child(1) {
+  grid-column-start: 2;
 }
 
 /* #pin {
@@ -841,7 +843,7 @@ AI Generated code. Might use later.
   position: fixed;
   z-index: 3;
   padding-left: 15px;
-  width: 95vw;
+  width: 100vw;
   height: 100vh;
   word-wrap: break-word;
   text-align: center;
@@ -852,8 +854,8 @@ AI Generated code. Might use later.
 } */
 #themeContainerNext {
   position: absolute;
-  left: 80vw;
-  top: 90vh;
+  right: 5vw;
+  top: 80vh;
   z-index: 3;
   background-color: rgb(46, 50, 58);
 }
@@ -923,10 +925,6 @@ AI Generated code. Might use later.
 
 #changeLater {
   color: rgba(105, 105, 105, 0.639) !important;
-}
-
-#themeContainer button {
-  margin-left: 20px;
 }
 
 #themeSelect div {

@@ -7,7 +7,6 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
     const x = cx + radius * Math.cos(-midAngle * RADIAN);
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
-    console.log((percent * 100).toFixed(0));
     if ((percent * 100).toFixed(0) == 0) {
         return (<></>);
     }
