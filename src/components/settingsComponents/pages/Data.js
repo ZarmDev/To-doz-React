@@ -179,17 +179,17 @@ function Data() {
                     <br></br><label>What's your SUPER_SECRET_KEY? (only for one key configuration) </label>
                     <input id="superSecretKeyForDB"></input>
                 </div>
-                <button onClick={addDatabaseConnection}>Connect! (Be careful, you can not go back!)</button>
+                <button className="longThemedButton" onClick={addDatabaseConnection}>Connect! (Be careful, you can not go back!)</button>
                 <h2>Import/Export Data (note: your settings are not in the data)</h2>
                 <label for="file">Import file (OVERRIDES CURRENT DATA)</label>
                 <br></br>
                 <input type="file" id="file" name="file" onChange={(e) => { importDataFile(e.target.files[0]) }} />
                 <br></br>
                 <br></br>
-                <button onClick={exportDataFile}>Export data to file</button>
+                <button className="longThemedButton"  onClick={exportDataFile}>Export data to file</button>
                 <br></br>
                 <br></br>
-                <button onClick={exportBackupData}>Export backup data (incase you lost your data or had issues)</button>
+                <button className="longThemedButton"  onClick={exportBackupData}>Export backup data (incase you lost your data or had issues)</button>
             </div>
         </div>
     )

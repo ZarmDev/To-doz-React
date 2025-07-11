@@ -199,6 +199,8 @@ code {
 .themedButton svg {
   vertical-align: middle;
   vertical-align: -webkit-baseline-middle;
+  /* Fix button alignment on Firefox */
+  vertical-align: -moz-middle-with-baseline;
 }
 
 .themedButton:hover {
@@ -225,6 +227,27 @@ code {
   border: var(--button-border-hover);
 }
 
+.longThemedButton {
+  color: white;
+  font-size: 15px;
+  background-color: var(--button-color);
+  border: solid rgba(54, 50, 75, 0.669) 2px;
+  transition: 0.5s;
+  border-radius: var(--button-border-radius);
+  cursor: pointer;
+  text-align: center;
+  width: auto;
+  height: 4ch;
+  padding: 1.5ch;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.longThemedButton:hover {
+  background-color: var(--button-color-hover);
+  border: var(--button-border-hover);
+}
 
 .paneToolbar {
   display: flex;
